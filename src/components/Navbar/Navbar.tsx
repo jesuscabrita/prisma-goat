@@ -1,31 +1,71 @@
+import { border2Styles, borderStyles, focusStyles, hoverStyles, textStyles, variantStyles } from "./utils";
 import { forwardRef, PropsWithChildren, useEffect, useRef, useState } from "react";
 import logoBlack from '../../assets/images/logo-black.png';
 import { HTMLAttributes } from "react";
 import clsx from "clsx";
+import { ThemeSwitch } from "./Icons";
 
-
-type NavbarProps = HTMLAttributes<HTMLElement> & {
+export type NavbarProps = HTMLAttributes<HTMLElement> & {
     variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
     user?: { name: string; image?: string };
-    list?: Array<{ label: string, description: string, link: string, subItems: { label: string }[] }>;
-    listMenu?: Array<{ label: string }>;
+    list?: Array<{ label: string, description: string, link: string, image: string, subItems: { label: string, link: string }[] }>;
+    listMenu?: Array<{ label: string, link: string }>;
+    router: { push: (path: string) => void };
     logo?: string;
     heightLogo?: string;
     widthLogo?: string;
     activeRoute?: string;
+    toggleTheme?: () => void;
+    theme?:boolean;
 };
 
 export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
-    ({ children, variant = "primary", user, list = [], listMenu = [], logo, heightLogo, widthLogo, activeRoute, ...props }, ref) => {
+    ({ children, variant = "primary", user, list = [], listMenu = [], logo, heightLogo, widthLogo, activeRoute, router, toggleTheme,theme, ...props }, ref) => {
         const [isOpen, setIsOpen] = useState(false);
         const [isMenuOpen, setIsMenuOpen] = useState(false);
         const [openMenu, setOpenMenu] = useState<number | null>(null);
         const menuRef = useRef<HTMLDivElement>(null);
-
-
         const toggle = () => setIsOpen(!isOpen);
         const handleMenuToggle = () => setIsMenuOpen(!isMenuOpen);
         const handleMenuClose = () => setIsMenuOpen(false);
+
+        const handleNavigation = (nav: { label: string; description: string; link: string; subItems: { label: string }[] }, index: number) => {
+            if (nav.subItems && nav.subItems.length > 0) {
+                setOpenMenu(prev => prev === index ? -1 : index);
+            } else if (nav.link && router) {
+                router.push(nav.link);
+            }
+        };
+
+        const handleNavigationMobile = (item: { label: string; description: string; link: string; subItems: { label: string }[] }, index: number) => {
+            if (item.subItems && item.subItems.length > 0) {
+                setOpenMenu(prev => prev === index ? -1 : index);
+            } else if (item.link && router) {
+                router.push(item.link);
+                setIsOpen(false);
+            }
+        };
+
+        const handleSubNavigation = (subItem: { label: string; link: string; }, index: number) => {
+            setOpenMenu(prev => prev === index ? -1 : index);
+            if (subItem.link && router) {
+                router.push(subItem.link);
+            }
+        };
+
+        const handleListMenuNavigation = (item: { label: string; link: string; }) => {
+            if (item.link && router) {
+                router.push(item.link);
+                handleMenuClose();
+            }
+        };
+
+        const handleListMenuNavigationMobile = (item: { label: string; link: string; }) => {
+            if (item.link && router) {
+                router.push(item.link);
+                setIsOpen(false);
+            }
+        };
 
         useEffect(() => {
             const handleOutsideClick = (event: MouseEvent) => {
@@ -40,72 +80,6 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                 document.removeEventListener("mousedown", handleOutsideClick);
             };
         }, [isMenuOpen]);
-
-        const variantStyles = {
-            primary: "bg-[#1F2937]",
-            secondary: "bg-[#ededed]",
-            vividPink: "bg-[#ff0145]",
-            darkMagenta: "bg-[#770069]",
-            veryDarkViolet: "bg-[#350053]",
-            danger: "bg-[#b91c1c]",
-            warning: "bg-[#f59e0b]",
-            success: "bg-[#047857]",
-        };
-
-        const focusStyles = {
-            primary: "focus:ring-white focus:ring-offset-[#1F2937]",
-            secondary: "focus:ring-[#1F2937]",
-            vividPink: "focus:ring-white focus:ring-offset-[#ff0145]",
-            darkMagenta: "focus:ring-white focus:ring-offset-[#770069]",
-            veryDarkViolet: "focus:ring-white focus:ring-offset-[#350053]",
-            danger: "focus:ring-white focus:ring-offset-[#b91c1c]",
-            warning: "focus:ring-white focus:ring-offset-[#f59e0b]",
-            success: "focus:ring-white focus:ring-offset-[#047857]",
-        };
-
-        const borderStyles = {
-            primary: "border-2 border-white",
-            secondary: "border-2 border-[#1F2937]",
-            vividPink: "border-2 border-white",
-            darkMagenta: "border-2 border-white",
-            veryDarkViolet: "border-2 border-white",
-            danger: "border-2 border-white",
-            warning: "border-2 border-white",
-            success: "border-2 border-white",
-        };
-
-        const border2Styles = {
-            primary: "white",
-            secondary: "#1F2937",
-            vividPink: "white",
-            darkMagenta: "white",
-            veryDarkViolet: "white",
-            danger: "white",
-            warning: "white",
-            success: "white",
-        };
-
-        const textStyles = {
-            primary: "text-white",
-            secondary: "text-[#1F2937]",
-            vividPink: "text-white",
-            darkMagenta: "text-white",
-            veryDarkViolet: "text-white",
-            danger: "text-white",
-            warning: "text-white",
-            success: "text-white",
-        };
-
-        const hoverStyles = {
-            primary: "hover:bg-[#4B5563] font-light",
-            secondary: "hover:bg-[#F3F4F6] font-medium",
-            vividPink: "hover:bg-[#FF5C6B] font-light",
-            darkMagenta: "hover:bg-[#9B007D] font-light",
-            veryDarkViolet: "hover:bg-[#6A006E] font-light",
-            danger: "hover:bg-[#F87171] font-light",
-            warning: "hover:bg-[#FBBF24] font-light",
-            success: "hover:bg-[#2D6A4F] font-light",
-        };
 
         return (
             <nav ref={ref} {...props} className={`fixed top-0 left-0 right-0 z-10 ${variantStyles[variant]}`}>
@@ -146,15 +120,18 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                         <div key={index} className="relative group">
                                             <button
                                                 type="button"
-                                                className={`flex items-center justify-center px-4 py-2 text-sm cursor-pointer 
-                                                    ${activeRoute === nav.link ?  ((variant === 'vividPink' || variant === 'danger') ? 'text-indigo-950 font-medium' :'text-[#ff0145] font-medium' ) : ''}
-                                                    ${textStyles[variant]} ${hoverStyles[variant]} 
-                                                    rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2`}
-                                                onClick={() => {
-                                                    if (nav.subItems && nav.subItems.length > 0) {
-                                                        setOpenMenu(prev => prev === index ? -1 : index);
-                                                    }
-                                                }}
+                                                className={clsx(
+                                                    'flex items-center justify-center px-4 py-2 text-sm cursor-pointer rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2',
+                                                    hoverStyles[variant],
+                                                    focusStyles[variant],
+                                                    activeRoute === nav.link
+                                                        ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
+                                                            ? 'text-custom-red'
+                                                            : 'text-custom-blue')
+                                                        : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
+                                                    activeRoute === nav.link ? 'font-semibold' : 'font-normal'
+                                                )}
+                                                onClick={() => handleNavigation(nav, index)}
                                             >
                                                 {nav.label}
                                             </button>
@@ -163,7 +140,16 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                     style={{ border: `1px ${border2Styles[variant]} solid` }}
                                                     className={`absolute top-full left-1/2 transform -translate-x-1/2 translate-y-2 opacity-0 mt-2 w-max px-4 py-4 text-xs ${textStyles[variant]} ${variantStyles[variant]} rounded-md transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-4`}
                                                 >
-                                                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -mt-3 w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-gray-800"></div>
+                                                    {nav.image && nav.image.trim() !== "" &&
+                                                        <div className="relative w-full h-24 mb-2">
+                                                            <img
+                                                                src={nav.image}
+                                                                alt="Tooltip Image"
+                                                                className="object-cover w-full h-full rounded-t-md opacity-75 hover:opacity-100 transition-opacity duration-300"
+                                                            />
+                                                            <div className="absolute bottom-0 w-full h-8 bg-gradient-to-t from-white/80 to-transparent"></div>
+                                                        </div>}
+                                                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -mt-2 w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-gray-800"></div>
                                                     {nav.description}
                                                 </div>
                                             )}
@@ -177,10 +163,15 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                             key={subIndex}
                                                             className={clsx(
                                                                 `block px-4 py-2 text-sm cursor-pointer ${variantStyles[variant]}e`,
-                                                                textStyles[variant],
-                                                                hoverStyles[variant] && `${hoverStyles[variant]}`
+                                                                hoverStyles[variant] && `${hoverStyles[variant]}`,
+                                                                activeRoute === subItem.link
+                                                                    ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
+                                                                        ? 'text-custom-red'
+                                                                        : 'text-custom-blue')
+                                                                    : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
+                                                                activeRoute === subItem.link ? 'font-semibold' : 'font-normal'
                                                             )}
-                                                            onClick={() => setOpenMenu(prev => prev === index ? -1 : index)}
+                                                            onClick={() => handleSubNavigation(subItem, index)}
                                                         >
                                                             {subItem.label}
                                                         </div>
@@ -198,6 +189,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                             </div>
                         </div>
                         <div className="absolute inset-y-0 right-0 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 hidden sm:flex">
+                        {theme && <ThemeSwitch variant={variant} toggleTheme={toggleTheme} />}
                             {user ? (
                                 <div className="relative ml-3">
                                     <div>
@@ -240,12 +232,15 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                     key={index}
                                                     className={clsx(
                                                         'block px-4 py-2 text-sm cursor-pointer',
-                                                        textStyles[variant],
-                                                        hoverStyles[variant] && `${hoverStyles[variant]}`
+                                                        hoverStyles[variant] && `${hoverStyles[variant]}`,
+                                                        activeRoute === item.link
+                                                            ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
+                                                                ? 'text-custom-red'
+                                                                : 'text-custom-blue')
+                                                            : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
+                                                        activeRoute === item.link ? 'font-semibold' : 'font-normal'
                                                     )}
-                                                    onClick={() => {
-                                                        handleMenuClose();
-                                                    }}
+                                                    onClick={() => { handleListMenuNavigation(item) }}
                                                 >
                                                     {item.label}
                                                 </div>
@@ -272,17 +267,17 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                         {list.map((item, index) => (
                             <div key={index}>
                                 <button
-                                    className={`block w-full px-4 py-2 text-base ${textStyles[variant]} ${hoverStyles[variant]}
-                                        rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`}
-                                    onClick={() => {
-                                        if (item.subItems) {
-                                            if (item.subItems && item.subItems.length > 0) {
-                                                setOpenMenu(prev => prev === index ? -1 : index);
-                                            }
-                                        } else {
-                                            setIsOpen(false);
-                                        }
-                                    }}
+                                    className={clsx(
+                                        `block w-full px-4 py-2 text-base ${hoverStyles[variant]}
+                                        rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
+                                        activeRoute === item.link
+                                            ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
+                                                ? 'text-custom-red'
+                                                : 'text-custom-blue')
+                                            : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
+                                        activeRoute === item.link ? 'font-semibold' : 'font-normal'
+                                    )}
+                                    onClick={() => { handleNavigationMobile(item, index) }}
                                 >
                                     {item.label}
                                 </button>
@@ -291,8 +286,15 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                         {item.subItems.map((subItem, subIndex) => (
                                             <button
                                                 key={subIndex}
-                                                className={`block w-full px-4 py-1 text-sm ${textStyles[variant]} ${hoverStyles[variant]} 
-                                                    rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`}
+                                                className={clsx(`block w-full px-4 py-1 text-sm ${hoverStyles[variant]} 
+                                                    rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
+                                                    activeRoute === subItem.link
+                                                        ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
+                                                            ? 'text-custom-red'
+                                                            : 'text-custom-blue')
+                                                        : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
+                                                    activeRoute === subItem.link ? 'font-semibold' : 'font-normal'
+                                                )}
                                                 onClick={() => {
                                                     setIsOpen(false);
                                                 }}
@@ -339,9 +341,16 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                 {listMenu.map((item, index) => (
                                     <button
                                         key={index}
-                                        className={`block w-full px-4 py-2 text-base ${textStyles[variant]} ${hoverStyles[variant]} 
-                                                    rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`}
-                                        onClick={() => setIsOpen(false)}
+                                        className={clsx(`block w-full px-4 py-2 text-base ${hoverStyles[variant]} 
+                                                    rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
+                                            activeRoute === item.link
+                                                ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
+                                                    ? 'text-custom-red'
+                                                    : 'text-custom-blue')
+                                                : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
+                                            activeRoute === item.link ? 'font-semibold' : 'font-normal'
+                                        )}
+                                        onClick={() => handleListMenuNavigationMobile(item)}
                                     >
                                         {item.label}
                                     </button>

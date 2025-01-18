@@ -1,61 +1,95 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { Navbar } from "./Navbar";
+import { Meta, StoryObj } from '@storybook/react';
+import { Navbar } from './Navbar';
+import imagePrueba from '../../assets/images/prueba.webp';
+
+const router = {
+    push: (path: string) => {
+        console.log(`Navigating to: ${path}`);
+    },
+    pathname: '/home', 
+};
 
 const meta: Meta<typeof Navbar> = {
-    title: "Components/Navbar",
-    tags: ["autodocs"],
+    title: 'Components/Navbar',
+    tags: ['autodocs'],
     component: Navbar,
     argTypes: {
         variant: {
             control: {
-                type: "select",
+                type: 'select',
                 options: [
-                    "primary",
-                    "secondary",
-                    "vividPink",
-                    "darkMagenta",
-                    "veryDarkViolet",
-                    "danger",
-                    "warning",
-                    "success",
+                    'primary',
+                    'secondary',
+                    'vividPink',
+                    'darkMagenta',
+                    'veryDarkViolet',
+                    'danger',
+                    'warning',
+                    'success',
                 ],
             },
         },
         list: {
             control: {
-                
-                options: [{ label: "Home" }, { label: "About" }, { label: "Contact" }],
+                type: 'object',
+                defaultValue: [
+                    { label: 'Home', description: 'Información requerida de este producto', link: 'home', subItems: [] },
+                    { label: 'About', description: 'Información requerida de este producto', link: 'about', subItems: [] },
+                    { label: 'Services', description: '', link: 'services', subItems: [{ label: 'Web Development' }, { label: 'SEO' }] },
+                ],
             },
         },
         listMenu: {
             control: {
-                
-                options: [{ label: "Settings" }, { label: "Logout" }],
+                type: 'object',
+                defaultValue: [
+                    { label: 'Settings' },
+                    { label: 'Logout' },
+                    { label: 'Config' },
+                ],
             },
         },
         user: {
             control: {
-                type: "object",
-                option: { name: 'Pepe', image: '' }
+                type: 'object',
+                defaultValue: { name: 'Pepe', image: '' },
             },
         },
         logo: {
-            control:{
-                type: "text",
-                option:{ logo: "https://goatdata.com.ar/images/logodatagoat.png"},
-            }
+            control: {
+                type: 'text',
+                defaultValue: 'https://goatdata.com.ar/images/logodatagoat.png',
+            },
         },
-        widthLogo:{
-            control:{
-                type: "text",
-                option:{ width: "40px"},
-            }
+        widthLogo: {
+            control: {
+                type: 'text',
+                defaultValue: '40px',
+            },
         },
-        heightLogo:{
-            control:{
-                type: "text",
-                option:{ height: "65px"},
-            }
+        heightLogo: {
+            control: {
+                type: 'text',
+                defaultValue: '65px',
+            },
+        },
+        activeRoute: {
+            control: {
+                type: 'text',
+                defaultValue: 'about',
+            },
+        },
+        router: {
+            control: {
+                type: 'object',
+                defaultValue: router,
+            },
+        },
+        theme:{
+            control: {
+                type: 'boolean',
+                defaultValue: true,
+            },
         }
     },
 };
@@ -66,30 +100,34 @@ type Story = StoryObj<typeof Navbar>;
 
 export const Primary: Story = {
     args: {
-        variant: "primary",
+        variant: 'primary',
         list: [
-            { label: "Home", description: "Información requerida de este producto", link:"home", subItems: [] },
-            { label: "About", description: "Información requerida de este producto",link:"about", subItems: [] },
-            { label: "Services", description: "info pendiente",link:"services", subItems: [{ label: "Web Development" }, { label: "SEO" }] }, 
+            { label: 'Home', description: 'Información requerida de este producto', link: '/home', image: imagePrueba, subItems: [] },
+            { label: 'About', description: 'Información requerida de este producto', link: '/about',image: "", subItems: [] },
+            { label: 'Services', description: 'info pendiente', link: 'services',image: "", subItems: [{ label: 'Web Development',link:"/web" }, { label: 'SEO', link:"/seo" }] },
         ],
-        listMenu: [{ label: "Profile" }, { label: "Logout" }, { label: "Config" }],
+        listMenu: [{ label: 'Settings', link:"/settings" }, { label: 'Log Out', link:"/log" }, { label: 'Config', link:"/config" }],
         user: { name: 'Pepe', image: '' },
-        logo:'https://goatdata.com.ar/images/logodatagoat.png',
-        widthLogo:'40px',
-        heightLogo:'65px',
-        activeRoute:'about'
+        logo: 'https://goatdata.com.ar/images/logodatagoat.png',
+        widthLogo: '40px',
+        heightLogo: '65px',
+        activeRoute: '/about',
+        router: router, 
+        theme: true
     },
 };
 
 export const Secondary: Story = {
     args: {
-        variant: "secondary",
+        variant: 'secondary',
         list: [
-            { label: "Home", description: "Información requerida de este producto",link:"home", subItems: [] },
-            { label: "About", description: "Información requerida de este producto",link:"about", subItems: [] },
-            { label: "Services", description: "",link:"services", subItems: [{ label: "Web Development" }, { label: "SEO" }] }, 
+            { label: 'Home', description: 'Información requerida de este producto', link: 'home',image: "", subItems: [] },
+            { label: 'About', description: 'Información requerida de este producto', link: 'about',image: "", subItems: [] },
+            { label: 'Services', description: '', link: 'services',image: "", subItems: [{ label: 'Web Development',link:"/web" }, { label: 'SEO', link:"/seo" }] },
         ],
-        listMenu: [{ label: "Settings" }, { label: "Log Out" }, { label: "Config" }],
+        listMenu: [{ label: 'Settings', link:"/settings" }, { label: 'Log Out', link:"/log" }, { label: 'Config', link:"/config" }],
         user: { name: 'Andres', image: '' },
+        activeRoute: '/seo',
+        router: router, 
     },
 };

@@ -20,7 +20,7 @@ import { FaSave } from "react-icons/fa";
 import React from "react";
 import clsx from "clsx";
 
-type ButtonProps = {
+export type ButtonProps = {
     variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
     size?: "small" | "medium" | "large";
     isLoading?: boolean;
