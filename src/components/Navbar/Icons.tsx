@@ -1,5 +1,5 @@
-import { useSwitch, VisuallyHidden } from "@heroui/react";
-import { SVGProps } from "react";
+import { SVGProps, useState } from "react";
+import { AiOutlineDownload } from "react-icons/ai";
 
 export const MoonIcon = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
     return (
@@ -31,7 +31,7 @@ export const SunIcon = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
             width="1em"
             {...props}
         >
-            <g fill="currentColor">
+            <g fill="white">
                 <path d="M19 12a7 7 0 11-7-7 7 7 0 017 7z" />
                 <path d="M12 22.96a.969.969 0 01-1-.96v-.08a1 1 0 012 0 1.038 1.038 0 01-1 1.04zm7.14-2.82a1.024 1.024 0 01-.71-.29l-.13-.13a1 1 0 011.41-1.41l.13.13a1 1 0 010 1.41.984.984 0 01-.7.29zm-14.28 0a1.024 1.024 0 01-.71-.29 1 1 0 010-1.41l.13-.13a1 1 0 011.41 1.41l-.13.13a1 1 0 01-.7.29zM22 13h-.08a1 1 0 010-2 1.038 1.038 0 011.04 1 .969.969 0 01-.96 1zM2.08 13H2a1 1 0 010-2 1.038 1.038 0 011.04 1 .969.969 0 01-.96 1zm16.93-7.01a1.024 1.024 0 01-.71-.29 1 1 0 010-1.41l.13-.13a1 1 0 011.41 1.41l-.13.13a.984.984 0 01-.7.29zm-14.02 0a1.024 1.024 0 01-.71-.29l-.13-.14a1 1 0 011.41-1.41l.13.13a1 1 0 010 1.41.97.97 0 01-.7.3zM12 3.04a.969.969 0 01-1-.96V2a1 1 0 012 0 1.038 1.038 0 01-1 1.04z" />
             </g>
@@ -39,29 +39,63 @@ export const SunIcon = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
     );
 };
 
-export const ThemeSwitch = ({ toggleTheme, variant, ...props }: { toggleTheme?: () => void; variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" }) => {
-    const { Component, slots, isSelected, getBaseProps, getInputProps, getWrapperProps } =
-        useSwitch(props);
+export const ThemeSwitch = ({
+    toggleTheme,
+    variant,
+}: {
+    toggleTheme?: () => void;
+    variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
+}) => {
+    const [isSelected, setIsSelected] = useState(false);
+
+    const handleToggle = () => {
+        setIsSelected((prev) => !prev);
+        if (toggleTheme) {
+            toggleTheme();
+        }
+    };
+
+    const bgColor = isSelected
+        ? variant === "secondary" || variant === "vividPink" || variant === "success" || variant === "danger" || variant === "warning"
+            ? "bg-[#222f4e] hover:bg-[#1a243d]"
+            : "bg-[#2e5c95] hover:bg-[#2e5c95b6]"
+        : variant === "secondary"
+            ? "bg-gray-300 hover:bg-gray-400"
+            : "bg-gray-100 hover:bg-gray-200";
 
     return (
         <div className="flex flex-col gap-2">
-            <Component {...getBaseProps()}>
-                <VisuallyHidden>
-                    <input {...getInputProps()} onClick={toggleTheme} />
-                </VisuallyHidden>
-                <div style={{ background: isSelected ? ((variant === 'secondary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'success' || variant === 'danger' || variant === 'warning') ? '#222f4e' : '') : (variant === 'secondary' ? '#d1d5db' : '#ededed') }}
-                    {...getWrapperProps()}
-                    className={slots.wrapper({
-                        class: [
-                            "w-8 h-8",
-                            "flex items-center justify-center",
-                            "rounded-lg bg-default-100 hover:bg-default-200",
-                        ],
-                    })}
-                >
-                    {isSelected ? <SunIcon /> : <MoonIcon />}
-                </div>
-            </Component>
+            <button
+                onClick={handleToggle}
+                className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors ${bgColor}`}
+            >
+                {isSelected ? <SunIcon /> : <MoonIcon />}
+            </button>
+        </div>
+    );
+};
+
+export const InstallAppButton = ({
+    variant,
+    onClick,
+}: {
+    variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
+    onClick?: () => void;
+}) => {
+    const bgColor =
+        variant === "secondary" || variant === "vividPink" || variant === "success" || variant === "danger" || variant === "warning" || variant === 'darkMagenta'
+            ? "bg-[#222f4e] hover:bg-[#1a243d]"
+            : (variant === "primary" || variant === 'veryDarkViolet')
+                ? "bg-[#2e5c95] hover:bg-[#2e5c95b6]"
+                : "bg-gray-100 hover:bg-gray-200";
+    return (
+        <div className="flex flex-col gap-2">
+            <button
+                onClick={onClick}
+                className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors ${bgColor}`}
+            >
+                <AiOutlineDownload className="text-white text-lg" />
+            </button>
         </div>
     );
 };

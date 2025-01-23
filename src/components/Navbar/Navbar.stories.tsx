@@ -2,13 +2,6 @@ import { Meta, StoryObj } from '@storybook/react';
 import { Navbar } from './Navbar';
 import imagePrueba from '../../assets/images/prueba.webp';
 
-const router = {
-    push: (path: string) => {
-        console.log(`Navigating to: ${path}`);
-    },
-    pathname: '/home', 
-};
-
 const meta: Meta<typeof Navbar> = {
     title: 'Components/Navbar',
     tags: ['autodocs'],
@@ -79,12 +72,6 @@ const meta: Meta<typeof Navbar> = {
                 defaultValue: 'about',
             },
         },
-        router: {
-            control: {
-                type: 'object',
-                defaultValue: router,
-            },
-        },
         theme:{
             control: {
                 type: 'boolean',
@@ -112,8 +99,8 @@ export const Primary: Story = {
         widthLogo: '40px',
         heightLogo: '65px',
         activeRoute: '/about',
-        router: router, 
-        theme: true
+        theme: true,
+        login: true,
     },
 };
 
@@ -128,6 +115,6 @@ export const Secondary: Story = {
         listMenu: [{ label: 'Settings', link:"/settings" }, { label: 'Log Out', link:"/log" }, { label: 'Config', link:"/config" }],
         user: { name: 'Andres', image: '' },
         activeRoute: '/seo',
-        router: router, 
+        login: false,
     },
 };

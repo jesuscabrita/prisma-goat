@@ -91,3 +91,39 @@
     stroke-dashoffset: -134;
     stroke-width: 6;
 }
+
+@keyframes progress {
+    0% {
+        stroke-dashoffset: 314; /* Perímetro del círculo */
+        opacity: 1; /* Comienza con opacidad 1 */
+    }
+    100% {
+        stroke-dashoffset: 0; /* Completa el trazo */
+        opacity: 0; /* Desaparece gradualmente */
+    }
+}
+
+/* Animación de parpadeo del contenido central */
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Animación de desaparición del trazo mientras avanza */
+@keyframes fade {
+    0% {
+        stroke-dashoffset: 414; /* Perímetro del círculo */
+        opacity: 2; /* Comienza con opacidad 1 */
+    }
+    100% {
+        stroke-dashoffset: 0; /* Completa el trazo */
+        opacity: 0; /* Desaparece gradualmente */
+    }
+}

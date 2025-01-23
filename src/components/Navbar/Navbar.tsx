@@ -1,33 +1,89 @@
 import { border2Styles, borderStyles, focusStyles, hoverStyles, textStyles, variantStyles } from "./utils";
 import { forwardRef, PropsWithChildren, useEffect, useRef, useState } from "react";
+import { LoadingIndicator } from "../LoadingIndicator/LoadingIndicator";
 import logoBlack from '../../assets/images/logo-black.png';
+import { InstallAppButton, ThemeSwitch } from "./Icons";
 import { HTMLAttributes } from "react";
 import clsx from "clsx";
-import { ThemeSwitch } from "./Icons";
 
 export type NavbarProps = HTMLAttributes<HTMLElement> & {
     variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
     user?: { name: string; image?: string };
     list?: Array<{ label: string, description: string, link: string, image: string, subItems: { label: string, link: string }[] }>;
     listMenu?: Array<{ label: string, link: string }>;
-    router: { push: (path: string) => void };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    router: any;
     logo?: string;
     heightLogo?: string;
     widthLogo?: string;
     activeRoute?: string;
     toggleTheme?: () => void;
-    theme?:boolean;
+    toggeInstallApp?: () => void;
+    theme?: boolean;
+    InstallApp?: boolean;
+    login?: boolean;
+    variantIndicator?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
+    backgroundIndicator?: "black" | "white";
+    logoGoatDataIndicator?: "logoRed" | "logoBlack" | "logo6" | "logoMagenta" | "logoWhite";
+    imgLoadingIndicator?: string;
+    strokeWidthIndicator?: "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13" | "14";
 };
 
 export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
-    ({ children, variant = "primary", user, list = [], listMenu = [], logo, heightLogo, widthLogo, activeRoute, router, toggleTheme,theme, ...props }, ref) => {
+    (
+        {
+            children,
+            variant = "primary",
+            user,
+            list = [],
+            listMenu = [],
+            logo,
+            heightLogo,
+            widthLogo,
+            activeRoute,
+            router,
+            toggleTheme,
+            toggeInstallApp,
+            theme,
+            InstallApp,
+            login = false,
+            variantIndicator = "primary",
+            backgroundIndicator = "black",
+            logoGoatDataIndicator = "logoRed",
+            imgLoadingIndicator = "",
+            strokeWidthIndicator = "10",
+            ...props
+        }, ref) => {
         const [isOpen, setIsOpen] = useState(false);
         const [isMenuOpen, setIsMenuOpen] = useState(false);
+        const [indicator, setIndicator] = useState(false);
         const [openMenu, setOpenMenu] = useState<number | null>(null);
         const menuRef = useRef<HTMLDivElement>(null);
         const toggle = () => setIsOpen(!isOpen);
         const handleMenuToggle = () => setIsMenuOpen(!isMenuOpen);
         const handleMenuClose = () => setIsMenuOpen(false);
+
+        useEffect(() => {
+            if (typeof window !== "undefined" && router?.events) {
+                const handleStartLoading = () => {
+                    setIndicator(true);
+                };
+
+                const handleStopLoading = () => {
+                    setIndicator(false);
+                };
+
+                router.events.on('routeChangeStart', handleStartLoading);
+                router.events.on('routeChangeComplete', handleStopLoading);
+                router.events.on('routeChangeError', handleStopLoading);
+
+                return () => {
+                    router.events.off('routeChangeStart', handleStartLoading);
+                    router.events.off('routeChangeComplete', handleStopLoading);
+                    router.events.off('routeChangeError', handleStopLoading);
+                };
+            }
+        }, [router]);
 
         const handleNavigation = (nav: { label: string; description: string; link: string; subItems: { label: string }[] }, index: number) => {
             if (nav.subItems && nav.subItems.length > 0) {
@@ -188,10 +244,11 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                 )}
                             </div>
                         </div>
-                        <div className="absolute inset-y-0 right-0 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 hidden sm:flex">
-                        {theme && <ThemeSwitch variant={variant} toggleTheme={toggleTheme} />}
+                        <div className="absolute inset-y-0 right-0 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 flex space-x-2">
+                            {InstallApp && <InstallAppButton variant={variant} onClick={toggeInstallApp} />}
+                            {theme && <ThemeSwitch variant={variant} toggleTheme={toggleTheme} />}
                             {user ? (
-                                <div className="relative ml-3">
+                                <div className="relative ml-3 hidden sm:block">
                                     <div>
                                         <button
                                             type="button"
@@ -249,15 +306,24 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                     )}
                                 </div>
                             ) : (
-                                <button
-                                    type="button"
-                                    className={`flex items-center justify-center px-4 py-2 text-sm cursor-pointer 
-                                            ${textStyles[variant]} ${hoverStyles[variant]} 
-                                            rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2`}
-                                    onClick={() => { }}
-                                >
-                                    Login
-                                </button>
+                                login ?
+                                    <button
+                                        type="button"
+                                        className={clsx(`items-center justify-center px-4 py-2 text-sm cursor-pointer hidden sm:block 
+                                            ${hoverStyles[variant]} 
+                                            rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2`,
+                                            activeRoute === "/login"
+                                                ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
+                                                    ? 'text-custom-red'
+                                                    : 'text-custom-blue')
+                                                : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
+                                            activeRoute === "/login" ? 'font-semibold' : 'font-normal'
+                                        )}
+                                        onClick={() => { router.push("/login"); handleMenuClose(); }}
+                                    >
+                                        Login
+                                    </button> :
+                                    <></>
                             )}
                         </div>
                     </div>
@@ -357,17 +423,34 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                 ))}
                             </div>
                         ) : (
-                            <button
-                                type="button"
-                                className={`block w-full px-4 py-2 text-base ${textStyles[variant]} ${hoverStyles[variant]} 
-                                    rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`}
-                                onClick={() => setIsOpen(false)}
-                            >
-                                Login
-                            </button>
+                            login ?
+                                <button
+                                    type="button"
+                                    className={clsx(`block w-full px-4 py-2 text-base ${hoverStyles[variant]} 
+                                    rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
+                                        activeRoute === "/login"
+                                            ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
+                                                ? 'text-custom-red'
+                                                : 'text-custom-blue')
+                                            : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
+                                        activeRoute === "/login" ? 'font-semibold' : 'font-normal'
+                                    )}
+                                    onClick={() => { router.push("/login"); setIsOpen(false) }}
+                                >
+                                    Login
+                                </button> :
+                                <></>
                         )}
                     </div>
                 )}
+                {indicator &&
+                    <LoadingIndicator
+                        variant={variantIndicator}
+                        background={backgroundIndicator}
+                        logoGoatData={logoGoatDataIndicator}
+                        imgLoading={imgLoadingIndicator}
+                        strokeWidth={strokeWidthIndicator}
+                    />}
             </nav>
         );
     }
