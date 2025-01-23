@@ -1,4 +1,4 @@
-import { border2Styles, borderStyles, focusStyles, hoverStyles, textStyles, variantStyles } from "./utils";
+import { activeRouterBgStyles, border2Styles, borderStyles, focusStyles, hoverStyles, textStyles, variantStyles } from "./utils";
 import { forwardRef, PropsWithChildren, useEffect, useRef, useState } from "react";
 import { LoadingIndicator } from "../LoadingIndicator/LoadingIndicator";
 import logoBlack from '../../assets/images/logo-black.png';
@@ -9,8 +9,8 @@ import clsx from "clsx";
 export type NavbarProps = HTMLAttributes<HTMLElement> & {
     variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
     user?: { name: string; image?: string };
-    list?: Array<{ label: string, description: string, link: string, image: string, subItems: { label: string, link: string }[] }>;
     listMenu?: Array<{ label: string, link: string }>;
+    list?: Array<{ label: string, description: string, link: string, image: string, subItems: { label: string, link: string }[] }>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     router: any;
     logo?: string;
@@ -27,6 +27,7 @@ export type NavbarProps = HTMLAttributes<HTMLElement> & {
     logoGoatDataIndicator?: "logoRed" | "logoBlack" | "logo6" | "logoMagenta" | "logoWhite";
     imgLoadingIndicator?: string;
     strokeWidthIndicator?: "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13" | "14";
+    handleLogout?: () => void;
 };
 
 export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
@@ -44,6 +45,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
             router,
             toggleTheme,
             toggeInstallApp,
+            handleLogout,
             theme,
             InstallApp,
             login = false,
@@ -58,6 +60,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
         const [isMenuOpen, setIsMenuOpen] = useState(false);
         const [indicator, setIndicator] = useState(false);
         const [openMenu, setOpenMenu] = useState<number | null>(null);
+        const [hovered, setHovered] = useState<number | null>(null);
         const menuRef = useRef<HTMLDivElement>(null);
         const toggle = () => setIsOpen(!isOpen);
         const handleMenuToggle = () => setIsMenuOpen(!isMenuOpen);
@@ -68,15 +71,12 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                 const handleStartLoading = () => {
                     setIndicator(true);
                 };
-
                 const handleStopLoading = () => {
                     setIndicator(false);
                 };
-
                 router.events.on('routeChangeStart', handleStartLoading);
                 router.events.on('routeChangeComplete', handleStopLoading);
                 router.events.on('routeChangeError', handleStopLoading);
-
                 return () => {
                     router.events.off('routeChangeStart', handleStartLoading);
                     router.events.off('routeChangeComplete', handleStopLoading);
@@ -177,7 +177,10 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                             <button
                                                 type="button"
                                                 className={clsx(
-                                                    'flex items-center justify-center px-4 py-2 text-sm cursor-pointer rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2',
+                                                    `flex items-center justify-center px-4 py-2 text-sm cursor-pointer rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2`,
+                                                    (activeRoute === nav.link || nav.subItems?.some((subItem) => subItem.link === activeRoute))
+                                                        ? activeRouterBgStyles[variant]
+                                                        : "",
                                                     hoverStyles[variant],
                                                     focusStyles[variant],
                                                     activeRoute === nav.link
@@ -188,12 +191,14 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                     activeRoute === nav.link ? 'font-semibold' : 'font-normal'
                                                 )}
                                                 onClick={() => handleNavigation(nav, index)}
+                                                onMouseEnter={() => setHovered(index)}
+                                                onMouseLeave={() => setHovered(null)}
                                             >
                                                 {nav.label}
                                             </button>
-                                            {nav.description && nav.description.trim() !== "" && (
+                                            {(hovered === index && nav.description && nav.description.trim() !== "") && (
                                                 <div
-                                                    style={{ border: `1px ${border2Styles[variant]} solid` }}
+                                                    style={{ border: `1px ${border2Styles[variant]} solid`, maxWidth: '260px' }}
                                                     className={`absolute top-full left-1/2 transform -translate-x-1/2 translate-y-2 opacity-0 mt-2 w-max px-4 py-4 text-xs ${textStyles[variant]} ${variantStyles[variant]} rounded-md transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-4`}
                                                 >
                                                     {nav.image && nav.image.trim() !== "" &&
@@ -220,6 +225,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                             className={clsx(
                                                                 `block px-4 py-2 text-sm cursor-pointer ${variantStyles[variant]}e`,
                                                                 hoverStyles[variant] && `${hoverStyles[variant]}`,
+                                                                activeRoute === subItem.link ? activeRouterBgStyles[variant] : "",
                                                                 activeRoute === subItem.link
                                                                     ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
                                                                         ? 'text-custom-red'
@@ -290,6 +296,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                     className={clsx(
                                                         'block px-4 py-2 text-sm cursor-pointer',
                                                         hoverStyles[variant] && `${hoverStyles[variant]}`,
+                                                        activeRoute === item.link ? activeRouterBgStyles[variant] : "",
                                                         activeRoute === item.link
                                                             ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
                                                                 ? 'text-custom-red'
@@ -297,7 +304,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                             : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
                                                         activeRoute === item.link ? 'font-semibold' : 'font-normal'
                                                     )}
-                                                    onClick={() => { handleListMenuNavigation(item) }}
+                                                    onClick={item.label === 'Cerrar sesion' ? handleLogout : () => { handleListMenuNavigation(item) }}
                                                 >
                                                     {item.label}
                                                 </div>
@@ -312,6 +319,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                         className={clsx(`items-center justify-center px-4 py-2 text-sm cursor-pointer hidden sm:block 
                                             ${hoverStyles[variant]} 
                                             rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2`,
+                                            activeRoute === "/login" ? activeRouterBgStyles[variant] : "",
                                             activeRoute === "/login"
                                                 ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
                                                     ? 'text-custom-red'
@@ -336,6 +344,9 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                     className={clsx(
                                         `block w-full px-4 py-2 text-base ${hoverStyles[variant]}
                                         rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
+                                        (activeRoute === item.link || item.subItems?.some((subItem) => subItem.link === activeRoute))
+                                            ? activeRouterBgStyles[variant]
+                                            : "",
                                         activeRoute === item.link
                                             ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
                                                 ? 'text-custom-red'
@@ -354,6 +365,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                 key={subIndex}
                                                 className={clsx(`block w-full px-4 py-1 text-sm ${hoverStyles[variant]} 
                                                     rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
+                                                    activeRoute === subItem.link ? activeRouterBgStyles[variant] : "",
                                                     activeRoute === subItem.link
                                                         ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
                                                             ? 'text-custom-red'
@@ -362,7 +374,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                     activeRoute === subItem.link ? 'font-semibold' : 'font-normal'
                                                 )}
                                                 onClick={() => {
-                                                    setIsOpen(false);
+                                                    handleSubNavigation(item, index); setIsOpen(false);
                                                 }}
                                             >
                                                 {subItem.label}
@@ -385,7 +397,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                     >
                                         <div
                                             className="flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold"
-                                            style={{ width: '35px', height: '35px' }}
+                                            style={{ width: '30px', height: '30px' }}
                                         >
                                             {user.image ? (
                                                 <img
@@ -409,6 +421,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                         key={index}
                                         className={clsx(`block w-full px-4 py-2 text-base ${hoverStyles[variant]} 
                                                     rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
+                                            activeRoute === item.link ? activeRouterBgStyles[variant] : "",
                                             activeRoute === item.link
                                                 ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
                                                     ? 'text-custom-red'
@@ -416,7 +429,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                 : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
                                             activeRoute === item.link ? 'font-semibold' : 'font-normal'
                                         )}
-                                        onClick={() => handleListMenuNavigationMobile(item)}
+                                        onClick={item.label === 'Cerrar sesion' ? handleLogout : () => handleListMenuNavigationMobile(item)}
                                     >
                                         {item.label}
                                     </button>
@@ -428,6 +441,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                     type="button"
                                     className={clsx(`block w-full px-4 py-2 text-base ${hoverStyles[variant]} 
                                     rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
+                                        activeRoute === "/login" ? activeRouterBgStyles[variant] : "",
                                         activeRoute === "/login"
                                             ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
                                                 ? 'text-custom-red'

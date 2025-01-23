@@ -1,6 +1,6 @@
+import imagePrueba from '../../assets/images/prueba.webp';
 import { Meta, StoryObj } from '@storybook/react';
 import { Navbar } from './Navbar';
-import imagePrueba from '../../assets/images/prueba.webp';
 
 const meta: Meta<typeof Navbar> = {
     title: 'Components/Navbar',
@@ -89,7 +89,7 @@ export const Primary: Story = {
     args: {
         variant: 'primary',
         list: [
-            { label: 'Home', description: 'Información requerida de este producto', link: '/home', image: imagePrueba, subItems: [] },
+            { label: 'Home', description: 'Vover al inicio donde puedes encontrar todo en una sola pantalla y examinar todas las necesidades de este proyecto', link: '/home', image: imagePrueba, subItems: [] },
             { label: 'About', description: 'Información requerida de este producto', link: '/about',image: "", subItems: [] },
             { label: 'Services', description: 'info pendiente', link: 'services',image: "", subItems: [{ label: 'Web Development',link:"/web" }, { label: 'SEO', link:"/seo" }] },
         ],

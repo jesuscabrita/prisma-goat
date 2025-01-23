@@ -63,3 +63,25 @@ export const hoverStyles = {
     warning: "hover:bg-[#FBBF24] font-light",
     success: "hover:bg-[#2D6A4F] font-light",
 };
+
+export const activeRouterBgStyles = {
+    primary: "bg-[#4B5563]",
+    secondary: "bg-[#F3F4F6]",
+    vividPink: "bg-[#FF5C6B]",
+    darkMagenta: "bg-[#9B007D]",
+    veryDarkViolet: "bg-[#6A006E]",
+    danger: "bg-[#F87171]",
+    warning: "bg-[#FBBF24]",
+    success: "bg-[#2D6A4F]",
+};
+
+export const bottonArrow = {
+    primary: "bg-[#1F2937] hover:bg-[#435064]",
+    secondary: "bg-[#1F2937] hover:bg-[#435064]",
+    vividPink: "bg-[#ff0145] hover:bg-[#ed7192]",
+    darkMagenta: "bg-[#770069] hover:bg-[#b241a5]",
+    veryDarkViolet: "bg-[#350053] hover:bg-[#6b2c8f]",
+    danger: "bg-[#b91c1c] hover:bg-[#cb5a5a]",
+    warning: "bg-[#f59e0b] hover:bg-[#ad8a4e]",
+    success: "bg-[#047857] hover:bg-[#3fae8f]",
+}

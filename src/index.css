@@ -1,6 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    padding: 0;
+    margin: 0;
+}
 
 .menu {
     background-color: transparent;
@@ -94,16 +101,15 @@
 
 @keyframes progress {
     0% {
-        stroke-dashoffset: 314; /* Perímetro del círculo */
-        opacity: 1; /* Comienza con opacidad 1 */
+        stroke-dashoffset: 314;
+        opacity: 1; 
     }
     100% {
-        stroke-dashoffset: 0; /* Completa el trazo */
-        opacity: 0; /* Desaparece gradualmente */
+        stroke-dashoffset: 0; 
+        opacity: 0;
     }
 }
 
-/* Animación de parpadeo del contenido central */
 @keyframes blink {
     0% {
         opacity: 1;
@@ -116,14 +122,13 @@
     }
 }
 
-/* Animación de desaparición del trazo mientras avanza */
 @keyframes fade {
     0% {
-        stroke-dashoffset: 414; /* Perímetro del círculo */
-        opacity: 2; /* Comienza con opacidad 1 */
+        stroke-dashoffset: 414; 
+        opacity: 2;
     }
     100% {
-        stroke-dashoffset: 0; /* Completa el trazo */
-        opacity: 0; /* Desaparece gradualmente */
+        stroke-dashoffset: 0; 
+        opacity: 0;
     }
 }

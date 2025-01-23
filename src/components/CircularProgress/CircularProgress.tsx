@@ -5,22 +5,22 @@ import logoBlack from '../../assets/images/LogoBlack.png';
 import logo6 from '../../assets/images/Logos-06.png';
 import { forwardRef, HTMLAttributes } from "react";
 
-export type LoadingIndicatorProps = HTMLAttributes<HTMLDivElement> & {
+export type CircularProgressProps = HTMLAttributes<HTMLDivElement> & {
     variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
-    background?: "black" | "white";
+    height?: string;
     logoGoatData?: "logoRed" | "logoBlack" | "logo6" | "logoMagenta" | "logoWhite";
     imgLoading?: string;
     strokeWidth?: "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13" | "14";
 };
 
-export const LoadingIndicator = forwardRef<HTMLDivElement, LoadingIndicatorProps>(
+export const CircularProgress = forwardRef<HTMLDivElement, CircularProgressProps>(
     (
         {
             variant = "primary",
-            background = "black",
             logoGoatData = "logoRed",
             imgLoading = "",
             strokeWidth = "10",
+            height = "",
             ...props
         },
         ref) => {
@@ -35,11 +35,6 @@ export const LoadingIndicator = forwardRef<HTMLDivElement, LoadingIndicatorProps
             warning: "#f59e0b",
             success: "#047857",
         };
-
-        const backgroundStyles = {
-            black: "bg-black",
-            white: "bg-white"
-        }
 
         const logoType = {
             logoRed: logoRed,
@@ -65,7 +60,15 @@ export const LoadingIndicator = forwardRef<HTMLDivElement, LoadingIndicatorProps
             <div
                 ref={ref}
                 {...props}
-                className={`fixed flex justify-center items-center top-0 left-0 right-0 bottom-0 ${backgroundStyles[background]} bg-opacity-60 z-[1201]`}
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: height || "100%",
+                    minHeight: "260px",
+                    position: "relative",
+                    width: "100%",
+                }}
             >
                 <svg
                     width="110"
@@ -102,4 +105,4 @@ export const LoadingIndicator = forwardRef<HTMLDivElement, LoadingIndicatorProps
     }
 );
 
-LoadingIndicator.displayName = "LoadingIndicator";
+CircularProgress.displayName = "CircularProgress";
