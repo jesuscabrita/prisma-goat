@@ -21,7 +21,7 @@ import React from "react";
 import clsx from "clsx";
 
 export type ButtonProps = {
-    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
+    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "tertiary";
     size?: "small" | "medium" | "large";
     isLoading?: boolean;
     loadingPosition?: "left" | "right";
@@ -56,8 +56,8 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
         const baseStyles = clsx(
             "inline-flex items-center justify-center rounded-lg font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 w-full",
             {
-                "text-white": variant !== "secondary",
-                "text-[#1F2937]": variant === "secondary",
+                "text-white": (variant !== "secondary" && variant !== "tertiary"),
+                "text-[#1F2937]": (variant === "secondary" || variant === "tertiary"),
             }
         );
 
@@ -70,6 +70,7 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
             danger: "bg-[#b91c1c] hover:bg-[#9b1c1c] focus:ring-[#b91c1c] focus:border-[#b91c1c]",
             warning: "bg-[#f59e0b] hover:bg-[#d97706] focus:ring-[#f59e0b] focus:border-[#f59e0b]",
             success: "bg-[#047857] hover:bg-[#065f46] focus:ring-[#047857] focus:border-[#047857]",
+            tertiary: "bg-[#d4d3d3] border-2 hover:border-[#374151] focus:ring-[#1F2937] focus:border-[#1F2937]",
         };
         const sizeStyles = {
             small: "px-4 py-1.5 text-xs",
@@ -137,6 +138,7 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
         return (
             <button
                 ref={ref}
+                style={{ whiteSpace: "nowrap" }}
                 className={clsx(
                     baseStyles,
                     variantStyles[variant],

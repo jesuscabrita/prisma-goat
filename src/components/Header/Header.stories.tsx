@@ -26,6 +26,10 @@ export const Primary: Story = {
         ],
         autoPlaySpeed: 3000,
         height: "400px",
+        // nameImages: true,
+        //overlap: { text1:"Tu aventura comienza aquí", text2: "Explora lugares increíbles y descubre experiencias únicas.", text3: "Descubre más", text4: "Contáctanos"}
+        //explore: { content: "#contenido"},
+        //hero: { text1:"Bienvenido a", text2:"Nuestra Página" , text3: "Explora, descubre y vive experiencias únicas.", text4:"¡Empieza Ahora!"}
     },
 };
 

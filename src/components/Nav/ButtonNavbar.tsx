@@ -5,23 +5,20 @@ export const ButtonNavbar = ({ children, href, Viewport, colorButton }: { childr
     const [currentColor, setCurrentColor] = useState<string>(colorButton);
 
     useEffect(() => {
-        if (typeof window !== "undefined") {
-            const handleScroll = () => {
-                const targetElement = document.getElementById(href.slice(1));
-                if (targetElement) {
-                    const rect = targetElement.getBoundingClientRect();
-                    const isInViewport = rect.top >= 0 && rect.bottom <= window.innerHeight;
-                    setCurrentColor(isInViewport ? Viewport : colorButton);
-                }
-            };
-            handleScroll();
-            window.addEventListener("scroll", handleScroll);
-            return () => {
-                window.removeEventListener("scroll", handleScroll);
-            };
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [href]);
+        const handleScroll = () => {
+            const targetElement = document.getElementById(href.slice(1));
+            if (targetElement) {
+                const rect = targetElement.getBoundingClientRect();
+                const isInViewport = rect.top >= 0 && rect.bottom <= window.innerHeight;
+                setCurrentColor(isInViewport ? Viewport : colorButton);
+            }
+        };
+        handleScroll();
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [href, Viewport, colorButton]);
 
     const handleClick = () => {
         const targetElement = document.getElementById(href.slice(1));
