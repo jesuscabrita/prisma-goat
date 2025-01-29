@@ -84,13 +84,13 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
         const colorButtonStyle = {
             goatData: "white",
             secondary: "#1F2937",
-            experiences: "#1F2937"
+            experiences: "white"
         }
 
         const textStyles = {
             goatData: "text-white",
             secondary: "text-[#1F2937]",
-            experiences: "text-[#1F2937]"
+            experiences: "text-white"
         };
 
         return (
@@ -108,11 +108,11 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                     />
                     <div className="relative flex h-16 items-center justify-between">
                         <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                            <button className={`menu ${isOpen ? (variant === 'secondary' || variant === "experiences" ? 'openedark' : 'opened') : ''}`} onClick={toggle} aria-label="Main Menu">
+                            <button className={`menu ${isOpen ? (variant === 'secondary' ? 'openedark' : 'opened') : ''}`} onClick={toggle} aria-label="Main Menu">
                                 <svg width="45" height="45" viewBox="0 0 100 100" style={{ fill: "#f9f8f8 !important" }}>
-                                    <path className={variant === 'secondary' || variant === "experiences" ? 'linedark linedark1' : "line line1"} d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
-                                    <path className={variant === 'secondary' || variant === "experiences" ? 'linedark linedark2' : "line line2"} d="M 20,50 H 80" />
-                                    <path className={variant === 'secondary' || variant === "experiences" ? 'linedark linedark3' : "line line3"} d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
+                                    <path className={variant === 'secondary' ? 'linedark linedark1' : "line line1"} d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
+                                    <path className={variant === 'secondary' ? 'linedark linedark2' : "line line2"} d="M 20,50 H 80" />
+                                    <path className={variant === 'secondary' ? 'linedark linedark3' : "line line3"} d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
                                 </svg>
                             </button>
                         </div>
@@ -122,13 +122,13 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                                     <img
                                         className="block lg:hidden"
                                         style={{ height: heightLogo && heightLogo.trim() !== '' ? heightLogo : '40px', width: widthLogo && widthLogo.trim() !== '' ? widthLogo : '65px' }}
-                                        src={logo && logo.trim() !== '' ? logo : (variant === 'secondary' || variant === "experiences" ? logoBlack : logogoatblanco)}
+                                        src={logo && logo.trim() !== '' ? logo : (variant === 'secondary' ? logoBlack : logogoatblanco)}
                                         alt="Logo"
                                     />
                                     <img
                                         className="hidden lg:block"
                                         style={{ height: heightLogo && heightLogo.trim() !== '' ? heightLogo : '40px', width: widthLogo && widthLogo.trim() !== '' ? widthLogo : '65px' }}
-                                        src={logo && logo.trim() !== '' ? logo : (variant === 'secondary' || variant === "experiences" ? logoBlack : logogoatblanco)}
+                                        src={logo && logo.trim() !== '' ? logo : (variant === 'secondary' ? logoBlack : logogoatblanco)}
                                         alt="Logo"
                                     />
                                     {(!logo || logo.trim() === '') && (<div className={`text-[10px] ${textStyles[variant]} tracking-[4px]`}>DATA</div>)}
@@ -139,7 +139,7 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                                     <ul className="flex space-x-4">
                                         {items.map(({ label, href, refId }) => (
                                             <li key={href}>
-                                                <ButtonNavbar href={href} Viewport={ViewportStyle[variant]} colorButton={colorButtonStyle[variant]}>
+                                                <ButtonNavbar href={href} Viewport={ViewportStyle[variant]} colorButton={colorButtonStyle[variant]} setIsOpen={setIsOpen}>
                                                     <div
                                                         ref={(el) => el && refId && itemRefs.current.set(refId, el)}
                                                         id={refId}
@@ -159,7 +159,7 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                 {isOpen && (
                     <div className="space-y-1 px-2 pt-2 pb-3">
                         {items.map(({ label, href }) => (
-                            <ButtonNavbar key={href} href={href} Viewport={ViewportStyle[variant]} colorButton={colorButtonStyle[variant]}>
+                            <ButtonNavbar key={href} href={href} Viewport={ViewportStyle[variant]} colorButton={colorButtonStyle[variant]} setIsOpen={setIsOpen}>
                                 {label}
                             </ButtonNavbar>
                         ))}

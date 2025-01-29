@@ -12,12 +12,14 @@ export type HeaderProps = HTMLAttributes<HTMLElement> & {
     nameImagesBotton?: boolean;
     handletext4?: () => void;
     handletext5?: () => void;
+    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "tertiary" | "experiences";
 };
 
 export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
     (
         {
             images = [],
+            variant = "vividPink",
             autoPlaySpeed = 3000,
             height = "400px",
             explore = {},
@@ -83,6 +85,19 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
             );
         }
 
+        const variantStyles = {
+            primary: "text-white",
+            secondary: "text-white",
+            vividPink: "text-[#ff0145]",
+            darkMagenta: "text-[#770069]",
+            veryDarkViolet: "text-[#350053]",
+            danger: "text-[#b91c1c]",
+            warning: "text-[#f59e0b]",
+            success: "text-[#047857]",
+            tertiary: "text--[#d4d3d3]",
+            experiences: "text-[#a8dbce]",
+        };
+
         return (
             <header
                 ref={ref}
@@ -95,11 +110,11 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
                 {overlap && (
                     <div className={`absolute inset-0 flex flex-col items-center justify-center text-center z-20 text-white`}>
                         <h1 className="text-3xl md:text-5xl font-bold animate-fade-in-up">
-                            {overlap.text1} <span className="text-red-400">{overlap.text2}</span>
+                            {overlap.text1} <span className={`${variantStyles[variant]}`}>{overlap.text2}</span>
                         </h1>
                         <p className="text-sm md:text-lg mb-6">{overlap.text3}</p>
                         <div className="flex gap-4">
-                            {overlap.text4 && <Button variant="vividPink" onClick={handletext4} size="small" label={overlap.text4} />}
+                            {overlap.text4 && <Button variant={variant} onClick={handletext4} size="small" label={overlap.text4} />}
                             {overlap.text5 && <Button variant="tertiary" onClick={handletext5} size="small" label={overlap.text5} />}
                         </div>
                     </div>)}

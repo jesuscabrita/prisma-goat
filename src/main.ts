@@ -6,6 +6,9 @@ export { CircularProgress } from "./components/CircularProgress/CircularProgress
 export { Sidebar } from "./components/Sidebar/Sidebar";
 export { Nav } from "./components/Nav/Nav";
 export { Header } from "./components/Header/Header";
+export { Input } from "./components/Input/Input";
+export { InputSelect } from "./components/InputSelect/InputSelect";
+export { Footer } from "./components/Footer/Footer";
 
 // Export types if needed
 export type { ButtonProps } from "./components/Button/Button";
@@ -15,3 +18,6 @@ export type { CircularProgressProps } from "./components/CircularProgress/Circul
 export type { SidebarProps } from "./components/Sidebar/Sidebar";
 export type { NavProps } from "./components/Nav/Nav";
 export type { HeaderProps } from "./components/Header/Header";
+export type { InputProps } from "./components/Input/Input";
+export type { InputSelectProps } from "./components/InputSelect/InputSelect";
+export type { FooterProps } from "./components/Footer/Footer";

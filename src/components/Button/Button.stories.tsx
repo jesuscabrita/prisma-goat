@@ -21,7 +21,7 @@ const meta: Meta<typeof Button> = {
         variant: {
             type: "string",
             control: "select",
-            options: ["primary", "secondary", "vividPink", "darkMagenta", "veryDarkViolet", "danger", "warning","success"],
+            options: ["primary", "secondary", "vividPink", "darkMagenta", "veryDarkViolet", "danger", "warning", "success", "tertiary", "experiences"],
             description: "Color variants",
         },
         size: {
@@ -68,8 +68,8 @@ const meta: Meta<typeof Button> = {
             options: ["home", "Left", "save", "more", "right", "update", "attach", "send", "delete", "edit", "reset", "add", "exit", "off", "calculator", "list", "futbol"],
             description: "Select a predefined icon",
         },
-        onClick: { 
-            type:"function", 
+        onClick: {
+            type: "function",
             action: "clicked",
         },
     },
@@ -119,7 +119,7 @@ export const PrimaryOnclick: Story = {
         children: "Primary Button",
         variant: "primary",
         size: "medium",
-        isSubmit:true,
-        onClick: () => alert("Button clicked!"), 
+        isSubmit: true,
+        onClick: () => alert("Button clicked!"),
     },
 };
