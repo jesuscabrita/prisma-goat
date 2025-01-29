@@ -6,11 +6,12 @@ export type HeaderProps = HTMLAttributes<HTMLElement> & {
     images: { src: string; alt: string; href?: string }[];
     autoPlaySpeed?: number;
     height?: string;
-    hero?: { text1: string; text2: string; text3: string; text4: string; };
     explore?: { content: string; };
-    overlap?: { text1: string; text2: string; text3: string; text4: string; };
+    overlap?: { text1: string; text2: string; text3: string; text4: string; text5: string; };
     nameImages?: boolean;
     nameImagesBotton?: boolean;
+    handletext4?: () => void;
+    handletext5?: () => void;
 };
 
 export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
@@ -19,11 +20,12 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
             images = [],
             autoPlaySpeed = 3000,
             height = "400px",
-            hero = {},
             explore = {},
             overlap = {},
             nameImages = false,
             nameImagesBotton = false,
+            handletext4,
+            handletext5,
             ...props
         }, ref
     ) => {
@@ -90,21 +92,19 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}>
-                {hero && (
-                    <div className="absolute inset-0 flex flex-col justify-center items-center z-20 text-center text-white">
+                {overlap && (
+                    <div className={`absolute inset-0 flex flex-col items-center justify-center text-center z-20 text-white`}>
                         <h1 className="text-3xl md:text-5xl font-bold animate-fade-in-up">
-                            {hero.text1} <span className="text-red-400">{hero.text2}</span>
+                            {overlap.text1} <span className="text-red-400">{overlap.text2}</span>
                         </h1>
-                        <p className="mt-4 text-lg md:text-2xl animate-fade-in">
-                            {hero.text3}
-                        </p>
-                        <div className="mt-6 pointer-events-auto">
-                            {hero.text4 && <Button variant="vividPink" size="small" label={hero.text4} />}
+                        <p className="text-sm md:text-lg mb-6">{overlap.text3}</p>
+                        <div className="flex gap-4">
+                            {overlap.text4 && <Button variant="vividPink" onClick={handletext4} size="small" label={overlap.text4} />}
+                            {overlap.text5 && <Button variant="tertiary" onClick={handletext5} size="small" label={overlap.text5} />}
                         </div>
-                    </div>
-                )}
+                    </div>)}
                 {explore?.content && (
-                    <div className="absolute z-20 bottom-8 left-1/2 transform -translate-x-1/2 pointer-events-auto">
+                    <div className={`absolute z-20 bottom-8 left-1/2 transform -translate-x-1/2 pointer-events-auto`}>
                         <a href={explore.content} className="flex flex-col items-center text-white">
                             <span className="mb-2 text-lg font-medium">Explora más</span>
                             <svg
@@ -122,15 +122,6 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
                                 />
                             </svg>
                         </a>
-                    </div>)}
-                {overlap && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20 text-white">
-                        <h1 className="text-3xl md:text-5xl font-extrabold mb-4">{overlap.text1}</h1>
-                        <p className="text-sm md:text-lg mb-6">{overlap.text2}</p>
-                        <div className="flex gap-4">
-                            {overlap.text3 && <Button variant="vividPink" size="small" label={overlap.text3} />}
-                            {overlap.text4 && <Button variant="tertiary" size="small" label={overlap.text4} />}
-                        </div>
                     </div>)}
                 {nameImages &&
                     (<div className="absolute inset-0 flex flex-col justify-center items-center text-white z-10 transition-opacity duration-700 ease-in-out">
@@ -178,7 +169,6 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-30">
                     {images.map((_, index) => (
                         <button
-                            style={{ zIndex: 999 }}
                             key={index}
                             onClick={() => setCurrentIndex(index)}
                             className={`w-3 h-3 rounded-full ${currentIndex === index ? "bg-white" : "bg-gray-400"
