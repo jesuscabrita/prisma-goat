@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 
-export const ButtonNavbar = ({ children, href, Viewport, colorButton, setIsOpen }: { children: ReactNode, href: string, Viewport: string; colorButton: string ; setIsOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
+export const ButtonNavbar = ({ children, href, Viewport, colorButton, setIsOpen }: { children: ReactNode, href: string, Viewport: string; colorButton: string; setIsOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [currentColor, setCurrentColor] = useState<string>(colorButton);
 
@@ -28,7 +28,7 @@ export const ButtonNavbar = ({ children, href, Viewport, colorButton, setIsOpen 
                 const rect = targetElement.getBoundingClientRect();
                 const isInViewport = rect.top >= 0 && rect.bottom <= window.innerHeight;
                 setCurrentColor(isInViewport ? Viewport : colorButton);
-                setIsOpen(false)
+                setIsOpen(false);
             }, 300);
         }
     };

@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 
 export type NavProps = HTMLAttributes<HTMLElement> & {
     variant?: "goatData" | "secondary" | "experiences";
-    items: { label: string; href: string; refId?: string; }[];
+    items: { label: string; href: string; refId: string; }[];
     logo?: string;
     heightLogo?: string;
     widthLogo?: string;
@@ -24,31 +24,39 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
             ...props
         }, ref) => {
         const [isOpen, setIsOpen] = useState(false);
-        const itemRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+        const [position, setPosition] = useState<DOMRect | undefined>(undefined);
+        const [currentView] = useState<string>('');
+        const refs = items.reduce((acc, item) => {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            acc[item.refId] = useRef<HTMLDivElement>(null);
+            return acc;
+        }, {} as Record<string, React.RefObject<HTMLDivElement>>);
         const toggle = () => setIsOpen(!isOpen);
-        const [position, setPosition] = useState<DOMRect>({
-            top: 0,
-            left: 0,
-            width: 0,
-            height: 0,
-            bottom: 0,
-            right: 0,
-            x: 0,
-            y: 0,
-            toJSON: () => null,
-        });
 
         useEffect(() => {
             items.forEach((item) => {
-                const targetRef = itemRefs.current.get(item.refId || "");
-                if (targetRef) {
-                    targetRef.addEventListener("mouseenter", (e: MouseEvent) => {
+                const targetRef = refs[item.refId];
+                if (targetRef?.current) {
+                    const handleMouseEnter = (e: MouseEvent) => {
                         const target = e.target as HTMLElement;
                         setPosition(target.getBoundingClientRect());
-                    });
+                    };
+                    targetRef.current.addEventListener("mouseenter", handleMouseEnter);
                 }
             });
-        }, [items]);
+            const targetRef = refs[currentView];
+            if (targetRef?.current) {
+                setPosition(targetRef.current.getBoundingClientRect());
+            }
+            return () => {
+                items.forEach((item) => {
+                    const targetRef = refs[item.refId];
+                    if (targetRef?.current) {
+                        targetRef.current.removeEventListener("mouseenter", () => { });
+                    }
+                });
+            };
+        }, [currentView, items, refs]);
 
         useEffect(() => {
             const mediaQuery = window.matchMedia("(min-width: 640px)");
@@ -78,7 +86,7 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
         const ViewportStyle = {
             goatData: "#ff0145",
             secondary: "#ff0145",
-            experiences: "white"
+            experiences: "#1f2937e7"
         }
 
         const colorButtonStyle = {
@@ -141,8 +149,8 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                                             <li key={href}>
                                                 <ButtonNavbar href={href} Viewport={ViewportStyle[variant]} colorButton={colorButtonStyle[variant]} setIsOpen={setIsOpen}>
                                                     <div
-                                                        ref={(el) => el && refId && itemRefs.current.set(refId, el)}
                                                         id={refId}
+                                                        ref={refs[refId]}
                                                         style={{ padding: "6px", color: colorButtonStyle[variant] }}
                                                     >
                                                         {label}

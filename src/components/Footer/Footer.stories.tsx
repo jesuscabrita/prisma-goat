@@ -37,6 +37,11 @@ export const Primary: Story = {
             { label: "Nuestro Equipo", href: "#equipo", refId: "C" },
             { label: "Contactos", href: "#contactos", refId: "D" },
         ],
+        // list: [
+        //     { label: 'Home', description: 'Vover al inicio donde puedes encontrar todo en una sola pantalla y examinar todas las necesidades de este proyecto', link: '/home' },
+        //     { label: 'About', description: 'Información requerida de este producto', link: '/about' },
+        //     { label: 'Services', description: 'info pendiente', link: '/services' },
+        // ],
         contact: [
             { label: "Email:", description: "genesisdcabritar@gmail.com", type: "email" },
             { label: "Teléfono:", description: "+584124953318", type: "chat" },

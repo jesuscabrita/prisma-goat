@@ -1,4 +1,4 @@
-import { forwardRef, HTMLAttributes, PropsWithChildren, useState } from "react";
+import { forwardRef, HTMLAttributes, PropsWithChildren, ReactNode, useState } from "react";
 import logogoatblanco from "../../assets/images/logogoatblanco.png";
 import logoBlack from '../../assets/images/logo-black.png';
 import logoWhite from "../../assets/images/goat.png"
@@ -14,6 +14,10 @@ export type FooterProps = HTMLAttributes<HTMLElement> & {
     dataFiscal?: { href: string; src: string; target: string };
     redes?: { label: string; type: string; icon?: IconType }[];
     company?: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    router?: any;
+    list?: Array<{ label: string, description: string, link: string, }>;
+    extraComponent?: ReactNode;
 };
 
 export const Footer = forwardRef<HTMLElement, PropsWithChildren<FooterProps>>(
@@ -23,8 +27,11 @@ export const Footer = forwardRef<HTMLElement, PropsWithChildren<FooterProps>>(
             items = [],
             contact = [],
             redes = [],
+            list = [],
             dataFiscal = {},
             logo,
+            router,
+            extraComponent,
             heightLogo = "60px",
             widthLogo = "85px",
             company = "2025 GOAT DATA",
@@ -84,10 +91,16 @@ export const Footer = forwardRef<HTMLElement, PropsWithChildren<FooterProps>>(
             experiences: "text-[#1F2937]"
         };
 
+        const handleNavigation = (nav: { link: string; }) => {
+            if (nav.link && router) {
+                router.push(nav.link);
+            }
+        };
+
         return (
             <footer ref={ref} {...props} className={`${bgStyles[variant]} ${textStyles[variant]}`} style={{ paddingTop: '40px' }}>
                 <div className="container mx-auto px-4 md:px-8">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
                         <div className="flex flex-col items-center">
                             <img
                                 style={{ height: heightLogo && heightLogo.trim() !== '' ? heightLogo : '40px', width: widthLogo && widthLogo.trim() !== '' ? widthLogo : '65px' }}
@@ -98,17 +111,30 @@ export const Footer = forwardRef<HTMLElement, PropsWithChildren<FooterProps>>(
                         </div>
                         <div className="flex flex-col items-center">
                             <h2 className="text-lg font-semibold mb-4">Enlaces Rápidos</h2>
-                            <div className="text-center sm:text-left" style={{ display: "flex", flexDirection: "column", justifyContent: "end", }}>
-                                {items.map((data, index) => {
-                                    return (
-                                        <div key={index}>
-                                            <button className={buttonStyles} onClick={() => { handleClickLink(data.href) }}>
-                                                {data.label}
-                                            </button>
-                                        </div>
-                                    )
-                                })}
-                            </div>
+                            {items.length > 0 &&
+                                <div className="text-center sm:text-left" style={{ display: "flex", flexDirection: "column", justifyContent: "end", }}>
+                                    {items.map((data, index) => {
+                                        return (
+                                            <div key={index}>
+                                                <button className={buttonStyles} onClick={() => { handleClickLink(data.href) }}>
+                                                    {data.label}
+                                                </button>
+                                            </div>
+                                        )
+                                    })}
+                                </div>}
+                            {list.length > 0 &&
+                                <div className="text-center sm:text-left" style={{ display: "flex", flexDirection: "column", justifyContent: "end", }}>
+                                    {list.map((data, index) => {
+                                        return (
+                                            <div key={index}>
+                                                <button className={buttonStyles} onClick={() => { handleNavigation(data) }}>
+                                                    {data.label}
+                                                </button>
+                                            </div>
+                                        )
+                                    })}
+                                </div>}
                         </div>
                         <div className="flex flex-col items-center">
                             <h2 className="text-lg font-semibold mb-4">Contacto</h2>
@@ -138,6 +164,11 @@ export const Footer = forwardRef<HTMLElement, PropsWithChildren<FooterProps>>(
                                     <img style={{ height: '120px' }} src={dataFiscal.src} />
                                 </a>
                             </div>)}
+                        {extraComponent &&
+                            <div className="flex flex-col items-center">
+                                <h2 className="text-lg font-semibold mb-4">Escribenos</h2>
+                                {extraComponent}
+                            </div>}
                     </div>
                     <div className="flex flex-col items-center mt-8">
                         <h2 className="text-lg font-semibold mb-4">Redes Sociales</h2>
