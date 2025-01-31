@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { Reveal } from './Reveal';
+import { Alert } from './Alert';
 
-const meta: Meta<typeof Reveal> = {
-    title: 'Components/Reveal',
+const meta: Meta<typeof Alert> = {
+    title: 'Components/Alert',
     tags: ['autodocs'],
-    component: Reveal,
+    component: Alert,
     argTypes: {
 
     },
@@ -12,12 +12,11 @@ const meta: Meta<typeof Reveal> = {
 
 export default meta;
 
-type Story = StoryObj<typeof Reveal>;
+type Story = StoryObj<typeof Alert>;
 
 // Primary story
 export const Primary: Story = {
     args: {
-        variant: "primary",
 
     },
 };
@@ -25,6 +24,5 @@ export const Primary: Story = {
 // Secondary story
 export const Secondary: Story = {
     args: {
-        variant: "secondary",
     },
 };

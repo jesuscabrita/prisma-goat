@@ -1,6 +1,8 @@
 import { forwardRef, PropsWithChildren, useEffect, useRef, useState } from "react";
 import { HTMLAttributes } from "react";
 import { Button } from "../Button/Button";
+import { MotionTransition } from "../MotionTransition/MotionTransition";
+import { Reveal } from "../Reveal/Reveal";
 
 export type HeaderProps = HTMLAttributes<HTMLElement> & {
     images: { src: string; alt: string; href?: string }[];
@@ -109,35 +111,55 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
                 onTouchEnd={handleTouchEnd}>
                 {overlap && (
                     <div className={`absolute inset-0 flex flex-col items-center justify-center text-center z-20 text-white`}>
-                        <h1 className="text-3xl md:text-5xl font-bold animate-fade-in-up">
-                            {overlap.text1} <span className={`${variantStyles[variant]}`}>{overlap.text2}</span>
-                        </h1>
-                        <p className="text-sm md:text-lg mb-6">{overlap.text3}</p>
+                        <MotionTransition>
+                            <h1 className="text-3xl md:text-5xl font-bold animate-fade-in-up">
+                                {overlap.text1}
+                                <span className={`${variantStyles[variant]}`}>{overlap.text2}</span>
+                            </h1>
+                        </MotionTransition>
+                        <MotionTransition>
+                            <p className="text-sm md:text-lg mb-6">{overlap.text3}</p>
+                        </MotionTransition>
                         <div className="flex gap-4">
-                            {overlap.text4 && <Button variant={variant} onClick={handletext4} size="small" label={overlap.text4} />}
-                            {overlap.text5 && <Button variant="tertiary" onClick={handletext5} size="small" label={overlap.text5} />}
+                            {overlap.text4 &&
+                                <div className="flex">
+                                    <Reveal variant={variant} duration={1} delay={1}>
+                                        <Button variant={variant} onClick={handletext4} size="small" label={overlap.text4} />
+                                    </Reveal>
+                                </div>
+                            }
+                            {overlap.text5 &&
+                                <div className="flex">
+                                    <Reveal variant="tertiary" duration={1} delay={1}>
+                                        <Button variant="tertiary" onClick={handletext5} size="small" label={overlap.text5} />
+                                    </Reveal>
+                                </div>
+                            }
                         </div>
                     </div>)}
                 {explore?.content && (
                     <div className={`absolute z-20 bottom-8 left-1/2 transform -translate-x-1/2 pointer-events-auto`}>
-                        <a href={explore.content} className="flex flex-col items-center text-white">
-                            <span className="mb-2 text-lg font-medium">Explora más</span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-8 h-8 animate-bounce"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M19 9l-7 7-7-7"
-                                />
-                            </svg>
-                        </a>
-                    </div>)}
+                        <MotionTransition>
+                            <a href={explore.content} className="flex flex-col items-center text-white">
+                                <span className="mb-2 text-lg font-medium">Explora más</span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="w-8 h-8 animate-bounce"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M19 9l-7 7-7-7"
+                                    />
+                                </svg>
+                            </a>
+                        </MotionTransition>
+                    </div>
+                )}
                 {nameImages &&
                     (<div className="absolute inset-0 flex flex-col justify-center items-center text-white z-10 transition-opacity duration-700 ease-in-out">
                         <h1 key={currentIndex} className="text-4xl font-bold">
@@ -183,12 +205,14 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
                 </div>
                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-30">
                     {images.map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setCurrentIndex(index)}
-                            className={`w-3 h-3 rounded-full ${currentIndex === index ? "bg-white" : "bg-gray-400"
-                                }`}
-                        />
+                        <Reveal variant="tertiary" duration={1} delay={1}>
+                            <button
+                                key={index}
+                                onClick={() => setCurrentIndex(index)}
+                                className={`w-3 h-3 rounded-full ${currentIndex === index ? "bg-white" : "bg-gray-400"
+                                    }`}
+                            />
+                        </Reveal>
                     ))}
                 </div>
             </header>

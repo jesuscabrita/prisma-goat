@@ -11,6 +11,9 @@ export { InputSelect } from "./components/InputSelect/InputSelect";
 export { Footer } from "./components/Footer/Footer";
 export { Reveal } from "./components/Reveal/Reveal";
 export { MotionTransition } from "./components/MotionTransition/MotionTransition";
+export { Alert } from "./components/Alert/Alert";
+export { FloatingAnimation } from "./components/FloatingAnimation/FloatingAnimation";
+export { FloatingBotton } from "./components/FloatingBotton/FloatingBotton";
 
 // Export types if needed
 export type { ButtonProps } from "./components/Button/Button";
@@ -25,3 +28,6 @@ export type { InputSelectProps } from "./components/InputSelect/InputSelect";
 export type { FooterProps } from "./components/Footer/Footer";
 export type { RevealProps } from "./components/Reveal/Reveal";
 export type { MotionTransitionProps } from "./components/MotionTransition/MotionTransition";
+export type { AlertProps } from "./components/Alert/Alert";
+export type { FloatingAnimationProps } from "./components/FloatingAnimation/FloatingAnimation";
+export type { FloatingBottonProps } from "./components/FloatingBotton/FloatingBotton";

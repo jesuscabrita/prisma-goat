@@ -2,14 +2,20 @@ import { forwardRef, HTMLAttributes, PropsWithChildren, useEffect, useRef } from
 import { useAnimation, useInView, motion } from "framer-motion"
 
 export type RevealProps = HTMLAttributes<HTMLDivElement> & {
-    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "experiences";
+    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "tertiary" | "experiences";
+    duration?: number;
+    delay?: number;
+    ease?: "easeIn" | "easeInOut" | "easeOut" | "linear" | "anticipate" | "backIn" | "backInOut" | "backOut" | "circIn" | "circInOut" | "circOut"
 };
 
 export const Reveal = forwardRef<HTMLDivElement, PropsWithChildren<RevealProps>>(
     (
         {
+            ease = "easeIn",
             variant = "primary",
             children,
+            duration = 0.5,
+            delay = 0.5,
             ...props
         }) => {
         const ref = useRef(null);
@@ -26,6 +32,7 @@ export const Reveal = forwardRef<HTMLDivElement, PropsWithChildren<RevealProps>>
             danger: "#b91c1c",
             warning: "#f59e0b",
             success: "#047857",
+            tertiary: "#d4d3d3",
             experiences: "#a8dbce",
         }
 
@@ -47,7 +54,7 @@ export const Reveal = forwardRef<HTMLDivElement, PropsWithChildren<RevealProps>>
                     initial="hidden"
                     animate={mainControls}
                     exit="hidden"
-                    transition={{ duration: 0.5, delay: 0.5 }}
+                    transition={{ duration: duration, delay: delay }}
                 >
                     {children}
                 </motion.div>
@@ -58,7 +65,7 @@ export const Reveal = forwardRef<HTMLDivElement, PropsWithChildren<RevealProps>>
                     }}
                     initial="hidden"
                     animate={slideControls}
-                    transition={{ duration: 0.5, ease: "easeIn" }}
+                    transition={{ duration: 0.5, ease: ease }}
                     style={{
                         position: "absolute",
                         top: 4,
