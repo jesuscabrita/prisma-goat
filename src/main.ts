@@ -14,6 +14,7 @@ export { MotionTransition } from "./components/MotionTransition/MotionTransition
 export { Alert } from "./components/Alert/Alert";
 export { FloatingAnimation } from "./components/FloatingAnimation/FloatingAnimation";
 export { FloatingBotton } from "./components/FloatingBotton/FloatingBotton";
+export { VideoHeader } from "./components/VideoHeader/VideoHeader";
 
 // Export types if needed
 export type { ButtonProps } from "./components/Button/Button";
@@ -31,3 +32,4 @@ export type { MotionTransitionProps } from "./components/MotionTransition/Motion
 export type { AlertProps } from "./components/Alert/Alert";
 export type { FloatingAnimationProps } from "./components/FloatingAnimation/FloatingAnimation";
 export type { FloatingBottonProps } from "./components/FloatingBotton/FloatingBotton";
+export type { VideoHeaderProps } from "./components/VideoHeader/VideoHeader";

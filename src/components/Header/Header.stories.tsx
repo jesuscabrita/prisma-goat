@@ -36,9 +36,13 @@ export const Primary: Story = {
 export const Secondary: Story = {
     args: {
         images: [
-            { src: "https://via.placeholder.com/600x300", alt: "Secondary Image 1" },
+            { src: imagePrueba, alt: "Image 1" },
+            { src: imagePrueba2, alt: "Image 2" },
+            { src: imagePrueba3, alt: "Image 3" },
         ],
         autoPlaySpeed: 5000,
         height: "300px",
+        nameImagesBotton:true,
+        //nameImages: true
     },
 };

@@ -87,6 +87,13 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
             );
         }
 
+        const handleClickLink = (href: string) => {
+            const targetElement = document.getElementById(href.slice(1));
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: "smooth" });
+            }
+        };
+
         const variantStyles = {
             primary: "text-white",
             secondary: "text-white",
@@ -122,25 +129,25 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
                         </MotionTransition>
                         <div className="flex gap-4">
                             {overlap.text4 &&
-                                <div className="flex">
-                                    <Reveal variant={variant} duration={1} delay={1}>
+                                <Reveal variant={variant} duration={1} delay={1}>
+                                    <div className="flex" style={{ padding: "5px" }}>
                                         <Button variant={variant} onClick={handletext4} size="small" label={overlap.text4} />
-                                    </Reveal>
-                                </div>
+                                    </div>
+                                </Reveal>
                             }
                             {overlap.text5 &&
-                                <div className="flex">
-                                    <Reveal variant="tertiary" duration={1} delay={1}>
+                                <Reveal variant="tertiary" duration={1} delay={1}>
+                                    <div className="flex" style={{ padding: "5px" }}>
                                         <Button variant="tertiary" onClick={handletext5} size="small" label={overlap.text5} />
-                                    </Reveal>
-                                </div>
+                                    </div>
+                                </Reveal>
                             }
                         </div>
                     </div>)}
                 {explore?.content && (
                     <div className={`absolute z-20 bottom-8 left-1/2 transform -translate-x-1/2 pointer-events-auto`}>
                         <MotionTransition>
-                            <a href={explore.content} className="flex flex-col items-center text-white">
+                            <a onClick={() => explore.content && handleClickLink(explore.content)} className="flex flex-col items-center text-white cursor-pointer">
                                 <span className="mb-2 text-lg font-medium">Explora más</span>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -162,14 +169,18 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
                 )}
                 {nameImages &&
                     (<div className="absolute inset-0 flex flex-col justify-center items-center text-white z-10 transition-opacity duration-700 ease-in-out">
-                        <h1 key={currentIndex} className="text-4xl font-bold">
-                            {images[currentIndex]?.alt || "Título dinámico"}
-                        </h1>
+                        <MotionTransition>
+                            <h1 key={currentIndex} className="text-4xl font-bold">
+                                {images[currentIndex]?.alt || "Título dinámico"}
+                            </h1>
+                        </MotionTransition>
                     </div>)}
                 {nameImagesBotton &&
-                    (<div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center z-10">
-                        <p className="text-lg font-medium text-white">{images[currentIndex]?.alt}</p>
-                    </div>)}
+                    (<MotionTransition>
+                        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center z-10">
+                            <p className="text-lg font-medium text-white">{images[currentIndex]?.alt}</p>
+                        </div>
+                    </MotionTransition>)}
                 <div
                     className="flex transition-transform duration-700 ease-in-out"
                     style={{
