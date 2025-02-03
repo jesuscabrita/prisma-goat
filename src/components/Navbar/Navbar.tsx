@@ -3,6 +3,7 @@ import { forwardRef, PropsWithChildren, useEffect, useRef, useState } from "reac
 import { LoadingIndicator } from "../LoadingIndicator/LoadingIndicator";
 import logoBlack from '../../assets/images/logo-black.png';
 import { InstallAppButton, ThemeSwitch } from "./Icons";
+import { useMobile } from "../../utils";
 import { HTMLAttributes } from "react";
 import clsx from "clsx";
 
@@ -56,6 +57,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
             strokeWidthIndicator = "10",
             ...props
         }, ref) => {
+        const mobile = useMobile();
         const [isOpen, setIsOpen] = useState(false);
         const [isMenuOpen, setIsMenuOpen] = useState(false);
         const [indicator, setIndicator] = useState(false);
@@ -138,10 +140,10 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
         }, [isMenuOpen]);
 
         return (
-            <nav ref={ref} {...props} className={`fixed top-0 left-0 right-0 z-10 ${variantStyles[variant]}`}>
-                <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-                    <div className="relative flex h-16 items-center justify-between">
-                        <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+            <nav ref={ref} {...props} style={{ zIndex: 9999, position: "fixed", top: "0px", left: "0px", right: "0px" }} className={`${variantStyles[variant]}`}>
+                <div style={{ marginLeft: "auto", marginRight: "auto", maxWidth: "80rem", paddingLeft: !mobile ? "1.5rem" : "0.5rem", paddingRight: !mobile ? "1.5rem" : "0.5rem" }}>
+                    <div style={{ position: "relative", display: "flex", height: "4rem", alignItems: "center", justifyContent: "space-between" }}>
+                        <div style={{ position: "absolute", top: "0px", bottom: "0px", left: "0px", display: !mobile ? "none" : "flex", alignItems: "center" }}>
                             <button className={`menu ${isOpen ? (variant === 'secondary' ? 'openedark' : 'opened') : ''}`} onClick={toggle} aria-label="Main Menu">
                                 <svg width="45" height="45" viewBox="0 0 100 100" style={{ fill: "#f9f8f8 !important" }}>
                                     <path className={variant === 'secondary' ? 'linedark linedark1' : "line line1"} d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
@@ -150,7 +152,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                 </svg>
                             </button>
                         </div>
-                        <div className="flex flex-1 items-center justify-center sm:items-start sm:justify-start">
+                        <div style={{ display: "flex", flex: "1 1 0%", alignItems: "center", justifyContent: mobile ? "center" : "stretch" }}>
                             <div className="flex flex-shrink-0 items-center" style={{ flexDirection: 'column' }}>
                                 <img
                                     alt="logo"
@@ -170,7 +172,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                     </div>
                                 )}
                             </div>
-                            <div className="hidden sm:ml-6 sm:block">
+                            <div style={{ display: mobile ? "none" : "block", flexGrow: 1, marginLeft: "1.5rem" }}>
                                 <div className={`flex space-x-4 ${logo && logo.trim() !== '' ? 'mt-0' : 'mt-2'}`}>
                                     {list.map((nav, index) => (
                                         <div key={index} className="relative group">
@@ -254,7 +256,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                             {InstallApp && <InstallAppButton variant={variant} onClick={toggeInstallApp} />}
                             {theme && <ThemeSwitch variant={variant} toggleTheme={toggleTheme} />}
                             {user ? (
-                                <div className="relative ml-3 hidden sm:block">
+                                <div style={{ position: "relative", display: mobile ? "none" : "block", marginLeft: "0.75rem" }}>
                                     <div>
                                         <button
                                             type="button"
@@ -316,7 +318,8 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                 login ?
                                     <button
                                         type="button"
-                                        className={clsx(`items-center justify-center px-4 py-2 text-sm cursor-pointer hidden sm:block 
+                                        style={{ display: mobile ? "none" : "block", cursor: "pointer" }}
+                                        className={clsx(`items-center justify-center px-4 py-2 text-sm 
                                             ${hoverStyles[variant]} 
                                             rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2`,
                                             activeRoute === "/login" ? activeRouterBgStyles[variant] : "",
@@ -337,7 +340,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                     </div>
                 </div>
                 {isOpen && (
-                    <div className="sm:hidden px-2 pt-2 pb-3 space-y-1">
+                    <div style={{ display: mobile ? "" : "none" }} className="px-2 pt-2 pb-3 space-y-1">
                         {list.map((item, index) => (
                             <div key={index}>
                                 <button

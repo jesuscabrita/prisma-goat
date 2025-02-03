@@ -185,8 +185,8 @@ export const Footer = forwardRef<HTMLElement, PropsWithChildren<FooterProps>>(
                         </div>
                     </div>
                 </div>
-                <div className={`${bgStylesFooter[variant]} py-4 flex flex-col items-center`}>
-                    <p className={`text-xs text-white`}>{`© ${company}. TODOS LOS DERECHOS RESERVADOS.`}</p>
+                <div style={{ paddingTop: "1rem", paddingBottom: "1rem", display: "flex", flexDirection: "column", alignItems: "center" }} className={`${bgStylesFooter[variant]}`}>
+                    <p style={{ fontSize: "10px" }} className={`text-white`}>{`© ${company}. TODOS LOS DERECHOS RESERVADOS.`}</p>
                     <a href="https://goatdata.com.ar/" target="_blank" rel="noopener noreferrer" className="mt-2 flex items-center">
                         <span className={`text-xs text-white underline`}>Diseñado y desarrollado por</span>
                         <img src={logoWhite} alt="Goat Data Logo" className="h-2.5 mx-1" />

@@ -31,7 +31,7 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
             handletext4,
             handletext5,
             ...props
-        }
+        }, ref
     ) => {
         const [currentIndex, setCurrentIndex] = useState(0);
         const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -109,14 +109,14 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
 
         return (
             <header
+                ref={ref}
                 {...props}
-                style={{ height }}
-                className="relative w-full overflow-hidden"
+                style={{ height, position: "relative", width: "100%", overflow: "hidden" }}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}>
                 {overlap && (
-                    <div className={`absolute inset-0 flex flex-col items-center justify-center text-center z-20 text-white`}>
+                    <div style={{ position: "absolute", inset: "0px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }} className="text-center z-20 text-white">
                         <MotionTransition>
                             <h1 className="text-3xl md:text-5xl font-bold animate-fade-in-up">
                                 {overlap.text1}
@@ -206,10 +206,6 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
                                     style={{ height }}
                                 />
                             )}
-                            <div
-                                className="absolute inset-0 bg-black bg-opacity-0"
-                                style={{ height }}
-                            ></div>
                         </div>
                     ))}
                 </div>

@@ -1,8 +1,9 @@
 import { forwardRef, PropsWithChildren, useEffect, useRef, useState } from "react";
-import { HTMLAttributes } from "react";
-import { Button } from "../Button/Button";
 import { MotionTransition } from "../MotionTransition/MotionTransition";
+import { GiSoundOff, GiSoundOn } from "react-icons/gi";
 import { Reveal } from "../Reveal/Reveal";
+import { Button } from "../Button/Button";
+import { HTMLAttributes } from "react";
 
 export type VideoHeaderProps = HTMLAttributes<HTMLElement> & {
     videoSrc: string;
@@ -16,7 +17,7 @@ export type VideoHeaderProps = HTMLAttributes<HTMLElement> & {
 };
 
 export const VideoHeader = forwardRef<HTMLElement, PropsWithChildren<VideoHeaderProps>>(
-    ({ videoSrc, height = "400px", explore, overlap, mutedVideo = false, handletext4, handletext5, variant = "vividPink", ...props }) => {
+    ({ videoSrc, height = "400px", explore, overlap, mutedVideo = true, handletext4, handletext5, variant = "vividPink", ...props }, ref) => {
         const videoRef = useRef<HTMLVideoElement | null>(null);
         const [muted, setMuted] = useState(mutedVideo);
 
@@ -66,7 +67,7 @@ export const VideoHeader = forwardRef<HTMLElement, PropsWithChildren<VideoHeader
         };
 
         return (
-            <header {...props} className="relative w-full overflow-hidden" style={{ height }}>
+            <header ref={ref} {...props} style={{ height, position: "relative", width: "100%", overflow: "hidden" }}>
                 <video
                     ref={videoRef}
                     src={videoSrc}
@@ -75,9 +76,9 @@ export const VideoHeader = forwardRef<HTMLElement, PropsWithChildren<VideoHeader
                     loop
                     playsInline
                     onCanPlay={handleCanPlay}
-                    className="absolute inset-0 w-full h-full object-cover"
+                    style={{ position: "absolute", inset: "0px", width: "100%", height: "100%", objectFit: "cover" }}
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+                <div className="video-header"></div>
                 {overlap && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20 text-white">
                         <MotionTransition>
@@ -109,11 +110,8 @@ export const VideoHeader = forwardRef<HTMLElement, PropsWithChildren<VideoHeader
                         </div>
                     </div>
                 )}
-                <button
-                    onClick={() => setMuted(!muted)}
-                    className="absolute z-30 bottom-8 right-8 bg-white bg-opacity-30 p-3 rounded-full backdrop-blur-md hover:bg-opacity-50 transition"
-                >
-                    {muted ? "🔇" : "🔊"}
+                <button onClick={() => setMuted(!muted)} className="opacitySound backdrop-blur-md">
+                    {muted ? <GiSoundOff size={25} color="#d4d3d3" /> : <GiSoundOn size={25} color="#d4d3d3" />}
                 </button>
                 {explore?.content && (
                     <div className="absolute z-20 bottom-8 left-1/2 transform -translate-x-1/2 pointer-events-auto">

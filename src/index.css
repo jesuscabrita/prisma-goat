@@ -156,3 +156,22 @@ body {
 #large-header {
     z-index: 1;
 }
+
+.video-header {
+    position: absolute;
+    inset: 0px;
+    --tw-bg-opacity: 1;
+    background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1)) /* #000000 */;
+    --tw-bg-opacity: 0.5;
+}
+
+.opacitySound{
+    position: absolute;
+    z-index: 30;
+    background: #8a898954;
+    bottom: 2rem;
+    right: 2rem;
+    --tw-bg-opacity: 0.1;
+    padding: 0.75rem;
+    border-radius: 9999px;
+}

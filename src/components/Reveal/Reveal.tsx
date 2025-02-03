@@ -17,9 +17,17 @@ export const Reveal = forwardRef<HTMLDivElement, PropsWithChildren<RevealProps>>
             duration = 0.5,
             delay = 0.5,
             ...props
-        }) => {
-        const ref = useRef(null);
-        const isInView = useInView(ref, { once: false });
+        }, ref) => {
+        const innerRef = useRef<HTMLDivElement | null>(null);
+        const combinedRef = (node: HTMLDivElement) => {
+            innerRef.current = node;
+            if (typeof ref === 'function') {
+                ref(node);
+            } else if (ref) {
+                (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+            }
+        };
+        const isInView = useInView(innerRef, { once: false });
         const mainControls = useAnimation();
         const slideControls = useAnimation();
 
@@ -38,14 +46,13 @@ export const Reveal = forwardRef<HTMLDivElement, PropsWithChildren<RevealProps>>
 
         useEffect(() => {
             if (isInView) {
-                mainControls.start("visible")
-                slideControls.start("visible")
+                mainControls.start("visible");
+                slideControls.start("visible");
             }
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [isInView])
+        }, [isInView, mainControls, slideControls]);
 
         return (
-            <div ref={ref} {...props} className="relative overflow-hidden w-fit">
+            <div ref={combinedRef} {...props} className="relative overflow-hidden w-fit">
                 <motion.div
                     variants={{
                         hidden: { opacity: 0, y: 75 },
