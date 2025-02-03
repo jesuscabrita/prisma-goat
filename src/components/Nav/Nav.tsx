@@ -22,7 +22,7 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
             heightLogo = "40px",
             widthLogo = "65px",
             ...props
-        }, ref) => {
+        }) => {
         const [isOpen, setIsOpen] = useState(false);
         const [position, setPosition] = useState<DOMRect | undefined>(undefined);
         const [currentView] = useState<string>('');
@@ -102,7 +102,7 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
         };
 
         return (
-            <nav style={{ zIndex: 9999 }} ref={ref} {...props} className={`fixed top-0 left-0 right-0 z-10 ${bgStyles[variant]} bg-opacity-75`}>
+            <nav style={{ zIndex: 9999 }} {...props} className={`fixed top-0 left-0 right-0 z-10 ${bgStyles[variant]} bg-opacity-75`}>
                 <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                     <motion.div
                         style={{ background: buttonStyle[variant] }}

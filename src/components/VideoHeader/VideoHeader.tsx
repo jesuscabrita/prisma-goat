@@ -16,7 +16,7 @@ export type VideoHeaderProps = HTMLAttributes<HTMLElement> & {
 };
 
 export const VideoHeader = forwardRef<HTMLElement, PropsWithChildren<VideoHeaderProps>>(
-    ({ videoSrc, height = "400px", explore, overlap, mutedVideo = false, handletext4, handletext5, variant = "vividPink", ...props }, ref) => {
+    ({ videoSrc, height = "400px", explore, overlap, mutedVideo = false, handletext4, handletext5, variant = "vividPink", ...props }) => {
         const videoRef = useRef<HTMLVideoElement | null>(null);
         const [muted, setMuted] = useState(mutedVideo);
 
@@ -66,7 +66,7 @@ export const VideoHeader = forwardRef<HTMLElement, PropsWithChildren<VideoHeader
         };
 
         return (
-            <header ref={ref} {...props} className="relative w-full overflow-hidden" style={{ height }}>
+            <header {...props} className="relative w-full overflow-hidden" style={{ height }}>
                 <video
                     ref={videoRef}
                     src={videoSrc}

@@ -1,4 +1,5 @@
 import "./index.css";
+import "tailwindcss/tailwind.css";
 export { Button } from "./components/Button/Button";
 export { Navbar } from "./components/Navbar/Navbar";
 export { LoadingIndicator } from "./components/LoadingIndicator/LoadingIndicator";

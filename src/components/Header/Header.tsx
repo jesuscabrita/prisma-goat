@@ -1,7 +1,7 @@
 import { forwardRef, PropsWithChildren, useEffect, useRef, useState } from "react";
+import { MotionTransition } from "../MotionTransition/MotionTransition";
 import { HTMLAttributes } from "react";
 import { Button } from "../Button/Button";
-import { MotionTransition } from "../MotionTransition/MotionTransition";
 import { Reveal } from "../Reveal/Reveal";
 
 export type HeaderProps = HTMLAttributes<HTMLElement> & {
@@ -31,7 +31,7 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
             handletext4,
             handletext5,
             ...props
-        }, ref
+        }
     ) => {
         const [currentIndex, setCurrentIndex] = useState(0);
         const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -81,7 +81,7 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
 
         if (!images || images.length === 0) {
             return (
-                <header ref={ref} {...props} className="relative w-full overflow-hidden" style={{ height }} >
+                <header {...props} className="relative w-full overflow-hidden" style={{ height }} >
                     <p className="text-center text-gray-500">No hay imágenes para mostrar</p>
                 </header>
             );
@@ -109,7 +109,6 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
 
         return (
             <header
-                ref={ref}
                 {...props}
                 style={{ height }}
                 className="relative w-full overflow-hidden"
