@@ -9,7 +9,7 @@ export type AlertProps = {
 };
 
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(
-    ({ type = "success", message, duration = 5500 }, ref) => {
+    ({ type = "success", message, duration = 5500, ...props }, ref) => {
         const [visible, setVisible] = useState(true);
         const [isExiting, setIsExiting] = useState(false);
         const [animateProgress, setAnimateProgress] = useState(false);
@@ -48,9 +48,10 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
         return (
             <div
                 ref={ref}
+                {...props}
                 className={`fixed top-5 right-5 z-50 flex items-center gap-3 p-4 rounded-lg shadow-lg text-white bg-opacity-90 transition-transform transform ${isExiting ? "animate-slide-out" : "animate-slide-in"
                     } max-w-sm w-full`}
-                style={{ backgroundColor: colors[type].bg }}
+                style={{ backgroundColor: colors[type].bg, zIndex: 10000 }}
             >
                 {icons[type]}
                 <span className="flex-1 break-words">{message}</span>
