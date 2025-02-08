@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useState } from "react";
 import { FiCheckCircle, FiXCircle, FiInfo, FiAlertTriangle } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
+import { useMobile } from "../../utils";
 
 export type AlertProps = {
     type: "success" | "error" | "info" | "warning";
@@ -10,6 +11,7 @@ export type AlertProps = {
 
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(
     ({ type = "success", message, duration = 5500, ...props }, ref) => {
+        const mobile = useMobile();
         const [visible, setVisible] = useState(true);
         const [isExiting, setIsExiting] = useState(false);
         const [animateProgress, setAnimateProgress] = useState(false);
@@ -49,8 +51,10 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
             <div
                 ref={ref}
                 {...props}
-                className={`fixed top-5 right-5 z-50 flex items-center gap-3 p-4 rounded-lg shadow-lg text-white bg-opacity-90 transition-transform transform ${isExiting ? "animate-slide-out" : "animate-slide-in"
-                    } max-w-sm w-full`}
+                className={`fixed top-5 right-5 z-50 flex items-center gap-3 
+                    ${mobile ? "max-w-xs p-3 text-sm" : "max-w-sm p-4"} 
+                    rounded-lg shadow-lg text-white bg-opacity-90 transition-transform transform 
+                    ${isExiting ? "animate-slide-out" : "animate-slide-in"}`}
                 style={{ backgroundColor: colors[type].bg, zIndex: 10000 }}
             >
                 {icons[type]}
