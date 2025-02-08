@@ -2,6 +2,7 @@ import { activeRouterBgStyles, border2Styles, borderStyles, focusStyles, hoverSt
 import { forwardRef, PropsWithChildren, useEffect, useRef, useState } from "react";
 import { LoadingIndicator } from "../LoadingIndicator/LoadingIndicator";
 import logoBlack from '../../assets/images/logo-black.png';
+import logoWhite from "../../assets/images/logogoatblanco.png"
 import { InstallAppButton, ThemeSwitch } from "./Icons";
 import { useMobile } from "../../utils";
 import { HTMLAttributes } from "react";
@@ -158,13 +159,13 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                     alt="logo"
                                     className="block w-auto lg:hidden"
                                     style={{ height: heightLogo && heightLogo.trim() !== '' ? heightLogo : '40px', width: widthLogo && widthLogo.trim() !== '' ? widthLogo : '65px' }}
-                                    src={logo && logo.trim() !== '' ? logo : (variant === 'secondary' ? logoBlack : 'https://goatdata.com.ar/images/logogoatblanco.png')}
+                                    src={logo && logo.trim() !== '' ? logo : (variant === 'secondary' ? logoBlack : logoWhite)}
                                 />
                                 <img
                                     alt="logo"
                                     className="hidden lg:block"
                                     style={{ height: heightLogo && heightLogo.trim() !== '' ? heightLogo : '40px', width: widthLogo && widthLogo.trim() !== '' ? widthLogo : '65px' }}
-                                    src={logo && logo.trim() !== '' ? logo : (variant === 'secondary' ? logoBlack : 'https://goatdata.com.ar/images/logogoatblanco.png')}
+                                    src={logo && logo.trim() !== '' ? logo : (variant === 'secondary' ? logoBlack : logoWhite)}
                                 />
                                 {(!logo || logo.trim() === '') && (
                                     <div className={`${textStyles[variant]}`} style={{ fontSize: '10px', letterSpacing: '4px' }}>
