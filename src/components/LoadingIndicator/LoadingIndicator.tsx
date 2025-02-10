@@ -65,7 +65,7 @@ export const LoadingIndicator = forwardRef<HTMLDivElement, LoadingIndicatorProps
             <div
                 ref={ref}
                 {...props}
-                className={`fixed flex justify-center items-center top-0 left-0 right-0 bottom-0 ${backgroundStyles[background]} bg-opacity-60 z-[1201]`}
+                className={`fixed flex justify-center items-center top-0 left-0 right-0 bottom-0 ${backgroundStyles[background]} bg-opacity-50 z-[1201]`}
             >
                 <svg
                     width="110"

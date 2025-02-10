@@ -160,7 +160,6 @@ body {
 .video-header {
     position: absolute;
     inset: 0px;
-    --tw-bg-opacity: 1;
     background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1)) /* #000000 */;
     --tw-bg-opacity: 0.5;
 }
