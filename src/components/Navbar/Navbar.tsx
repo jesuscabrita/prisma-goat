@@ -157,13 +157,13 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                             <div className="flex flex-shrink-0 items-center" style={{ flexDirection: 'column' }}>
                                 <img
                                     alt="logo"
-                                    className="block w-auto lg:hidden"
+                                    className={`${mobile ? "hidden" :"block"}`}
                                     style={{ height: heightLogo && heightLogo.trim() !== '' ? heightLogo : '40px', width: widthLogo && widthLogo.trim() !== '' ? widthLogo : '65px' }}
                                     src={logo && logo.trim() !== '' ? logo : (variant === 'secondary' ? logoBlack : logoWhite)}
                                 />
                                 <img
                                     alt="logo"
-                                    className="hidden lg:block"
+                                    className={`${!mobile ? "hidden" :"block"}`}
                                     style={{ height: heightLogo && heightLogo.trim() !== '' ? heightLogo : '40px', width: widthLogo && widthLogo.trim() !== '' ? widthLogo : '65px' }}
                                     src={logo && logo.trim() !== '' ? logo : (variant === 'secondary' ? logoBlack : logoWhite)}
                                 />
