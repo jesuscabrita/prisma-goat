@@ -1,5 +1,5 @@
-import { SVGProps } from "react";
 import { AiOutlineDownload } from "react-icons/ai";
+import { SVGProps } from "react";
 
 export const MoonIcon = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
     return (
@@ -48,15 +48,6 @@ export const ThemeSwitch = ({
     variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
     light?: boolean;
 }) => {
-    // const [isSelected, setIsSelected] = useState(light);
-
-    // const handleToggle = () => {
-    //     setIsSelected((prev) => !prev);
-    //     if (toggleTheme) {
-    //         toggleTheme();
-    //     }
-    // };
-
     const bgColor = light
         ? variant === "secondary" || variant === "vividPink" || variant === "success" || variant === "danger" || variant === "warning"
             ? "bg-[#222f4e] hover:bg-[#1a243d]"
