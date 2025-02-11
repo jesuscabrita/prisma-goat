@@ -19,8 +19,10 @@ export type NavbarProps = HTMLAttributes<HTMLElement> & {
     heightLogo?: string;
     widthLogo?: string;
     activeRoute?: string;
-    toggleTheme?: () => void;
-    toggeInstallApp?: () => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    toggleTheme?: (e?: any) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    toggeInstallApp?: (e?: any) => void;
     theme?: boolean;
     InstallApp?: boolean;
     login?: boolean;
@@ -30,6 +32,7 @@ export type NavbarProps = HTMLAttributes<HTMLElement> & {
     imgLoadingIndicator?: string;
     strokeWidthIndicator?: "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13" | "14";
     handleLogout?: () => void;
+    light?:boolean;
 };
 
 export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
@@ -56,6 +59,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
             logoGoatDataIndicator = "logoRed",
             imgLoadingIndicator = "",
             strokeWidthIndicator = "10",
+            light = false,
             ...props
         }, ref) => {
         const mobile = useMobile();
@@ -255,7 +259,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                         </div>
                         <div className="absolute inset-y-0 right-0 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 flex space-x-2">
                             {InstallApp && <InstallAppButton variant={variant} onClick={toggeInstallApp} />}
-                            {theme && <ThemeSwitch variant={variant} toggleTheme={toggleTheme} />}
+                            {theme && <ThemeSwitch light={light} variant={variant} toggleTheme={toggleTheme} />}
                             {user ? (
                                 <div style={{ position: "relative", display: mobile ? "none" : "block", marginLeft: "0.75rem" }}>
                                     <div>

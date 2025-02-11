@@ -1,4 +1,4 @@
-import { SVGProps, useState } from "react";
+import { SVGProps } from "react";
 import { AiOutlineDownload } from "react-icons/ai";
 
 export const MoonIcon = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
@@ -41,20 +41,23 @@ export const SunIcon = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
 export const ThemeSwitch = ({
     toggleTheme,
     variant,
+    light = false,
 }: {
-    toggleTheme?: () => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    toggleTheme?: (e?: any) => void;
     variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
+    light?: boolean;
 }) => {
-    const [isSelected, setIsSelected] = useState(false);
+    // const [isSelected, setIsSelected] = useState(light);
 
-    const handleToggle = () => {
-        setIsSelected((prev) => !prev);
-        if (toggleTheme) {
-            toggleTheme();
-        }
-    };
+    // const handleToggle = () => {
+    //     setIsSelected((prev) => !prev);
+    //     if (toggleTheme) {
+    //         toggleTheme();
+    //     }
+    // };
 
-    const bgColor = isSelected
+    const bgColor = light
         ? variant === "secondary" || variant === "vividPink" || variant === "success" || variant === "danger" || variant === "warning"
             ? "bg-[#222f4e] hover:bg-[#1a243d]"
             : "bg-[#2e5c95] hover:bg-[#2e5c95b6]"
@@ -65,10 +68,10 @@ export const ThemeSwitch = ({
     return (
         <div className="flex flex-col gap-2">
             <button
-                onClick={handleToggle}
+                onClick={toggleTheme}
                 className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors ${bgColor}`}
             >
-                {isSelected ? <SunIcon /> : <MoonIcon />}
+                {light ? <SunIcon /> : <MoonIcon />}
             </button>
         </div>
     );
