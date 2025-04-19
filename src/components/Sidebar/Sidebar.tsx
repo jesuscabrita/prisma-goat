@@ -29,6 +29,7 @@ export type SidebarProps = HTMLAttributes<HTMLDivElement> & {
     handleLogout?: () => void;
     toggleTheme?: () => void;
     toggeInstallApp?: () => void;
+    handleTogge?:()=> void;
     variantIndicator?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
     backgroundIndicator?: "black" | "white";
     logoGoatDataIndicator?: "logoRed" | "logoBlack" | "logo6" | "logoMagenta" | "logoWhite";
@@ -59,6 +60,7 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
             handleLogout,
             toggleTheme,
             toggeInstallApp,
+            handleTogge,
             ...props
         },
         ref) => {
@@ -72,6 +74,9 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
         const handleMenuClose = () => setIsMenuOpen(false);
 
         const toggleSidebar = () => {
+            if (handleTogge) {
+                handleTogge()
+            }
             setIsOpen((prevState) => !prevState)
         }
 
