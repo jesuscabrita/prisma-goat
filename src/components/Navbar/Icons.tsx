@@ -45,7 +45,7 @@ export const ThemeSwitch = ({
 }: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     toggleTheme?: (e?: any) => void;
-    variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
+    variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "pikaros";
     light?: boolean;
 }) => {
     const bgColor = light
@@ -72,15 +72,17 @@ export const InstallAppButton = ({
     variant,
     onClick,
 }: {
-    variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
+    variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "pikaros";
     onClick?: () => void;
 }) => {
     const bgColor =
-        variant === "secondary" || variant === "vividPink" || variant === "success" || variant === "danger" || variant === "warning" || variant === 'darkMagenta'
+        variant === "secondary" || variant === "vividPink" || variant === "success" || variant === "danger" || variant === "warning" || variant === "darkMagenta"
             ? "bg-[#222f4e] hover:bg-[#1a243d]"
-            : (variant === "primary" || variant === 'veryDarkViolet')
+            : variant === "primary" || variant === "veryDarkViolet"
                 ? "bg-[#2e5c95] hover:bg-[#2e5c95b6]"
-                : "bg-gray-100 hover:bg-gray-200";
+                : variant === "pikaros"
+                    ? "bg-orange-300 hover:bg-orange-400"
+                    : "bg-gray-100 hover:bg-gray-200"
     return (
         <div className="flex flex-col gap-2">
             <button

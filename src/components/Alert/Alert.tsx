@@ -55,7 +55,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
                     ${mobile ? "max-w-xs p-3 text-sm" : "max-w-sm p-4"} 
                     rounded-lg shadow-lg text-white bg-opacity-90 transition-transform transform 
                     ${isExiting ? "animate-slide-out" : "animate-slide-in"}`}
-                style={{ backgroundColor: colors[type].bg, zIndex: 10000 }}
+                style={{ backgroundColor: colors[type].bg, zIndex: 999999 }}
             >
                 {icons[type]}
                 <span className="flex-1 break-words">{message}</span>

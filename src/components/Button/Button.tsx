@@ -21,7 +21,7 @@ import React from "react";
 import clsx from "clsx";
 
 export type ButtonProps = {
-    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "tertiary" | "experiences";
+    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "tertiary" | "experiences" | "strenger";
     size?: "small" | "medium" | "large";
     isLoading?: boolean;
     loadingPosition?: "left" | "right";
@@ -72,13 +72,14 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProp
             success: "bg-[#047857] hover:bg-[#065f46] focus:ring-[#047857] focus:border-[#047857]",
             tertiary: "bg-[#d4d3d3] border-2 hover:border-[#374151] focus:ring-[#1F2937] focus:border-[#1F2937]",
             experiences: "bg-[#a8dbce] hover:bg-[#b7dad1] focus:ring-[#a8dbce] focus:border-[#a8dbce]",
+            strenger: "bg-[#779eb0] hover:bg-[#9aaeb8] focus:ring-[#779eb0] focus:border-[#779eb0]"
         };
 
         const sizeStyles = {
             small: "px-4 py-1.5 text-xs",
             medium: "px-6 py-2.5 text-base",
             large: "px-8 py-3 text-lg",
-        };
+        }
 
         const defaultIcon = () => {
             if (iconType === "home") return <AiOutlineHome className="w-5 h-5" />;

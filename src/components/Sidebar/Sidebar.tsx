@@ -2,17 +2,18 @@ import { activeRouterBgStyles, border2Styles, borderStyles, bottonArrow, focusSt
 import { forwardRef, HTMLAttributes, useEffect, useRef, useState } from "react";
 import { LoadingIndicator } from "../LoadingIndicator/LoadingIndicator";
 import { InstallAppButton, ThemeSwitch } from "../Navbar/Icons";
-import logoBlackMin from '../../assets/images/LogoBlack.png';
-import logoWhite from '../../assets/images/LogosWhite.png';
-import logoBlack from '../../assets/images/logo-black.png';
 import { FaCircleArrowRight } from "react-icons/fa6";
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import { CiMenuKebab } from "react-icons/ci";
 import { IconType } from "react-icons";
+import LogoWhiteSize from "../../assets/images/logogoatblanco.png"
+import logoBlackMin from '../../assets/images/LogoBlack.png';
+import logoWhite from '../../assets/images/LogosWhite.png';
+import logoBlack from '../../assets/images/logo-black.png';
 import clsx from "clsx";
 
 export type SidebarProps = HTMLAttributes<HTMLDivElement> & {
-    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
+    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "pikaros";
     list?: Array<{ label: string, description: string, link: string, image: string, icon?: IconType, subItems: { label: string, link: string }[] }>;
     className?: string;
     logo?: string;
@@ -130,13 +131,13 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                         alt="logo"
                         className="block w-auto lg:hidden"
                         style={{ height: heightLogo && heightLogo.trim() !== '' ? heightLogo : '40px', width: widthLogo && widthLogo.trim() !== '' ? widthLogo : '65px' }}
-                        src={logo && logo.trim() !== '' ? logo : (variant === 'secondary' ? logoBlack : 'https://goatdata.com.ar/images/logogoatblanco.png')}
+                        src={logo && logo.trim() !== '' ? logo : (variant === 'secondary' ? logoBlack : LogoWhiteSize)}
                     />
                     <img
                         alt="logo"
                         className="hidden lg:block"
                         style={{ height: heightLogo && heightLogo.trim() !== '' ? heightLogo : (isOpen ? '70px' : ''), width: widthLogo && widthLogo.trim() !== '' ? widthLogo : (isOpen ? '110px' : "40px") }}
-                        src={logo && logo.trim() !== '' ? logo : (variant === 'secondary' ? (isOpen ? logoBlack : logoBlackMin) : (isOpen ? 'https://goatdata.com.ar/images/logogoatblanco.png' : logoWhite))}
+                        src={logo && logo.trim() !== '' ? logo : (variant === 'secondary' ? (isOpen ? logoBlack : logoBlackMin) : (isOpen ? LogoWhiteSize : logoWhite))}
                     />
                     {(!logo || logo.trim() === '') && (
                         <div className={`${textStyles[variant]} ${!isOpen ? "lock w-auto lg:hidden" : ""}`} style={{ fontSize: isOpen ? "12px" : '8px', letterSpacing: '4px' }}>
@@ -174,14 +175,15 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                                                 variant === "veryDarkViolet" ||
                                                 variant === "success"
                                                 ? "text-custom-red"
-                                                : "text-custom-blue"
+                                                : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue")
                                             : variant === "primary" ||
                                                 variant === "vividPink" ||
                                                 variant === "darkMagenta" ||
                                                 variant === "veryDarkViolet" ||
                                                 variant === "danger" ||
                                                 variant === "warning" ||
-                                                variant === "success"
+                                                variant === "success" ||
+                                                variant === "pikaros"
                                                 ? "text-white"
                                                 : "text-custom-blue",
                                         activeRoute === nav.link ? "font-semibold" : "font-normal"
@@ -253,14 +255,15 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                                                                 variant === "veryDarkViolet" ||
                                                                 variant === "success"
                                                                 ? "text-custom-red"
-                                                                : "text-custom-blue"
+                                                                : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue")
                                                             : variant === "primary" ||
                                                                 variant === "vividPink" ||
                                                                 variant === "darkMagenta" ||
                                                                 variant === "veryDarkViolet" ||
                                                                 variant === "danger" ||
                                                                 variant === "warning" ||
-                                                                variant === "success"
+                                                                variant === "success" ||
+                                                                variant === "pikaros"
                                                                 ? "text-white"
                                                                 : "text-custom-blue",
                                                         activeRoute === subItem.link ? "font-semibold" : "font-normal"
@@ -293,14 +296,15 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                                                                 variant === "veryDarkViolet" ||
                                                                 variant === "success"
                                                                 ? "text-custom-red"
-                                                                : "text-custom-blue"
+                                                                : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue")
                                                             : variant === "primary" ||
                                                                 variant === "vividPink" ||
                                                                 variant === "darkMagenta" ||
                                                                 variant === "veryDarkViolet" ||
                                                                 variant === "danger" ||
                                                                 variant === "warning" ||
-                                                                variant === "success"
+                                                                variant === "success" ||
+                                                                variant === "pikaros"
                                                                 ? "text-white"
                                                                 : "text-custom-blue",
                                                         activeRoute === subItem.link ? "font-semibold" : "font-normal"
@@ -365,8 +369,8 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                                                 activeRoute === item.link
                                                     ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
                                                         ? 'text-custom-red'
-                                                        : 'text-custom-blue')
-                                                    : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
+                                                        : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue"))
+                                                    : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success' || variant === "pikaros") ? 'text-white' : 'text-custom-blue'),
                                                 activeRoute === item.link ? 'font-semibold' : 'font-normal'
                                             )}
                                             onClick={item.label === 'Cerrar sesion' ? handleLogout : () => { handleListMenuNavigation(item) }}

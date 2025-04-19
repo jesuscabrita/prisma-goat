@@ -7,6 +7,7 @@ export const variantStyles = {
     danger: "bg-[#b91c1c]",
     warning: "bg-[#f59e0b]",
     success: "bg-[#047857]",
+    pikaros: "bg-[#18181B]",
 };
 
 export const focusStyles = {
@@ -18,6 +19,7 @@ export const focusStyles = {
     danger: "focus:ring-white focus:ring-offset-[#b91c1c]",
     warning: "focus:ring-white focus:ring-offset-[#f59e0b]",
     success: "focus:ring-white focus:ring-offset-[#047857]",
+    pikaros:"focus:ring-white focus:ring-offset-[#1F2937]",
 };
 
 export const borderStyles = {
@@ -29,6 +31,7 @@ export const borderStyles = {
     danger: "border-2 border-white",
     warning: "border-2 border-white",
     success: "border-2 border-white",
+    pikaros: "border-2 border-white",
 };
 
 export const border2Styles = {
@@ -40,6 +43,7 @@ export const border2Styles = {
     danger: "white",
     warning: "white",
     success: "white",
+    pikaros: "#FDBA74",
 };
 
 export const textStyles = {
@@ -51,6 +55,7 @@ export const textStyles = {
     danger: "text-white",
     warning: "text-white",
     success: "text-white",
+    pikaros: "text-white",
 };
 
 export const hoverStyles = {
@@ -62,6 +67,7 @@ export const hoverStyles = {
     danger: "hover:bg-[#F87171] font-light",
     warning: "hover:bg-[#FBBF24] font-light",
     success: "hover:bg-[#2D6A4F] font-light",
+    pikaros: "hover:bg-[#4B5563] font-light",
 };
 
 export const activeRouterBgStyles = {
@@ -73,6 +79,7 @@ export const activeRouterBgStyles = {
     danger: "bg-[#F87171]",
     warning: "bg-[#FBBF24]",
     success: "bg-[#2D6A4F]",
+    pikaros: "bg-[#4B5563]",
 };
 
 export const bottonArrow = {
@@ -84,4 +91,5 @@ export const bottonArrow = {
     danger: "bg-[#b91c1c] hover:bg-[#cb5a5a]",
     warning: "bg-[#f59e0b] hover:bg-[#ad8a4e]",
     success: "bg-[#047857] hover:bg-[#3fae8f]",
+    pikaros: "bg-[#1F2937] hover:bg-[#435064]",
 }
