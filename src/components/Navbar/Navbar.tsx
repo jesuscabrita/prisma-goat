@@ -32,7 +32,7 @@ export type NavbarProps = HTMLAttributes<HTMLElement> & {
     imgLoadingIndicator?: string;
     strokeWidthIndicator?: "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13" | "14";
     handleLogout?: () => void;
-    light?:boolean;
+    light?: boolean;
 };
 
 export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
@@ -161,13 +161,13 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                             <div className="flex flex-shrink-0 items-center" style={{ flexDirection: 'column' }}>
                                 <img
                                     alt="logo"
-                                    className={`${mobile ? "hidden" :"block"}`}
+                                    className={`${mobile ? "hidden" : "block"}`}
                                     style={{ height: heightLogo && heightLogo.trim() !== '' ? heightLogo : '40px', width: widthLogo && widthLogo.trim() !== '' ? widthLogo : '65px' }}
                                     src={logo && logo.trim() !== '' ? logo : (variant === 'secondary' ? logoBlack : logoWhite)}
                                 />
                                 <img
                                     alt="logo"
-                                    className={`${!mobile ? "hidden" :"block"}`}
+                                    className={`${!mobile ? "hidden" : "block"}`}
                                     style={{ height: heightLogo && heightLogo.trim() !== '' ? heightLogo : '40px', width: widthLogo && widthLogo.trim() !== '' ? widthLogo : '65px' }}
                                     src={logo && logo.trim() !== '' ? logo : (variant === 'secondary' ? logoBlack : logoWhite)}
                                 />
@@ -191,11 +191,24 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                     hoverStyles[variant],
                                                     focusStyles[variant],
                                                     activeRoute === nav.link
-                                                        ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
-                                                            ? 'text-custom-red'
-                                                            : 'text-custom-blue')
-                                                        : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
-                                                    activeRoute === nav.link ? 'font-semibold' : 'font-normal'
+                                                        ? variant === "secondary" ||
+                                                            variant === "primary" ||
+                                                            variant === "darkMagenta" ||
+                                                            variant === "veryDarkViolet" ||
+                                                            variant === "success"
+                                                            ? "text-custom-red"
+                                                            : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue")
+                                                        : variant === "primary" ||
+                                                            variant === "vividPink" ||
+                                                            variant === "darkMagenta" ||
+                                                            variant === "veryDarkViolet" ||
+                                                            variant === "danger" ||
+                                                            variant === "warning" ||
+                                                            variant === "success" ||
+                                                            variant === "pikaros"
+                                                            ? "text-white"
+                                                            : "text-custom-blue",
+                                                    activeRoute === nav.link ? "font-semibold" : "font-normal"
                                                 )}
                                                 onClick={() => handleNavigation(nav, index)}
                                                 onMouseEnter={() => setHovered(index)}
@@ -234,11 +247,24 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                                 hoverStyles[variant] && `${hoverStyles[variant]}`,
                                                                 activeRoute === subItem.link ? activeRouterBgStyles[variant] : "",
                                                                 activeRoute === subItem.link
-                                                                    ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
-                                                                        ? 'text-custom-red'
-                                                                        : 'text-custom-blue')
-                                                                    : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
-                                                                activeRoute === subItem.link ? 'font-semibold' : 'font-normal'
+                                                                    ? variant === "secondary" ||
+                                                                        variant === "primary" ||
+                                                                        variant === "darkMagenta" ||
+                                                                        variant === "veryDarkViolet" ||
+                                                                        variant === "success"
+                                                                        ? "text-custom-red"
+                                                                        : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue")
+                                                                    : variant === "primary" ||
+                                                                        variant === "vividPink" ||
+                                                                        variant === "darkMagenta" ||
+                                                                        variant === "veryDarkViolet" ||
+                                                                        variant === "danger" ||
+                                                                        variant === "warning" ||
+                                                                        variant === "success" ||
+                                                                        variant === "pikaros"
+                                                                        ? "text-white"
+                                                                        : "text-custom-blue",
+                                                                activeRoute === subItem.link ? "font-semibold" : "font-normal"
                                                             )}
                                                             onClick={() => handleSubNavigation(subItem, index)}
                                                         >
@@ -305,11 +331,24 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                         hoverStyles[variant] && `${hoverStyles[variant]}`,
                                                         activeRoute === item.link ? activeRouterBgStyles[variant] : "",
                                                         activeRoute === item.link
-                                                            ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
-                                                                ? 'text-custom-red'
-                                                                : 'text-custom-blue')
-                                                            : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
-                                                        activeRoute === item.link ? 'font-semibold' : 'font-normal'
+                                                            ? variant === "secondary" ||
+                                                                variant === "primary" ||
+                                                                variant === "darkMagenta" ||
+                                                                variant === "veryDarkViolet" ||
+                                                                variant === "success"
+                                                                ? "text-custom-red"
+                                                                : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue")
+                                                            : variant === "primary" ||
+                                                                variant === "vividPink" ||
+                                                                variant === "darkMagenta" ||
+                                                                variant === "veryDarkViolet" ||
+                                                                variant === "danger" ||
+                                                                variant === "warning" ||
+                                                                variant === "success" ||
+                                                                variant === "pikaros"
+                                                                ? "text-white"
+                                                                : "text-custom-blue",
+                                                        activeRoute === item.link ? "font-semibold" : "font-normal"
                                                     )}
                                                     onClick={item.label === 'Cerrar sesion' ? handleLogout : () => { handleListMenuNavigation(item) }}
                                                 >
@@ -329,10 +368,10 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                             rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2`,
                                             activeRoute === "/login" ? activeRouterBgStyles[variant] : "",
                                             activeRoute === "/login"
-                                                ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
-                                                    ? 'text-custom-red'
-                                                    : 'text-custom-blue')
-                                                : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
+                                                ? variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
+                                                    ? "text-custom-red"
+                                                    : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue")
+                                                : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success' || variant === "pikaros") ? 'text-white' : 'text-custom-blue'),
                                             activeRoute === "/login" ? 'font-semibold' : 'font-normal'
                                         )}
                                         onClick={() => { router.push("/login"); handleMenuClose(); }}
@@ -356,10 +395,10 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                             ? activeRouterBgStyles[variant]
                                             : "",
                                         activeRoute === item.link
-                                            ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
-                                                ? 'text-custom-red'
-                                                : 'text-custom-blue')
-                                            : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
+                                            ? variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
+                                                ? "text-custom-red"
+                                                : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue")
+                                            : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success' || variant === "pikaros") ? 'text-white' : 'text-custom-blue'),
                                         activeRoute === item.link ? 'font-semibold' : 'font-normal'
                                     )}
                                     onClick={() => { handleNavigationMobile(item, index) }}
@@ -375,10 +414,10 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                     rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
                                                     activeRoute === subItem.link ? activeRouterBgStyles[variant] : "",
                                                     activeRoute === subItem.link
-                                                        ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
-                                                            ? 'text-custom-red'
-                                                            : 'text-custom-blue')
-                                                        : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
+                                                        ? variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
+                                                            ? "text-custom-red"
+                                                            : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue")
+                                                        : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success' || variant === "pikaros") ? 'text-white' : 'text-custom-blue'),
                                                     activeRoute === subItem.link ? 'font-semibold' : 'font-normal'
                                                 )}
                                                 onClick={() => {
@@ -431,10 +470,10 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                     rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
                                             activeRoute === item.link ? activeRouterBgStyles[variant] : "",
                                             activeRoute === item.link
-                                                ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
-                                                    ? 'text-custom-red'
-                                                    : 'text-custom-blue')
-                                                : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
+                                                ? variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
+                                                    ? "text-custom-red"
+                                                    : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue")
+                                                : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success' || variant === "pikaros") ? 'text-white' : 'text-custom-blue'),
                                             activeRoute === item.link ? 'font-semibold' : 'font-normal'
                                         )}
                                         onClick={item.label === 'Cerrar sesion' ? handleLogout : () => handleListMenuNavigationMobile(item)}
@@ -451,10 +490,10 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                     rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
                                         activeRoute === "/login" ? activeRouterBgStyles[variant] : "",
                                         activeRoute === "/login"
-                                            ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
-                                                ? 'text-custom-red'
-                                                : 'text-custom-blue')
-                                            : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success') ? 'text-white' : 'text-custom-blue'),
+                                            ? variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
+                                                ? "text-custom-red"
+                                                : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue")
+                                            : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success' || variant === "pikaros") ? 'text-white' : 'text-custom-blue'),
                                         activeRoute === "/login" ? 'font-semibold' : 'font-normal'
                                     )}
                                     onClick={() => { router.push("/login"); setIsOpen(false) }}
