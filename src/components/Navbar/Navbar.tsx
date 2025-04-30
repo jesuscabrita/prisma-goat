@@ -9,7 +9,7 @@ import { HTMLAttributes } from "react";
 import clsx from "clsx";
 
 export type NavbarProps = HTMLAttributes<HTMLElement> & {
-    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
+    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "pikaros";
     user?: { name: string; image?: string };
     listMenu?: Array<{ label: string, link: string }>;
     list?: Array<{ label: string, description: string, link: string, image: string, subItems: { label: string, link: string }[] }>;
