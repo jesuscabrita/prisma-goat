@@ -421,7 +421,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                     activeRoute === subItem.link ? 'font-semibold' : 'font-normal'
                                                 )}
                                                 onClick={() => {
-                                                    handleSubNavigation(item, index); setIsOpen(false);
+                                                    handleSubNavigation(subItem, index); setIsOpen(false);
                                                 }}
                                             >
                                                 {subItem.label}
