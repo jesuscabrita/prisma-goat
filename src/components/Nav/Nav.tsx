@@ -110,7 +110,7 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
         };
 
         return (
-            <nav ref={ref} {...props} style={{ zIndex: 9999, position: "fixed", top: "0px", left: "0px", right: "0px" }} className={`${bgStyles[variant]} bg-opacity-75`}>
+            <nav ref={ref} {...props} style={{ zIndex: 9999, position: "fixed", top: "0px", left: "0px", right: "0px" }} className={`${bgStyles[variant]} ${variant === "experiences" ? "bg-opacity-0" : "bg-opacity-75"} `}>
                 <div style={{ marginLeft: "auto", marginRight: "auto", maxWidth: "80rem", paddingLeft: !mobile ? "1.5rem" : "0.5rem", paddingRight: !mobile ? "1.5rem" : "0.5rem" }}>
                     {(variant === "goatData" || variant === "secondary") &&
                         <motion.div
