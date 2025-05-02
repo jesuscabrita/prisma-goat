@@ -1,6 +1,26 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 
-export const ButtonNavbar = ({ children, href, Viewport, colorButton, setIsOpen }: { children: ReactNode, href: string, Viewport: string; colorButton: string; setIsOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
+export const ButtonNavbar = ({
+    children,
+    href,
+    Viewport,
+    colorButton,
+    setIsOpen,
+    routerApp = false,
+    open = false,
+    handleOpen,
+    handleRouter,
+}: {
+    children: ReactNode,
+    href: string,
+    Viewport: string;
+    colorButton: string;
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    routerApp?: boolean;
+    open?: boolean;
+    handleOpen?: () => void;
+    handleRouter?: () => void;
+}) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [currentColor, setCurrentColor] = useState<string>(colorButton);
 
@@ -35,7 +55,8 @@ export const ButtonNavbar = ({ children, href, Viewport, colorButton, setIsOpen 
 
     return (
         <button
-            onClick={handleClick}
+            className="group"
+            onClick={routerApp ? handleRouter : open ? handleOpen : handleClick}
             ref={buttonRef}
             style={{
                 display: "block",
