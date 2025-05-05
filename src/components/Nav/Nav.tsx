@@ -1,3 +1,4 @@
+import { IconEmail, IconInstagram, IconLinkedin, IconoFacebook, IconTickTok, IconWhatsapp } from "../../Icons/Index";
 import { forwardRef, PropsWithChildren, useEffect, useRef, useState } from "react";
 import logogoatblanco from "../../assets/images/logogoatblanco.png"
 import logoBlack from '../../assets/images/logo-black.png';
@@ -40,6 +41,16 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
             return acc;
         }, {} as Record<string, React.RefObject<HTMLDivElement>>);
         const toggle = () => setIsOpen(!isOpen);
+        const [showContactInfo, setShowContactInfo] = useState(true);
+
+        useEffect(() => {
+            const handleScroll = () => {
+                setShowContactInfo(window.scrollY < 50);
+            };
+
+            window.addEventListener("scroll", handleScroll);
+            return () => window.removeEventListener("scroll", handleScroll);
+        }, []);
 
         useEffect(() => {
             items.forEach((item) => {
@@ -109,8 +120,54 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
             experiences: "text-white"
         };
 
+        const handleChatClick = (telf: string) => {
+            const numero = telf;
+            const mensaje = encodeURIComponent('Hola, me gustaría obtener más información sobre las experiencias personalizadas que ofrecen en Experiencias Viajes. Estoy interesado en conocer más sobre sus servicios exclusivos a bordo de embarcaciones de lujo.');
+            const whatsappLink = `https://api.whatsapp.com/send?phone=${numero}&text=${mensaje}`;
+            window.open(whatsappLink, '_blank');
+        };
+
+        const handleCorreoClick = (email: string) => {
+            const correoLink = `mailto:${email}?subject=Solicitud&body=Hola, Necesito más información!`;
+            window.open(correoLink);
+        }
+
+        const openRedes = (description: string) => {
+            window.open(description, '_blank');
+        }
+
         return (
-            <nav ref={ref} {...props} style={{ zIndex: 9999, position: "fixed", top: "0px", left: "0px", right: "0px" }} className={`${bgStyles[variant]} ${variant === "experiences" ? "bg-opacity-0" : "bg-opacity-75"} `}>
+            <nav ref={ref} {...props} style={{ zIndex: 9999, position: "fixed", top: "0px", left: "0px", right: "0px" }} className={`${bgStyles[variant]} ${variant === "experiences" ? "" : "bg-opacity-75"} `}>
+                {variant === "experiences" && showContactInfo && (
+                    <div className="bg-[#F2AE87] text-white transition-all duration-300">
+                        <div className={`flex ${mobile ? "flex-col items-end" : "flex-row items-center"} justify-around gap-4 px-4 py-2 text-sm`}>
+                            {!mobile && (
+                                <div className="flex items-center gap-6">
+                                    <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleChatClick("+5491140999887")}  >
+                                        <IconWhatsapp />
+                                        <span>+54 114099-9887</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleCorreoClick("experiencias.viajes.arg@gmail.com")} >
+                                        <IconEmail />
+                                        <span>experiencias.viajes.arg@gmail.com</span>
+                                    </div>
+                                </div>
+                            )}
+                            <div style={{ paddingRight: mobile ? "40px" : "" }} className="flex gap-2 mt-2 sm:mt-0" >
+                                <div onClick={() => { openRedes("https://www.instagram.com/experienciasviajes.arg/") }}>
+                                    <IconInstagram />
+                                </div>
+                                <div onClick={() => { openRedes("https://www.facebook.com/experienciasviajes.arg/") }}>
+                                    <IconoFacebook />
+                                </div>
+                                <IconTickTok />
+                                <div onClick={() => { openRedes("https://www.linkedin.com/in/experienciasviajes-arg-by-maria-cian-0b075014/") }}>
+                                    <IconLinkedin />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 <div style={{ marginLeft: "auto", marginRight: "auto", maxWidth: "80rem", paddingLeft: !mobile ? "1.5rem" : "0.5rem", paddingRight: !mobile ? "1.5rem" : "0.5rem" }}>
                     {(variant === "goatData" || variant === "secondary") &&
                         <motion.div
@@ -163,8 +220,8 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                                                     setIsOpen={setIsOpen}
                                                     open={open}
                                                     routerApp={routerApp}
-                                                    handleOpen={handleOpenItem}
-                                                    handleRouter={() => { router.push(link) }}
+                                                    handleOpen={() => { handleOpenItem?.(); setIsOpen(false); }}
+                                                    handleRouter={() => { router.push(link); setIsOpen(false); }}
                                                 >
                                                     <div
                                                         id={refId}
@@ -196,7 +253,7 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                     </div>
                 </div>
                 {isOpen && (
-                    <div style={{ display: (variant === "experiences" && mobile) ? "flex" : "", flexDirection: "column", alignItems: "start", marginLeft: (variant === "experiences" && mobile) ? "50%" : "" }} className="space-y-1 px-2 pt-2 pb-3">
+                    <div style={{ display: (variant === "experiences" && mobile) ? "flex" : "", flexDirection: "column", alignItems: "end", }} className="space-y-1 px-2 pt-2 pb-3">
                         {items.map(({ label, href, open, routerApp, link }) => (
                             <ButtonNavbar
                                 key={href}
@@ -206,10 +263,11 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                                 setIsOpen={setIsOpen}
                                 open={open}
                                 routerApp={routerApp}
-                                handleOpen={handleOpenItem}
-                                handleRouter={() => { router.push(link) }}
+                                handleOpen={() => { handleOpenItem?.(); setIsOpen(false); }}
+                                handleRouter={() => { router.push(link); setIsOpen(false); }}
                             >
                                 <div
+                                    style={{ whiteSpace: "nowrap" }}
                                     className={`
                                         relative inline-block px-2 py-1
                                         text-[${colorButtonStyle[variant]}]
