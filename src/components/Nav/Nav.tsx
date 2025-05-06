@@ -1,5 +1,6 @@
 import { IconEmail, IconInstagram, IconLinkedin, IconoFacebook, IconTickTok, IconWhatsapp } from "../../Icons/Index";
 import { forwardRef, PropsWithChildren, useEffect, useRef, useState } from "react";
+import { LoadingIndicator } from "../LoadingIndicator/LoadingIndicator";
 import logogoatblanco from "../../assets/images/logogoatblanco.png"
 import logoBlack from '../../assets/images/logo-black.png';
 import { ButtonNavbar } from "./ButtonNavbar";
@@ -17,6 +18,11 @@ export type NavProps = HTMLAttributes<HTMLElement> & {
     router?: any;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     handleOpenItem?: (e?: any) => void;
+    variantIndicator?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
+    backgroundIndicator?: "black" | "white";
+    logoGoatDataIndicator?: "logoRed" | "logoBlack" | "logo6" | "logoMagenta" | "logoWhite";
+    imgLoadingIndicator?: string;
+    strokeWidthIndicator?: "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13" | "14";
 };
 
 export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
@@ -28,11 +34,17 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
             heightLogo = "40px",
             widthLogo = "65px",
             router,
+            variantIndicator = "primary",
+            backgroundIndicator = "black",
+            logoGoatDataIndicator = "logoRed",
+            imgLoadingIndicator = "",
+            strokeWidthIndicator = "10",
             handleOpenItem,
             ...props
         }, ref) => {
         const mobile = useMobile();
         const [isOpen, setIsOpen] = useState(false);
+        const [indicator, setIndicator] = useState(false);
         const [position, setPosition] = useState<DOMRect | undefined>(undefined);
         const [currentView] = useState<string>('');
         const refs = items.reduce((acc, item) => {
@@ -89,6 +101,25 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                 mediaQuery.removeEventListener("change", closeMenuOnLargeScreen);
             };
         }, [isOpen]);
+
+        useEffect(() => {
+            if (typeof window !== "undefined" && router?.events) {
+                const handleStartLoading = () => {
+                    setIndicator(true);
+                };
+                const handleStopLoading = () => {
+                    setIndicator(false);
+                };
+                router.events.on('routeChangeStart', handleStartLoading);
+                router.events.on('routeChangeComplete', handleStopLoading);
+                router.events.on('routeChangeError', handleStopLoading);
+                return () => {
+                    router.events.off('routeChangeStart', handleStartLoading);
+                    router.events.off('routeChangeComplete', handleStopLoading);
+                    router.events.off('routeChangeError', handleStopLoading);
+                };
+            }
+        }, [router]);
 
         const bgStyles = {
             goatData: "bg-zinc-900",
@@ -220,7 +251,7 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                                                     setIsOpen={setIsOpen}
                                                     open={open}
                                                     routerApp={routerApp}
-                                                    handleOpen={() => { handleOpenItem?.(); setIsOpen(false); }}
+                                                    handleOpen={() => { handleOpenItem?.({ label }); setIsOpen(false); }}
                                                     handleRouter={() => { router.push(link); setIsOpen(false); }}
                                                 >
                                                     <div
@@ -253,7 +284,7 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                     </div>
                 </div>
                 {isOpen && (
-                    <div style={{ display: (variant === "experiences" && mobile) ? "flex" : "", flexDirection: "column", alignItems: "end", }} className="space-y-1 px-2 pt-2 pb-3">
+                    <div style={{ display: (variant === "experiences" && mobile) ? "flex" : "", flexDirection: "column", alignItems: "end" }} className={variant === "experiences" ? "absolute top-full right-0 mt-2 py-4 px-6 bg-white border border-gray-200 shadow-lg rounded-md w-56 z-50" : "space-y-1 px-2 pt-2 pb-3"}>
                         {items.map(({ label, href, open, routerApp, link }) => (
                             <ButtonNavbar
                                 key={href}
@@ -263,7 +294,7 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                                 setIsOpen={setIsOpen}
                                 open={open}
                                 routerApp={routerApp}
-                                handleOpen={() => { handleOpenItem?.(); setIsOpen(false); }}
+                                handleOpen={() => { handleOpenItem?.({ label }); setIsOpen(false); }}
                                 handleRouter={() => { router.push(link); setIsOpen(false); }}
                             >
                                 <div
@@ -289,6 +320,14 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                         ))}
                     </div>
                 )}
+                {indicator &&
+                    <LoadingIndicator
+                        variant={variantIndicator}
+                        background={backgroundIndicator}
+                        logoGoatData={logoGoatDataIndicator}
+                        imgLoading={imgLoadingIndicator}
+                        strokeWidth={strokeWidthIndicator}
+                    />}
             </nav>
         );
     }
