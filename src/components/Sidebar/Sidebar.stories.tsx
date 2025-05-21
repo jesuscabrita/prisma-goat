@@ -28,6 +28,7 @@ export const Default: Story = {
         activeRoute: '/perfil',
         theme: true,
         InstallApp: true,
+        version:"",
         listMenu: [{ label: 'Settings', link: "/settings" }, { label: 'Log Out', link: "/log" }, { label: 'Config', link: "/config" }],
         user: { name: 'Pepe', image: '' },
         list: [
@@ -47,6 +48,7 @@ export const Closed: Story = {
         user: { name: 'Pepe', image: '' },
         theme: true,
         InstallApp: true,
+        version:"0.1.0",
         list: [
             { label: "Inicio", icon: AiOutlineHome, description: "pruebs de sdess", image: "", link: "/", subItems: [] },
             { label: "Perfil", icon: MdEditSquare, description: "pruebs de sdess", image: "", link: "/perfil", subItems: [] },

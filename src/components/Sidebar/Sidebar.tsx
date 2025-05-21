@@ -26,10 +26,11 @@ export type SidebarProps = HTMLAttributes<HTMLDivElement> & {
     listMenu?: Array<{ label: string, link: string }>;
     theme?: boolean;
     InstallApp?: boolean;
+    version?: string;
     handleLogout?: () => void;
     toggleTheme?: () => void;
     toggeInstallApp?: () => void;
-    handleTogge?:()=> void;
+    handleTogge?: () => void;
     variantIndicator?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
     backgroundIndicator?: "black" | "white";
     logoGoatDataIndicator?: "logoRed" | "logoBlack" | "logo6" | "logoMagenta" | "logoWhite";
@@ -52,6 +53,7 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
             user,
             theme,
             InstallApp,
+            version,
             variantIndicator = "primary",
             backgroundIndicator = "black",
             logoGoatDataIndicator = "logoRed",
@@ -385,10 +387,15 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                                     ))}
                                 </div>
                             )}
-                            <div style={{ display: 'flex', gap: '12px', padding: "0px 20px 0px 10px", flexDirection: isOpen ? "row" : 'column', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', gap: '12px', padding: "0px 20px 0px 10px", flexDirection: isOpen ? "row" : 'column', alignItems: 'center', }}>
                                 {InstallApp && <InstallAppButton variant={variant} onClick={toggeInstallApp} />}
                                 {theme && <ThemeSwitch variant={variant} toggleTheme={toggleTheme} />}
                             </div>
+                            {version &&
+                                <div className={`${variant === "pikaros" ? "text-orange-300" : variant === "secondary" ? "text-custom-blue" : "text-white"}`} style={{ display: 'flex', gap: '12px', padding: "0px 20px 0px 10px", flexDirection: isOpen ? "row" : 'column', alignItems: 'center', marginTop: "20px" }}>
+                                    {isOpen && <div>Versión</div>}
+                                    <div>{version}</div>
+                                </div>}
                         </div>
                     )}
                 </div>
