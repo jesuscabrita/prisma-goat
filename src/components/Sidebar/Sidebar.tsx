@@ -162,7 +162,7 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                 )}
                 <div style={{ marginLeft: '20px', marginRight: '20px', border: `1px ${border2Styles[variant]} solid`, marginTop: '14px' }} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', height: '75vh' }}>
-                    <div className="flex flex-col items-start p-4 space-y-4 mt-7">
+                    <div className={`flex flex-col items-start p-4 space-y-4 mt-2 max-h-[400px] overflow-y-auto ${variant === "pikaros" ? "modal-scrollbar-pikaros" : variant === "secondary" ? "modal-scrollbar-secundary" : "modal-scrollbar"}`}>
                         {list.map((nav, index) => (
                             <div key={index} className="w-full relative group">
                                 <button
@@ -392,7 +392,7 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                                 {theme && <ThemeSwitch variant={variant} toggleTheme={toggleTheme} />}
                             </div>
                             {version &&
-                                <div className={`${variant === "pikaros" ? "text-orange-300" : variant === "secondary" ? "text-custom-blue" : "text-white"}`} style={{ display: 'flex', gap: '12px', padding: "0px 20px 0px 10px", flexDirection: isOpen ? "row" : 'column', alignItems: 'center', marginTop: "20px" }}>
+                                <div className={`${variant === "pikaros" ? "text-orange-300" : variant === "secondary" ? "text-custom-blue" : "text-white"}`} style={{ display: 'flex', gap: '12px', padding: "0px 20px 0px 10px", flexDirection: isOpen ? "row" : 'column', alignItems: 'center', marginTop: "20px", marginBottom: "20px" }}>
                                     {isOpen && <div>Versión</div>}
                                     <div>{version}</div>
                                 </div>}

@@ -33,9 +33,9 @@ export const Default: Story = {
         user: { name: 'Pepe', image: '' },
         list: [
             { label: "Inicio", icon: AiOutlineHome, description: "pruebs de sdess", image: "", link: "/", subItems: [] },
-            { label: "Perfil", icon: MdEditSquare, description: "pruebs de sdess", image: "", link: "/perfil", subItems: [{ label: 'Web Development', link: "/web" }, { label: 'SEO', link: "/seo" }] },
-            { label: "Configuración", icon: AiFillCalculator, description: 'Vover al inicio donde puedes encontrar todo en una sola pantalla y examinar todas las necesidades de este proyecto', image: imagePrueba, link: "/confi", subItems: [] },
-            { label: "Cerrar sesión", icon: FaPowerOff, description: "pruebs de sdess", image: "", link: "log/", subItems: [] },
+            { label: "Perfil", icon: MdEditSquare, description: "pruebs de sdess", image: "", link: "/perfil", subItems: [{ label: 'Web Development', link: "/web" }, { label: 'SEO', link: "/seo" }, { label: 'SEO', link: "/seo" },{ label: 'SEO', link: "/seo" },{ label: 'SEO', link: "/seo" }, { label: 'SEO', link: "/seo" }] },
+            { label: "Configuración", icon: AiFillCalculator, description: 'Vover al inicio donde puedes encontrar todo en una sola pantalla y examinar todas las necesidades de este proyecto', image: imagePrueba, link: "/confi", subItems: [{ label: 'SEO', link: "/seo" },{ label: 'SEO', link: "/seo" }] },
+            { label: "Cerrar sesión", icon: FaPowerOff, description: "pruebs de sdess", image: "", link: "log/", subItems: [{ label: 'SEO', link: "/seo" }, { label: 'SEO', link: "/seo" }] },
         ],
     },
 };

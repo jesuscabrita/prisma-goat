@@ -143,10 +143,11 @@ body {
 @keyframes progress {
     0% {
         stroke-dashoffset: 314;
-        opacity: 1; 
+        opacity: 1;
     }
+
     100% {
-        stroke-dashoffset: 0; 
+        stroke-dashoffset: 0;
         opacity: 0;
     }
 }
@@ -155,9 +156,11 @@ body {
     0% {
         opacity: 1;
     }
+
     50% {
         opacity: 0.5;
     }
+
     100% {
         opacity: 1;
     }
@@ -165,11 +168,12 @@ body {
 
 @keyframes fade {
     0% {
-        stroke-dashoffset: 414; 
+        stroke-dashoffset: 414;
         opacity: 2;
     }
+
     100% {
-        stroke-dashoffset: 0; 
+        stroke-dashoffset: 0;
         opacity: 0;
     }
 }
@@ -190,8 +194,8 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5); 
-    z-index: 2; 
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2;
 }
 
 #large-header {
@@ -201,11 +205,13 @@ body {
 .video-header {
     position: absolute;
     inset: 0px;
-    background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1)) /* #000000 */;
+    background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1))
+        /* #000000 */
+    ;
     --tw-bg-opacity: 0.5;
 }
 
-.opacitySound{
+.opacitySound {
     position: absolute;
     z-index: 30;
     background: #8a898954;
@@ -214,4 +220,65 @@ body {
     --tw-bg-opacity: 0.1;
     padding: 0.75rem;
     border-radius: 9999px;
+}
+
+.modal-scrollbar-pikaros::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-scrollbar-pikaros::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-scrollbar-pikaros::-webkit-scrollbar-thumb {
+    background-color: #fdbb748d;
+    border-radius: 6px;
+}
+
+.modal-scrollbar-pikaros {
+    scrollbar-color: #fdbb748d transparent;
+    /* Firefox */
+    scrollbar-width: thin;
+}
+
+/*SECUNDARY*/
+
+.modal-scrollbar-secundary::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-scrollbar-secundary::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-scrollbar-secundary::-webkit-scrollbar-thumb {
+    background-color: #05173d;
+    border-radius: 6px;
+}
+
+.modal-scrollbar-secundary {
+    scrollbar-color: #05173d transparent;
+    /* Firefox */
+    scrollbar-width: thin;
+}
+
+/*WHITE*/
+
+.modal-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-scrollbar::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 6px;
+}
+
+.modal-scrollbar {
+    scrollbar-color: white transparent;
+    /* Firefox */
+    scrollbar-width: thin;
 }
