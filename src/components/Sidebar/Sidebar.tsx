@@ -164,7 +164,7 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                 <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', height: '75vh' }}>
                     <div className={`flex flex-col items-start p-4 space-y-4 mt-2 max-h-[400px] overflow-y-auto ${variant === "pikaros" ? "modal-scrollbar-pikaros" : variant === "secondary" ? "modal-scrollbar-secundary" : "modal-scrollbar"}`}>
                         {list.map((nav, index) => (
-                            <div key={index} className="w-full relative group">
+                            <div key={index} className="w-full">
                                 <button
                                     type="button"
                                     className={clsx(
@@ -216,12 +216,9 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                                 </button>
                                 {(hovered === index && nav.description && nav.description.trim() !== "" && !isOpen) && (
                                     <div
-                                        style={{
-                                            border: `1px ${border2Styles[variant]} solid`,
-                                            width: "240px",
-                                        }}
+                                        style={{ border: `1px ${border2Styles[variant]} solid`, }}
                                         className={clsx(
-                                            `absolute top-1/2 transform -translate-y-1/2 transition-all duration-300 opacity-0 group-hover:opacity-100 rounded-md text-xs px-4 py-2 shadow-lg`,
+                                            `absolute min-w-48 rounded-md text-xs px-4 py-2 shadow-lg`,
                                             isOpen
                                                 ? "left-full ml-2"
                                                 : "left-full ml-2 translate-x-2 group-hover:translate-x-4",
@@ -247,7 +244,7 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                                     nav.subItems.length > 0 &&
                                     openMenu === index &&
                                     (isOpen ? (
-                                        <div className="pl-4 py-4">
+                                        <div className={isOpen ? "pl-4 py-4" : `absolute ml-3 mt-2 w-48 border-2 rounded-md`} role="menu">
                                             {nav.subItems.map((subItem, subIndex) => (
                                                 <button
                                                     key={subIndex}
