@@ -178,9 +178,9 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                                         <IconWhatsapp />
                                         <span>+54 114099-9887</span>
                                     </div>
-                                    <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleCorreoClick("experiencias.viajes.arg@gmail.com")} >
+                                    <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleCorreoClick("mariacianexperiencias@gmail.com")} >
                                         <IconEmail />
-                                        <span>experiencias.viajes.arg@gmail.com</span>
+                                        <span>mariacianexperiencias@gmail.com</span>
                                     </div>
                                 </div>
                             )}
