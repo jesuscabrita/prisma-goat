@@ -45,14 +45,14 @@ export const ThemeSwitch = ({
 }: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     toggleTheme?: (e?: any) => void;
-    variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "pikaros";
+    variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "pikaros" | "experiences";
     light?: boolean;
 }) => {
     const bgColor = light
         ? variant === "secondary" || variant === "vividPink" || variant === "success" || variant === "danger" || variant === "warning"
             ? "bg-[#222f4e] hover:bg-[#1a243d]"
             : "bg-[#2e5c95] hover:bg-[#2e5c95b6]"
-        : variant === "secondary"
+        : variant === "secondary" || variant === "experiences"
             ? "bg-gray-300 hover:bg-gray-400"
             : "bg-gray-100 hover:bg-gray-200";
 
@@ -72,11 +72,11 @@ export const InstallAppButton = ({
     variant,
     onClick,
 }: {
-    variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "pikaros";
+    variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "pikaros" | "experiences";
     onClick?: () => void;
 }) => {
     const bgColor =
-        variant === "secondary" || variant === "vividPink" || variant === "success" || variant === "danger" || variant === "warning" || variant === "darkMagenta"
+        variant === "secondary" || variant === "vividPink" || variant === "success" || variant === "danger" || variant === "warning" || variant === "darkMagenta" || variant === "experiences"
             ? "bg-[#222f4e] hover:bg-[#1a243d]"
             : variant === "primary" || variant === "veryDarkViolet"
                 ? "bg-[#2e5c95] hover:bg-[#2e5c95b6]"

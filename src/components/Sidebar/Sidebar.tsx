@@ -13,7 +13,7 @@ import logoBlack from '../../assets/images/logo-black.png';
 import clsx from "clsx";
 
 export type SidebarProps = HTMLAttributes<HTMLDivElement> & {
-    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "pikaros";
+    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "pikaros" | "experiences";
     list?: Array<{ label: string, description: string, link: string, image: string, icon?: IconType, subItems: { label: string, link: string }[] }>;
     className?: string;
     logo?: string;
@@ -31,7 +31,7 @@ export type SidebarProps = HTMLAttributes<HTMLDivElement> & {
     toggleTheme?: () => void;
     toggeInstallApp?: () => void;
     handleTogge?: () => void;
-    variantIndicator?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
+    variantIndicator?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "experiences";
     backgroundIndicator?: "black" | "white";
     logoGoatDataIndicator?: "logoRed" | "logoBlack" | "logo6" | "logoMagenta" | "logoWhite";
     imgLoadingIndicator?: string;

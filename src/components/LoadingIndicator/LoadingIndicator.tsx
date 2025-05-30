@@ -6,7 +6,7 @@ import logo6 from '../../assets/images/Logos-06.png';
 import { forwardRef, HTMLAttributes } from "react";
 
 export type LoadingIndicatorProps = HTMLAttributes<HTMLDivElement> & {
-    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
+    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "experiences";
     background?: "black" | "white";
     logoGoatData?: "logoRed" | "logoBlack" | "logo6" | "logoMagenta" | "logoWhite";
     imgLoading?: string;
@@ -34,6 +34,7 @@ export const LoadingIndicator = forwardRef<HTMLDivElement, LoadingIndicatorProps
             danger: "#b91c1c",
             warning: "#f59e0b",
             success: "#047857",
+            experiences:"#6BC1E4"
         };
 
         const backgroundStyles = {
