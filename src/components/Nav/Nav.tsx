@@ -185,16 +185,16 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                                 </div>
                             )}
                             <div style={{ paddingRight: mobile ? "40px" : "" }} className="flex gap-2 mt-2 sm:mt-0" >
-                                <div onClick={() => { openRedes("https://www.instagram.com/experienciasviajes.arg/") }}>
+                                <div onClick={() => { openRedes("https://www.instagram.com/mariacianexperiencias/") }}>
                                     <IconInstagram />
                                 </div>
-                                <div onClick={() => { openRedes("https://www.facebook.com/experienciasviajes.arg/") }}>
+                                <div onClick={() => { openRedes("https://www.facebook.com/mariacianexperiencias/") }}>
                                     <IconoFacebook />
                                 </div>
                                 <div onClick={() => { openRedes("https://www.tiktok.com/@mariacianexperiencias") }}>
                                     <IconTickTok />
                                 </div>
-                                <div onClick={() => { openRedes("https://www.linkedin.com/in/experienciasviajes-arg-by-maria-cian-0b075014/") }}>
+                                <div onClick={() => { openRedes("https://www.linkedin.com/in/maria-cian-experiencias-0b075014/") }}>
                                     <IconLinkedin />
                                 </div>
                             </div>
