@@ -188,7 +188,7 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                                 <div onClick={() => { openRedes("https://www.instagram.com/mariacianexperiencias/") }}>
                                     <IconInstagram />
                                 </div>
-                                <div onClick={() => { openRedes("https://www.facebook.com/mariacianexperiencias/") }}>
+                                <div onClick={() => { openRedes("https://www.facebook.com/experienciasviajes.arg") }}>
                                     <IconoFacebook />
                                 </div>
                                 <div onClick={() => { openRedes("https://www.tiktok.com/@mariacianexperiencias") }}>
