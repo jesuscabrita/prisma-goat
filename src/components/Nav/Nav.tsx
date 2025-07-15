@@ -7,9 +7,12 @@ import { ButtonNavbar } from "./ButtonNavbar";
 import { useMobile } from "../../utils";
 import { HTMLAttributes } from "react";
 import { motion } from 'framer-motion';
+import { RiInstagramFill } from "react-icons/ri";
+import { AiFillTikTok } from "react-icons/ai";
+import { MdLocationOn } from "react-icons/md";
 
 export type NavProps = HTMLAttributes<HTMLElement> & {
-    variant?: "goatData" | "secondary" | "experiences";
+    variant?: "goatData" | "secondary" | "experiences" | "pikaros";
     items: { label: string; href: string; refId: string; routerApp?: boolean; open?: boolean; link?: string; }[];
     logo?: string;
     heightLogo?: string;
@@ -125,30 +128,35 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
             goatData: "bg-zinc-900",
             secondary: "bg-[#ededed]",
             experiences: "bg-[#FFFFFF]",
+            pikaros: "bg-[#000000]",
         }
 
         const buttonStyle = {
             goatData: "#9a6d79",
             secondary: "#1f2937e7",
-            experiences: "#6BC1E4"
+            experiences: "#6BC1E4",
+            pikaros: "#DFCA7866",
         }
 
         const ViewportStyle = {
             goatData: "#ff0145",
             secondary: "#ff0145",
-            experiences: "#1f2937e7"
+            experiences: "#1f2937e7",
+            pikaros: "#DFCA78",
         }
 
         const colorButtonStyle = {
             goatData: "white",
             secondary: "#1F2937",
-            experiences: "#000000"
+            experiences: "#000000",
+            pikaros: "#DFCA7866",
         }
 
         const textStyles = {
             goatData: "text-white",
             secondary: "text-[#1F2937]",
-            experiences: "text-white"
+            experiences: "text-white",
+            pikaros: "text-[#DFCA78]",
         };
 
         const handleChatClick = (telf: string) => {
@@ -168,41 +176,58 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
         }
 
         return (
-            <nav ref={ref} {...props} style={{ zIndex: 9999, position: "fixed", top: "0px", left: "0px", right: "0px" }} className={`${bgStyles[variant]} ${variant === "experiences" ? "" : "bg-opacity-75"} `}>
-                {variant === "experiences" && showContactInfo && (
-                    <div className="bg-[#F2AE87] text-white transition-all duration-300">
+            <nav ref={ref} {...props} style={{ zIndex: 9999, position: "fixed", top: "0px", left: "0px", right: "0px" }} className={`${bgStyles[variant]} ${(variant === "experiences" || variant === "pikaros") ? "" : "bg-opacity-75"} `}>
+                {(variant === "experiences" || variant === "pikaros") && showContactInfo && (
+                    <div className={` ${variant === "experiences" ? "bg-[#F2AE87]" : variant === "pikaros" ? "bg-[#DFCA78]" : ""} text-white transition-all duration-300`}>
                         <div className={`flex ${mobile ? "flex-col items-end" : "flex-row items-center"} justify-around gap-4 px-4 py-2 text-sm`}>
                             {!mobile && (
                                 <div className="flex items-center gap-6">
-                                    <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleChatClick("+5491140999887")}  >
-                                        <IconWhatsapp />
-                                        <span>+54 114099-9887</span>
-                                    </div>
-                                    <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleCorreoClick("mariacianexperiencias@gmail.com")} >
-                                        <IconEmail />
-                                        <span>mariacianexperiencias@gmail.com</span>
-                                    </div>
+                                    {variant === "experiences" &&
+                                        <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleChatClick("+5491140999887")}  >
+                                            <IconWhatsapp />
+                                            <span>+54 114099-9887</span>
+                                        </div>}
+                                    {variant === "experiences" &&
+                                        <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleCorreoClick("mariacianexperiencias@gmail.com")} >
+                                            <IconEmail />
+                                            <span>mariacianexperiencias@gmail.com</span>
+                                        </div>}
+                                    {variant === "pikaros" &&
+                                        <a className="flex items-center gap-2 cursor-pointer text-black" target="_blank" href="https://www.google.com.ar/maps/place/Pikaros+barberia/@-34.5591278,-58.4560082,17z/data=!4m15!1m8!3m7!1s0x95bcb5d2c43e7f3d:0x42041c03b6f7edd3!2sO'Higgins+2183+local+15,+C1428+Cdad.+Aut%C3%B3noma+de+Buenos+Aires!3b1!8m2!3d-34.5591322!4d-58.4534333!16s%2Fg%2F11y3_0vrqc!3m5!1s0x95bcb5be2163347f:0x4c70bbd95119c9bb!8m2!3d-34.5591322!4d-58.4534333!16s%2Fg%2F11y3wp3wtm?hl=es&entry=ttu&g_ep=EgoyMDI1MDcwOS4wIKXMDSoASAFQAw%3D%3D">
+                                            <MdLocationOn  size={28}/>
+                                            <span>O'Higgins 2183 - local 15</span>
+                                        </a>}
                                 </div>
                             )}
-                            <div style={{ paddingRight: mobile ? "40px" : "" }} className="flex gap-2 mt-2 sm:mt-0" >
-                                <div onClick={() => { openRedes("https://www.instagram.com/mariacianexperiencias/") }}>
-                                    <IconInstagram />
-                                </div>
-                                <div onClick={() => { openRedes("https://www.facebook.com/experienciasviajes.arg") }}>
-                                    <IconoFacebook />
-                                </div>
-                                <div onClick={() => { openRedes("https://www.tiktok.com/@mariacianexperiencias") }}>
-                                    <IconTickTok />
-                                </div>
-                                <div onClick={() => { openRedes("https://www.linkedin.com/in/maria-cian-experiencias-0b075014/") }}>
-                                    <IconLinkedin />
-                                </div>
-                            </div>
+                            {variant === "experiences" &&
+                                <div style={{ paddingRight: mobile ? "40px" : "" }} className="flex gap-2 mt-2 sm:mt-0" >
+                                    <div onClick={() => { openRedes("https://www.instagram.com/mariacianexperiencias/") }}>
+                                        <IconInstagram />
+                                    </div>
+                                    <div onClick={() => { openRedes("https://www.facebook.com/experienciasviajes.arg") }}>
+                                        <IconoFacebook />
+                                    </div>
+                                    <div onClick={() => { openRedes("https://www.tiktok.com/@mariacianexperiencias") }}>
+                                        <IconTickTok />
+                                    </div>
+                                    <div onClick={() => { openRedes("https://www.linkedin.com/in/maria-cian-experiencias-0b075014/") }}>
+                                        <IconLinkedin />
+                                    </div>
+                                </div>}
+                            {variant === "pikaros" &&
+                                <div style={{ paddingRight: mobile ? "40px" : "" }} className="flex gap-2 mt-2 sm:mt-0 text-black">
+                                    <div className="cursor-pointer" onClick={() => { openRedes("https://www.instagram.com/pikarosbarberia?igsh=MXBvejRnZzAxN3ZobQ==") }}>
+                                        <RiInstagramFill size={28}/>
+                                    </div>
+                                    <div className="cursor-pointer" onClick={() => { openRedes("https://www.tiktok.com/@pikarosbarberia?_t=ZM-8y236fSDlsm&_r=1") }}>
+                                        <AiFillTikTok size={28}/>
+                                    </div>
+                                </div>}
                         </div>
                     </div>
                 )}
                 <div style={{ marginLeft: "auto", marginRight: "auto", maxWidth: "80rem", paddingLeft: !mobile ? "1.5rem" : "0.5rem", paddingRight: !mobile ? "1.5rem" : "0.5rem" }}>
-                    {(variant === "goatData" || variant === "secondary") &&
+                    {(variant === "goatData" || variant === "secondary" || variant === "pikaros") &&
                         <motion.div
                             style={{ background: buttonStyle[variant], position: "absolute", opacity: 0.4, borderRadius: "0.25rem" }}
                             className="z-20 pointer-events-none"
