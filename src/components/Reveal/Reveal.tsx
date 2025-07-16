@@ -2,7 +2,7 @@ import { forwardRef, HTMLAttributes, PropsWithChildren, useEffect, useRef } from
 import { useAnimation, useInView, motion } from "framer-motion"
 
 export type RevealProps = HTMLAttributes<HTMLDivElement> & {
-    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "tertiary" | "experiences";
+    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "tertiary" | "experiences" | "pikaros";
     duration?: number;
     delay?: number;
     ease?: "easeIn" | "easeInOut" | "easeOut" | "linear" | "anticipate" | "backIn" | "backInOut" | "backOut" | "circIn" | "circInOut" | "circOut"
@@ -42,6 +42,7 @@ export const Reveal = forwardRef<HTMLDivElement, PropsWithChildren<RevealProps>>
             success: "#047857",
             tertiary: "#d4d3d3",
             experiences: "#a8dbce",
+            pikaros: "#DFCA78"
         }
 
         useEffect(() => {
