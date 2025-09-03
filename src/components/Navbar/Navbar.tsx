@@ -32,6 +32,7 @@ export type NavbarProps = HTMLAttributes<HTMLElement> & {
     imgLoadingIndicator?: string;
     strokeWidthIndicator?: "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13" | "14";
     handleLogout?: () => void;
+    handleLiga?: () => void;
     light?: boolean;
 };
 
@@ -51,6 +52,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
             toggleTheme,
             toggeInstallApp,
             handleLogout,
+            handleLiga,
             theme,
             InstallApp,
             login = false,
@@ -126,6 +128,14 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
         const handleListMenuNavigationMobile = (item: { label: string; link: string; }) => {
             if (item.link && router) {
                 router.push(item.link);
+                setIsOpen(false);
+            }
+        };
+
+        const handleLigas = () => {
+            if (handleLiga) {
+                handleLiga(); 
+                handleMenuClose();
                 setIsOpen(false);
             }
         };
@@ -210,7 +220,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                                             : "text-custom-blue",
                                                     activeRoute === nav.link ? "font-semibold" : "font-normal"
                                                 )}
-                                                onClick={() => handleNavigation(nav, index)}
+                                                onClick={nav.label === "Ligas" ? handleLigas : () => handleNavigation(nav, index)}
                                                 onMouseEnter={() => setHovered(index)}
                                                 onMouseLeave={() => setHovered(null)}
                                             >
@@ -401,7 +411,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                             : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success' || variant === "pikaros") ? 'text-white' : 'text-custom-blue'),
                                         activeRoute === item.link ? 'font-semibold' : 'font-normal'
                                     )}
-                                    onClick={() => { handleNavigationMobile(item, index) }}
+                                    onClick={item.label === "Ligas" ? handleLigas : () => { handleNavigationMobile(item, index) }}
                                 >
                                     {item.label}
                                 </button>
