@@ -4,6 +4,7 @@ import { LoadingIndicator } from "../LoadingIndicator/LoadingIndicator";
 import { InstallAppButton, ThemeSwitch } from "../Navbar/Icons";
 import { FaCircleArrowRight } from "react-icons/fa6";
 import { FaCircleArrowLeft } from "react-icons/fa6";
+import { HiOutlineBuildingStorefront } from "react-icons/hi2";
 import { CiMenuKebab } from "react-icons/ci";
 import { IconType } from "react-icons";
 import LogoWhiteSize from "../../assets/images/logogoatblanco.png"
@@ -20,17 +21,20 @@ export type SidebarProps = HTMLAttributes<HTMLDivElement> & {
     heightLogo?: string;
     widthLogo?: string;
     activeRoute?: string;
+    sucursalName?: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     router: any;
     user?: { name: string; image?: string };
     listMenu?: Array<{ label: string, link: string }>;
     theme?: boolean;
     InstallApp?: boolean;
+    sucursal?: boolean;
     version?: string;
     handleLogout?: () => void;
     toggleTheme?: () => void;
     toggeInstallApp?: () => void;
     handleTogge?: () => void;
+    handleSucursal?: () => void;
     variantIndicator?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "experiences";
     backgroundIndicator?: "black" | "white";
     logoGoatDataIndicator?: "logoRed" | "logoBlack" | "logo6" | "logoMagenta" | "logoWhite";
@@ -53,7 +57,9 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
             user,
             theme,
             InstallApp,
+            sucursal,
             version,
+            sucursalName,
             variantIndicator = "primary",
             backgroundIndicator = "black",
             logoGoatDataIndicator = "logoRed",
@@ -63,6 +69,7 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
             toggleTheme,
             toggeInstallApp,
             handleTogge,
+            handleSucursal,
             ...props
         },
         ref) => {
@@ -161,6 +168,7 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                     </button>
                 )}
                 <div style={{ marginLeft: '20px', marginRight: '20px', border: `1px ${border2Styles[variant]} solid`, marginTop: '14px' }} />
+                {sucursal && <div style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", paddingTop: "5px" }}>{sucursalName}</div>}
                 <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', height: '75vh' }}>
                     <div className={`flex flex-col items-start p-4 space-y-4 mt-2 max-h-[400px] overflow-y-auto ${variant === "pikaros" ? "modal-scrollbar-pikaros" : variant === "secondary" ? "modal-scrollbar-secundary" : "modal-scrollbar"}`}>
                         {list.map((nav, index) => (
@@ -384,6 +392,13 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                                     ))}
                                 </div>
                             )}
+                            {sucursal &&
+                                <div style={{ marginLeft: '10px', display: 'flex', alignItems: 'center', cursor: 'pointer', marginTop: "0px", paddingBottom: "10px" }} onClick={handleSucursal}>
+                                    <div>
+                                        <HiOutlineBuildingStorefront size={25} color={border2Styles[variant]} />
+                                    </div>
+                                    <div className={`block w-full px-2 py-2 ${textStyles[variant]}  ${isOpen ? "block" : "hidden"}`}>Sucursal</div>
+                                </div>}
                             <div style={{ display: 'flex', gap: '12px', padding: "0px 20px 0px 10px", flexDirection: isOpen ? "row" : 'column', alignItems: 'center', }}>
                                 {InstallApp && <InstallAppButton variant={variant} onClick={toggeInstallApp} />}
                                 {theme && <ThemeSwitch variant={variant} toggleTheme={toggleTheme} />}
