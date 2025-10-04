@@ -3,6 +3,7 @@ import { forwardRef, PropsWithChildren, useEffect, useRef, useState } from "reac
 import { LoadingIndicator } from "../LoadingIndicator/LoadingIndicator";
 import logoBlack from '../../assets/images/logo-black.png';
 import logoWhite from "../../assets/images/logogoatblanco.png"
+import { HiOutlineBuildingStorefront } from "react-icons/hi2";
 import { InstallAppButton, ThemeSwitch } from "./Icons";
 import { useMobile } from "../../utils";
 import { HTMLAttributes } from "react";
@@ -25,6 +26,7 @@ export type NavbarProps = HTMLAttributes<HTMLElement> & {
     toggeInstallApp?: (e?: any) => void;
     theme?: boolean;
     InstallApp?: boolean;
+    sucursal?: boolean
     login?: boolean;
     variantIndicator?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success";
     backgroundIndicator?: "black" | "white";
@@ -33,6 +35,7 @@ export type NavbarProps = HTMLAttributes<HTMLElement> & {
     strokeWidthIndicator?: "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13" | "14";
     handleLogout?: () => void;
     handleLiga?: () => void;
+    handleSucursal?: () => void;
     light?: boolean;
 };
 
@@ -53,8 +56,10 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
             toggeInstallApp,
             handleLogout,
             handleLiga,
+            handleSucursal,
             theme,
             InstallApp,
+            sucursal,
             login = false,
             variantIndicator = "primary",
             backgroundIndicator = "black",
@@ -134,7 +139,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
 
         const handleLigas = () => {
             if (handleLiga) {
-                handleLiga(); 
+                handleLiga();
                 handleMenuClose();
                 setIsOpen(false);
             }
@@ -296,6 +301,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                         <div className="absolute inset-y-0 right-0 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 flex space-x-2">
                             {InstallApp && <InstallAppButton variant={variant} onClick={toggeInstallApp} />}
                             {theme && <ThemeSwitch light={light} variant={variant} toggleTheme={toggleTheme} />}
+                            {sucursal && <HiOutlineBuildingStorefront size={25} color={border2Styles[variant]} className="cursor-pointer" onClick={handleSucursal} />}
                             {user ? (
                                 <div style={{ position: "relative", display: mobile ? "none" : "block", marginLeft: "0.75rem" }}>
                                     <div>

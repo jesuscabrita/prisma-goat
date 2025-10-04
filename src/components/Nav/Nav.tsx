@@ -194,8 +194,13 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                                         </div>}
                                     {variant === "pikaros" &&
                                         <a className="flex items-center gap-2 cursor-pointer text-black" target="_blank" href="https://www.google.com.ar/maps/place/Pikaros+barberia/@-34.5591278,-58.4560082,17z/data=!4m15!1m8!3m7!1s0x95bcb5d2c43e7f3d:0x42041c03b6f7edd3!2sO'Higgins+2183+local+15,+C1428+Cdad.+Aut%C3%B3noma+de+Buenos+Aires!3b1!8m2!3d-34.5591322!4d-58.4534333!16s%2Fg%2F11y3_0vrqc!3m5!1s0x95bcb5be2163347f:0x4c70bbd95119c9bb!8m2!3d-34.5591322!4d-58.4534333!16s%2Fg%2F11y3wp3wtm?hl=es&entry=ttu&g_ep=EgoyMDI1MDcwOS4wIKXMDSoASAFQAw%3D%3D">
-                                            <MdLocationOn  size={28}/>
+                                            <MdLocationOn size={28} />
                                             <span>O'Higgins 2183 - local 15</span>
+                                        </a>}
+                                    {variant === "pikaros" &&
+                                        <a className="flex items-center gap-2 cursor-pointer text-black" target="_blank" href="https://www.google.com/maps/place/Vidal+2192,+C1428CSH+Cdad.+Aut%C3%B3noma+de+Buenos+Aires/@-34.5634342,-58.4637236,17z/data=!3m1!4b1!4m6!3m5!1s0x95bcb5d5a4877e33:0x3dd5b967265d7f6!8m2!3d-34.5634386!4d-58.4611487!16s%2Fg%2F11q30v0wr8?entry=ttu&g_ep=EgoyMDI1MTAwMS4wIKXMDSoASAFQAw%3D%3D">
+                                            <MdLocationOn size={28} />
+                                            <span>Vidal 2192</span>
                                         </a>}
                                 </div>
                             )}
@@ -217,10 +222,10 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
                             {variant === "pikaros" &&
                                 <div style={{ paddingRight: mobile ? "40px" : "" }} className="flex gap-2 mt-2 sm:mt-0 text-black">
                                     <div className="cursor-pointer" onClick={() => { openRedes("https://www.instagram.com/pikarosbarberia?igsh=MXBvejRnZzAxN3ZobQ==") }}>
-                                        <RiInstagramFill size={28}/>
+                                        <RiInstagramFill size={28} />
                                     </div>
                                     <div className="cursor-pointer" onClick={() => { openRedes("https://www.tiktok.com/@pikarosbarberia?_t=ZM-8y236fSDlsm&_r=1") }}>
-                                        <AiFillTikTok size={28}/>
+                                        <AiFillTikTok size={28} />
                                     </div>
                                 </div>}
                         </div>
