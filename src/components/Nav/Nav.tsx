@@ -17,6 +17,7 @@ export type NavProps = HTMLAttributes<HTMLElement> & {
     logo?: string;
     heightLogo?: string;
     widthLogo?: string;
+    messageWhatsapp?: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     router?: any;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -42,6 +43,7 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
             logoGoatDataIndicator = "logoRed",
             imgLoadingIndicator = "",
             strokeWidthIndicator = "10",
+            messageWhatsapp = "",
             handleOpenItem,
             ...props
         }, ref) => {
@@ -161,7 +163,7 @@ export const Nav = forwardRef<HTMLElement, PropsWithChildren<NavProps>>(
 
         const handleChatClick = (telf: string) => {
             const numero = telf;
-            const mensaje = encodeURIComponent('Hola, me gustaría obtener más información sobre las experiencias personalizadas que ofrecen en Experiencias Viajes. Estoy interesado en conocer más sobre sus servicios exclusivos a bordo de embarcaciones de lujo.');
+            const mensaje = encodeURIComponent(messageWhatsapp);
             const whatsappLink = `https://api.whatsapp.com/send?phone=${numero}&text=${mensaje}`;
             window.open(whatsappLink, '_blank');
         };
