@@ -1,10 +1,10 @@
-import { activeRouterBgStyles, border2Styles, borderStyles, bottonArrow, focusStyles, hoverStyles, textStyles, variantStyles } from "../Navbar/utils";
+import { activeColorByVariant, activeRouterBgStyles, border2Styles, borderStyles, bottonArrow, focusStyles, hoverStyles, inactiveColorByVariant, textStyles, variantStyles } from "../Navbar/utils";
 import { forwardRef, HTMLAttributes, useEffect, useRef, useState } from "react";
 import { LoadingIndicator } from "../LoadingIndicator/LoadingIndicator";
 import { InstallAppButton, ThemeSwitch } from "../Navbar/Icons";
+import { HiOutlineBuildingStorefront } from "react-icons/hi2";
 import { FaCircleArrowRight } from "react-icons/fa6";
 import { FaCircleArrowLeft } from "react-icons/fa6";
-import { HiOutlineBuildingStorefront } from "react-icons/hi2";
 import { CiMenuKebab } from "react-icons/ci";
 import { IconType } from "react-icons";
 import LogoWhiteSize from "../../assets/images/logogoatblanco.png"
@@ -14,7 +14,7 @@ import logoBlack from '../../assets/images/logo-black.png';
 import clsx from "clsx";
 
 export type SidebarProps = HTMLAttributes<HTMLDivElement> & {
-    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "pikaros" | "experiences";
+    variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "pikaros" | "experiences" | "carlian";
     list?: Array<{ label: string, description: string, link: string, image: string, icon?: IconType, subItems: { label: string, link: string }[] }>;
     className?: string;
     logo?: string;
@@ -184,23 +184,8 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                                             ? activeRouterBgStyles[variant]
                                             : "",
                                         activeRoute === nav.link
-                                            ? variant === "secondary" ||
-                                                variant === "primary" ||
-                                                variant === "darkMagenta" ||
-                                                variant === "veryDarkViolet" ||
-                                                variant === "success"
-                                                ? "text-custom-red"
-                                                : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue")
-                                            : variant === "primary" ||
-                                                variant === "vividPink" ||
-                                                variant === "darkMagenta" ||
-                                                variant === "veryDarkViolet" ||
-                                                variant === "danger" ||
-                                                variant === "warning" ||
-                                                variant === "success" ||
-                                                variant === "pikaros"
-                                                ? "text-white"
-                                                : "text-custom-blue",
+                                            ? activeColorByVariant[variant] ?? "text-custom-blue"
+                                            : inactiveColorByVariant[variant] ?? "text-custom-blue",
                                         activeRoute === nav.link ? "font-semibold" : "font-normal"
                                     )}
                                     onClick={() => {
@@ -261,23 +246,8 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                                                         rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
                                                         activeRoute === subItem.link ? activeRouterBgStyles[variant] : "",
                                                         activeRoute === subItem.link
-                                                            ? variant === "secondary" ||
-                                                                variant === "primary" ||
-                                                                variant === "darkMagenta" ||
-                                                                variant === "veryDarkViolet" ||
-                                                                variant === "success"
-                                                                ? "text-custom-red"
-                                                                : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue")
-                                                            : variant === "primary" ||
-                                                                variant === "vividPink" ||
-                                                                variant === "darkMagenta" ||
-                                                                variant === "veryDarkViolet" ||
-                                                                variant === "danger" ||
-                                                                variant === "warning" ||
-                                                                variant === "success" ||
-                                                                variant === "pikaros"
-                                                                ? "text-white"
-                                                                : "text-custom-blue",
+                                                            ? activeColorByVariant[variant] ?? "text-custom-blue"
+                                                            : inactiveColorByVariant[variant] ?? "text-custom-blue",
                                                         activeRoute === subItem.link ? "font-semibold" : "font-normal"
                                                     )}
                                                     onClick={() => {
@@ -302,23 +272,8 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                                                         hoverStyles[variant] && `${hoverStyles[variant]}`,
                                                         activeRoute === subItem.link ? activeRouterBgStyles[variant] : "",
                                                         activeRoute === subItem.link
-                                                            ? variant === "secondary" ||
-                                                                variant === "primary" ||
-                                                                variant === "darkMagenta" ||
-                                                                variant === "veryDarkViolet" ||
-                                                                variant === "success"
-                                                                ? "text-custom-red"
-                                                                : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue")
-                                                            : variant === "primary" ||
-                                                                variant === "vividPink" ||
-                                                                variant === "darkMagenta" ||
-                                                                variant === "veryDarkViolet" ||
-                                                                variant === "danger" ||
-                                                                variant === "warning" ||
-                                                                variant === "success" ||
-                                                                variant === "pikaros"
-                                                                ? "text-white"
-                                                                : "text-custom-blue",
+                                                            ? activeColorByVariant[variant] ?? "text-custom-blue"
+                                                            : inactiveColorByVariant[variant] ?? "text-custom-blue",
                                                         activeRoute === subItem.link ? "font-semibold" : "font-normal"
                                                     )}
                                                     onClick={() => {
@@ -379,10 +334,8 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                                                 hoverStyles[variant] && `${hoverStyles[variant]}`,
                                                 activeRoute === item.link ? activeRouterBgStyles[variant] : "",
                                                 activeRoute === item.link
-                                                    ? (variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
-                                                        ? 'text-custom-red'
-                                                        : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue"))
-                                                    : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success' || variant === "pikaros") ? 'text-white' : 'text-custom-blue'),
+                                                    ? activeColorByVariant[variant] ?? "text-custom-blue"
+                                                    : inactiveColorByVariant[variant] ?? "text-custom-blue",
                                                 activeRoute === item.link ? 'font-semibold' : 'font-normal'
                                             )}
                                             onClick={item.label === 'Cerrar sesion' ? handleLogout : () => { handleListMenuNavigation(item) }}
@@ -405,8 +358,8 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                             </div>
                             {version &&
                                 <div className={`${variant === "pikaros" ? "text-orange-300" : variant === "secondary" ? "text-custom-blue" : "text-white"}`} style={{ display: 'flex', gap: '12px', padding: "0px 20px 0px 10px", flexDirection: isOpen ? "row" : 'column', alignItems: 'center', marginTop: "20px", marginBottom: "20px" }}>
-                                    {isOpen && <div>Versión</div>}
-                                    <div>{version}</div>
+                                    {isOpen && <div className="text-xs">Versión</div>}
+                                    <div className="text-xs">{version}</div>
                                 </div>}
                         </div>
                     )}

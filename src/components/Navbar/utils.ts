@@ -8,7 +8,8 @@ export const variantStyles = {
     warning: "bg-[#f59e0b]",
     success: "bg-[#047857]",
     pikaros: "bg-[#18181B]",
-    experiences:"bg-[#F2AE87]"
+    experiences: "bg-[#F2AE87]",
+    carlian: "bg-[#002C04]"
 };
 
 export const focusStyles = {
@@ -20,8 +21,9 @@ export const focusStyles = {
     danger: "focus:ring-white focus:ring-offset-[#b91c1c]",
     warning: "focus:ring-white focus:ring-offset-[#f59e0b]",
     success: "focus:ring-white focus:ring-offset-[#047857]",
-    pikaros:"focus:ring-white focus:ring-offset-[#1F2937]",
-    experiences:"focus:ring-[#6BC1E4]"
+    pikaros: "focus:ring-white focus:ring-offset-[#1F2937]",
+    experiences: "focus:ring-[#6BC1E4]",
+    carlian: "focus:ring-[#95C11F]"
 };
 
 export const borderStyles = {
@@ -34,7 +36,8 @@ export const borderStyles = {
     warning: "border-2 border-white",
     success: "border-2 border-white",
     pikaros: "border-2 border-white",
-    experiences:"border-2 border-[#6BC1E4]"
+    experiences: "border-2 border-[#6BC1E4]",
+    carlian: "border-2 border-[#95C11F]"
 };
 
 export const border2Styles = {
@@ -47,7 +50,8 @@ export const border2Styles = {
     warning: "white",
     success: "white",
     pikaros: "#FDBA74",
-    experiences:"#6BC1E4"
+    experiences: "#6BC1E4",
+    carlian: "#95C11F"
 };
 
 export const textStyles = {
@@ -60,7 +64,8 @@ export const textStyles = {
     warning: "text-white",
     success: "text-white",
     pikaros: "text-white",
-    experiences:"text-[#1F2937]"
+    experiences: "text-[#1F2937]",
+    carlian: "text-white"
 };
 
 export const hoverStyles = {
@@ -73,7 +78,8 @@ export const hoverStyles = {
     warning: "hover:bg-[#FBBF24] font-light",
     success: "hover:bg-[#2D6A4F] font-light",
     pikaros: "hover:bg-[#4B5563] font-light",
-    experiences:"hover:bg-[#f3f4f681] font-medium"
+    experiences: "hover:bg-[#f3f4f681] font-medium",
+    carlian: "hover:bg-[#145214] font-light"
 };
 
 export const activeRouterBgStyles = {
@@ -86,7 +92,8 @@ export const activeRouterBgStyles = {
     warning: "bg-[#FBBF24]",
     success: "bg-[#2D6A4F]",
     pikaros: "bg-[#4B5563]",
-    experiences:"bg-[#6bc2e48b]"
+    experiences: "bg-[#6bc2e48b]",
+    carlian: "bg-[#145214]"
 };
 
 export const bottonArrow = {
@@ -99,5 +106,28 @@ export const bottonArrow = {
     warning: "bg-[#f59e0b] hover:bg-[#ad8a4e]",
     success: "bg-[#047857] hover:bg-[#3fae8f]",
     pikaros: "bg-[#1F2937] hover:bg-[#435064]",
-    experiences:"bg-[#F2AE87] hover:bg-[#F2AE87]"
+    experiences: "bg-[#F2AE87] hover:bg-[#F2AE87]",
+    carlian: "bg-[#002C04] hover:bg-[#145214]"
 }
+
+export const activeColorByVariant: Record<string, string> = {
+    carlian: "text-[#ECFFB6]",
+    pikaros: "text-orange-300",
+    secondary: "text-custom-red",
+    primary: "text-custom-red",
+    darkMagenta: "text-custom-red",
+    veryDarkViolet: "text-custom-red",
+    success: "text-custom-red",
+};
+
+export const inactiveColorByVariant: Record<string, string> = {
+    primary: "text-white",
+    vividPink: "text-white",
+    darkMagenta: "text-white",
+    veryDarkViolet: "text-white",
+    danger: "text-white",
+    warning: "text-white",
+    success: "text-white",
+    pikaros: "text-white",
+    carlian: "text-white",
+};

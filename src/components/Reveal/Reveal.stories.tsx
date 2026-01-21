@@ -17,14 +17,13 @@ type Story = StoryObj<typeof Reveal>;
 // Primary story
 export const Primary: Story = {
     args: {
-        variant: "primary",
-
+        background: "blue",
     },
 };
 
 // Secondary story
 export const Secondary: Story = {
     args: {
-        variant: "secondary",
+        background: "red",
     },
 };

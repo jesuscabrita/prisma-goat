@@ -11,6 +11,7 @@ export type HeaderProps = HTMLAttributes<HTMLElement> & {
     explore?: { content: string; };
     overlap?: { text1: string; text2: string; text3: string; text4: string; text5: string; };
     nameImages?: boolean;
+    backgroundReveal?: string;
     nameImagesBotton?: boolean;
     handletext4?: () => void;
     handletext5?: () => void;
@@ -27,6 +28,7 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
             explore = {},
             overlap = {},
             nameImages = false,
+            backgroundReveal = "#1F2937",
             nameImagesBotton = false,
             handletext4,
             handletext5,
@@ -128,14 +130,14 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
                         </MotionTransition>
                         <div className="flex gap-4">
                             {overlap.text4 &&
-                                <Reveal variant={variant} duration={1} delay={1}>
+                                <Reveal background={backgroundReveal} duration={1} delay={1}>
                                     <div className="flex" style={{ padding: "5px" }}>
                                         <Button variant={variant} onClick={handletext4} size="small" label={overlap.text4} />
                                     </div>
                                 </Reveal>
                             }
                             {overlap.text5 &&
-                                <Reveal variant="tertiary" duration={1} delay={1}>
+                                <Reveal background={backgroundReveal} duration={1} delay={1}>
                                     <div className="flex" style={{ padding: "5px" }}>
                                         <Button variant="tertiary" onClick={handletext5} size="small" label={overlap.text5} />
                                     </div>
@@ -211,7 +213,7 @@ export const Header = forwardRef<HTMLElement, PropsWithChildren<HeaderProps>>(
                 </div>
                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-30">
                     {images.map((_, index) => (
-                        <Reveal variant="tertiary" duration={1} delay={1}>
+                        <Reveal background={backgroundReveal} duration={1} delay={1}>
                             <button
                                 key={index}
                                 onClick={() => setCurrentIndex(index)}

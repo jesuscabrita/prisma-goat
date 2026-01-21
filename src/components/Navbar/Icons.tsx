@@ -45,14 +45,14 @@ export const ThemeSwitch = ({
 }: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     toggleTheme?: (e?: any) => void;
-    variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "pikaros" | "experiences";
+    variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "pikaros" | "experiences" | "carlian";
     light?: boolean;
 }) => {
     const bgColor = light
-        ? variant === "secondary" || variant === "vividPink" || variant === "success" || variant === "danger" || variant === "warning"
+        ? variant === "secondary" || variant === "vividPink" || variant === "success" || variant === "danger" || variant === "warning" || variant === "carlian"
             ? "bg-[#222f4e] hover:bg-[#1a243d]"
             : "bg-[#2e5c95] hover:bg-[#2e5c95b6]"
-        : variant === "secondary" || variant === "experiences"
+        : variant === "secondary" || variant === "experiences" 
             ? "bg-gray-300 hover:bg-gray-400"
             : "bg-gray-100 hover:bg-gray-200";
 
@@ -72,7 +72,7 @@ export const InstallAppButton = ({
     variant,
     onClick,
 }: {
-    variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "pikaros" | "experiences";
+    variant: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "pikaros" | "experiences" | "carlian";
     onClick?: () => void;
 }) => {
     const bgColor =
@@ -82,7 +82,9 @@ export const InstallAppButton = ({
                 ? "bg-[#2e5c95] hover:bg-[#2e5c95b6]"
                 : variant === "pikaros"
                     ? "bg-orange-300 hover:bg-orange-400"
-                    : "bg-gray-100 hover:bg-gray-200"
+                    : variant === "carlian"
+                        ? "bg-[#95C11F] hover:bg-green-900"
+                        : "bg-gray-100 hover:bg-gray-200"
     return (
         <div className="flex flex-col gap-2">
             <button

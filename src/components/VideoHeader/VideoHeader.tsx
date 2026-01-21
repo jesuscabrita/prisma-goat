@@ -13,11 +13,23 @@ export type VideoHeaderProps = HTMLAttributes<HTMLElement> & {
     handletext4?: () => void;
     handletext5?: () => void;
     mutedVideo?: boolean;
+    backgroundReveal?: string;
     variant?: "primary" | "secondary" | "vividPink" | "darkMagenta" | "veryDarkViolet" | "danger" | "warning" | "success" | "tertiary" | "experiences";
 };
 
 export const VideoHeader = forwardRef<HTMLElement, PropsWithChildren<VideoHeaderProps>>(
-    ({ videoSrc, height = "400px", explore, overlap, mutedVideo = true, handletext4, handletext5, variant = "vividPink", ...props }, ref) => {
+    ({
+        videoSrc,
+        height = "400px",
+        explore,
+        overlap,
+        mutedVideo = true,
+        handletext4,
+        handletext5,
+        variant = "vividPink",
+        backgroundReveal = "transparent",
+        ...props
+    }, ref) => {
         const videoRef = useRef<HTMLVideoElement | null>(null);
         const [muted, setMuted] = useState(mutedVideo);
 
@@ -94,14 +106,14 @@ export const VideoHeader = forwardRef<HTMLElement, PropsWithChildren<VideoHeader
                         )}
                         <div className="flex gap-4">
                             {overlap.text4 && (
-                                <Reveal variant={variant} duration={1} delay={1}>
+                                <Reveal background={backgroundReveal} duration={1} delay={1}>
                                     <div className="flex p-2">
                                         <Button variant={variant} onClick={handletext4} size="small" label={overlap.text4} />
                                     </div>
                                 </Reveal>
                             )}
                             {overlap.text5 && (
-                                <Reveal variant="tertiary" duration={1} delay={1}>
+                                <Reveal background={backgroundReveal} duration={1} delay={1}>
                                     <div className="flex p-2">
                                         <Button variant="tertiary" onClick={handletext5} size="small" label={overlap.text5} />
                                     </div>
