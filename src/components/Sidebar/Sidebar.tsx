@@ -24,6 +24,7 @@ export type SidebarProps = HTMLAttributes<HTMLDivElement> & {
     sucursalName?: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     router: any;
+    isLoading?: boolean;
     user?: { name: string; image?: string };
     listMenu?: Array<{ label: string, link: string }>;
     theme?: boolean;
@@ -60,6 +61,7 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
             sucursal,
             version,
             sucursalName,
+            isLoading = false,
             variantIndicator = "primary",
             backgroundIndicator = "black",
             logoGoatDataIndicator = "logoRed",
@@ -81,6 +83,10 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
         const menuRef = useRef<HTMLDivElement>(null);
         const handleMenuToggle = () => setIsMenuOpen(!isMenuOpen);
         const handleMenuClose = () => setIsMenuOpen(false);
+
+        const ButtonSkeleton = ({ w }: { w: string }) => (
+            <div className={`h-7 ${w} bg-gray-300/70 rounded animate-pulse `} />
+        );
 
         const toggleSidebar = () => {
             if (handleTogge) {
@@ -171,198 +177,230 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
                 {sucursal && <div style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", paddingTop: "5px" }}>{sucursalName}</div>}
                 <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', height: '75vh' }}>
                     <div className={`flex flex-col items-start p-4 space-y-4 mt-2 max-h-[400px] overflow-y-auto ${variant === "pikaros" ? "modal-scrollbar-pikaros" : variant === "secondary" ? "modal-scrollbar-secundary" : "modal-scrollbar"}`}>
-                        {list.map((nav, index) => (
-                            <div key={index} className="w-full">
-                                <button
-                                    type="button"
-                                    className={clsx(
-                                        `flex items-center justify-start w-full ${isOpen ? "px-4" : ""
-                                        } ${isOpen ? "py-2" : ""} text-sm cursor-pointer rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2`,
-                                        hoverStyles[variant],
-                                        focusStyles[variant],
-                                        (activeRoute === nav.link || nav.subItems?.some((subItem) => subItem.link === activeRoute))
-                                            ? activeRouterBgStyles[variant]
-                                            : "",
-                                        activeRoute === nav.link
-                                            ? activeColorByVariant[variant] ?? "text-custom-blue"
-                                            : inactiveColorByVariant[variant] ?? "text-custom-blue",
-                                        activeRoute === nav.link ? "font-semibold" : "font-normal"
-                                    )}
-                                    onClick={() => {
-                                        handleNavigation(nav, index);
-                                    }}
-                                    onMouseEnter={() => setHovered(index)}
-                                    onMouseLeave={() => setHovered(null)}
-                                >
-                                    {nav?.icon && (
-                                        <div
-                                            className={`flex ${!isOpen ? "py-2" : ""}`}
-                                            style={{
-                                                marginRight: isOpen ? "12px" : "0px",
-                                                marginLeft: isOpen ? "0px" : "6px",
-                                            }}
-                                        >
-                                            <nav.icon className="w-6 h-6" />
-                                        </div>
-                                    )}
-                                    <span className={`${isOpen ? "block" : "hidden"}`}>{nav.label}</span>
-                                </button>
-                                {(hovered === index && nav.description && nav.description.trim() !== "" && !isOpen) && (
-                                    <div
-                                        style={{ border: `1px ${border2Styles[variant]} solid`, }}
+                        {isLoading
+                            ? Array.from({ length: 5 }).map((_, index) => (
+                                <div key={`skeleton-${index}`} className="relative">
+                                    <button
+                                        type="button"
+                                        disabled
                                         className={clsx(
-                                            `absolute min-w-48 rounded-md text-xs px-4 py-2 shadow-lg`,
-                                            isOpen
-                                                ? "left-full ml-2"
-                                                : "left-full ml-2 translate-x-2 group-hover:translate-x-4",
-                                            textStyles[variant],
-                                            variantStyles[variant]
+                                            "flex items-center justify-center px-1 py-2 text-sm rounded-md",
+                                            "cursor-default"
                                         )}
                                     >
-                                        {nav.image && nav.image.trim() !== "" && (
-                                            <div className="relative w-full h-24 mb-2">
-                                                <img
-                                                    src={nav.image}
-                                                    alt="Tooltip Image"
-                                                    className="object-cover w-full h-full rounded-t-md opacity-75 hover:opacity-100 transition-opacity duration-300"
-                                                />
-                                                <div className="absolute bottom-0 w-full h-8 bg-gradient-to-t from-white/80 to-transparent"></div>
+                                        <ButtonSkeleton w={!isOpen ? "w-7" : "w-48"} />
+                                    </button>
+                                </div>
+                            ))
+                            :
+                            list.map((nav, index) => (
+                                <div key={index} className="w-full">
+                                    <button
+                                        type="button"
+                                        className={clsx(
+                                            `flex items-center justify-start w-full ${isOpen ? "px-4" : ""
+                                            } ${isOpen ? "py-2" : ""} text-sm cursor-pointer rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2`,
+                                            hoverStyles[variant],
+                                            focusStyles[variant],
+                                            (activeRoute === nav.link || nav.subItems?.some((subItem) => subItem.link === activeRoute))
+                                                ? activeRouterBgStyles[variant]
+                                                : "",
+                                            activeRoute === nav.link
+                                                ? activeColorByVariant[variant] ?? "text-custom-blue"
+                                                : inactiveColorByVariant[variant] ?? "text-custom-blue",
+                                            activeRoute === nav.link ? "font-semibold" : "font-normal"
+                                        )}
+                                        onClick={() => {
+                                            handleNavigation(nav, index);
+                                        }}
+                                        onMouseEnter={() => setHovered(index)}
+                                        onMouseLeave={() => setHovered(null)}
+                                    >
+                                        {nav?.icon && (
+                                            <div
+                                                className={`flex ${!isOpen ? "py-2" : ""}`}
+                                                style={{
+                                                    marginRight: isOpen ? "12px" : "0px",
+                                                    marginLeft: isOpen ? "0px" : "6px",
+                                                }}
+                                            >
+                                                <nav.icon className="w-6 h-6" />
                                             </div>
                                         )}
-                                        <div className="absolute top-1/2 left-0 transform -translate-y-1/2 -ml-2 w-0 h-0 border-t-4 border-r-4 border-b-4 border-transparent border-t-gray-800"></div>
-                                        {nav.description}
-                                    </div>
-                                )}
-                                {nav.subItems &&
-                                    nav.subItems.length > 0 &&
-                                    openMenu === index &&
-                                    (isOpen ? (
-                                        <div className={isOpen ? "pl-4 py-4" : `absolute ml-3 mt-2 w-48 border-2 rounded-md`} role="menu">
-                                            {nav.subItems.map((subItem, subIndex) => (
-                                                <button
-                                                    key={subIndex}
-                                                    className={clsx(
-                                                        `block w-full px-4 py-1 text-sm ${hoverStyles[variant]} 
-                                                        rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
-                                                        activeRoute === subItem.link ? activeRouterBgStyles[variant] : "",
-                                                        activeRoute === subItem.link
-                                                            ? activeColorByVariant[variant] ?? "text-custom-blue"
-                                                            : inactiveColorByVariant[variant] ?? "text-custom-blue",
-                                                        activeRoute === subItem.link ? "font-semibold" : "font-normal"
-                                                    )}
-                                                    onClick={() => {
-                                                        handleSubNavigation(subItem, index)
-                                                    }}
-                                                >
-                                                    {subItem.label}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    ) : (
+                                        <span className={`${isOpen ? "block" : "hidden"}`}>{nav.label}</span>
+                                    </button>
+                                    {(hovered === index && nav.description && nav.description.trim() !== "" && !isOpen) && (
                                         <div
-                                            style={{ zIndex: '999' }}
-                                            className={`absolute left-0 mt-2 w-48 ${variantStyles[variant]} ${borderStyles[variant]} rounded-md shadow-lg ring-4 ring-black ring-opacity-5`}
-                                            role="menu"
+                                            style={{ border: `1px ${border2Styles[variant]} solid`, }}
+                                            className={clsx(
+                                                `absolute min-w-48 rounded-md text-xs px-4 py-2 shadow-lg`,
+                                                isOpen
+                                                    ? "left-full ml-2"
+                                                    : "left-full ml-2 translate-x-2 group-hover:translate-x-4",
+                                                textStyles[variant],
+                                                variantStyles[variant]
+                                            )}
                                         >
-                                            {nav.subItems.map((subItem, subIndex) => (
-                                                <div
-                                                    key={subIndex}
-                                                    className={clsx(
-                                                        `block px-4 py-2 text-sm cursor-pointer ${variantStyles[variant]}e`,
-                                                        hoverStyles[variant] && `${hoverStyles[variant]}`,
-                                                        activeRoute === subItem.link ? activeRouterBgStyles[variant] : "",
-                                                        activeRoute === subItem.link
-                                                            ? activeColorByVariant[variant] ?? "text-custom-blue"
-                                                            : inactiveColorByVariant[variant] ?? "text-custom-blue",
-                                                        activeRoute === subItem.link ? "font-semibold" : "font-normal"
-                                                    )}
-                                                    onClick={() => {
-                                                        handleSubNavigation(subItem, index)
-                                                    }}
-                                                >
-                                                    {subItem.label}
+                                            {nav.image && nav.image.trim() !== "" && (
+                                                <div className="relative w-full h-24 mb-2">
+                                                    <img
+                                                        src={nav.image}
+                                                        alt="Tooltip Image"
+                                                        className="object-cover w-full h-full rounded-t-md opacity-75 hover:opacity-100 transition-opacity duration-300"
+                                                    />
+                                                    <div className="absolute bottom-0 w-full h-8 bg-gradient-to-t from-white/80 to-transparent"></div>
                                                 </div>
-                                            ))}
+                                            )}
+                                            <div className="absolute top-1/2 left-0 transform -translate-y-1/2 -ml-2 w-0 h-0 border-t-4 border-r-4 border-b-4 border-transparent border-t-gray-800"></div>
+                                            {nav.description}
                                         </div>
-                                    ))}
-                            </div>
-                        ))}
+                                    )}
+                                    {nav.subItems &&
+                                        nav.subItems.length > 0 &&
+                                        openMenu === index &&
+                                        (isOpen ? (
+                                            <div className={isOpen ? "pl-4 py-4" : `absolute ml-3 mt-2 w-48 border-2 rounded-md`} role="menu">
+                                                {nav.subItems.map((subItem, subIndex) => (
+                                                    <button
+                                                        key={subIndex}
+                                                        className={clsx(
+                                                            `block w-full px-4 py-1 text-sm ${hoverStyles[variant]} 
+                                                        rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
+                                                            activeRoute === subItem.link ? activeRouterBgStyles[variant] : "",
+                                                            activeRoute === subItem.link
+                                                                ? activeColorByVariant[variant] ?? "text-custom-blue"
+                                                                : inactiveColorByVariant[variant] ?? "text-custom-blue",
+                                                            activeRoute === subItem.link ? "font-semibold" : "font-normal"
+                                                        )}
+                                                        onClick={() => {
+                                                            handleSubNavigation(subItem, index)
+                                                        }}
+                                                    >
+                                                        {subItem.label}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <div
+                                                style={{ zIndex: '999' }}
+                                                className={`absolute left-0 mt-2 w-48 ${variantStyles[variant]} ${borderStyles[variant]} rounded-md shadow-lg ring-4 ring-black ring-opacity-5`}
+                                                role="menu"
+                                            >
+                                                {nav.subItems.map((subItem, subIndex) => (
+                                                    <div
+                                                        key={subIndex}
+                                                        className={clsx(
+                                                            `block px-4 py-2 text-sm cursor-pointer ${variantStyles[variant]}e`,
+                                                            hoverStyles[variant] && `${hoverStyles[variant]}`,
+                                                            activeRoute === subItem.link ? activeRouterBgStyles[variant] : "",
+                                                            activeRoute === subItem.link
+                                                                ? activeColorByVariant[variant] ?? "text-custom-blue"
+                                                                : inactiveColorByVariant[variant] ?? "text-custom-blue",
+                                                            activeRoute === subItem.link ? "font-semibold" : "font-normal"
+                                                        )}
+                                                        onClick={() => {
+                                                            handleSubNavigation(subItem, index)
+                                                        }}
+                                                    >
+                                                        {subItem.label}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ))}
+                                </div>
+                            ))}
                     </div>
-                    {(user) && (
-                        <div className="relative ml-3">
-                            <div id="user-menu-button" style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={handleMenuToggle}>
+                    {isLoading
+                        ? Array.from({ length: 1 }).map((_, index) => (
+                            <div key={`skeleton-${index}`} className="relative">
                                 <button
                                     type="button"
-                                    className={`flex rounded-full bg-gray-800 text-sm transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 mb-4 ml-3 mt-3`}
-                                    aria-haspopup="true"
+                                    disabled
+                                    className={clsx(
+                                        "flex items-center justify-center  py-2 text-sm rounded-md ml-5",
+                                        "cursor-default"
+                                    )}
                                 >
-                                    <div
-                                        className="flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold"
-                                        style={{ width: '28px', height: '28px' }}
-                                    >
-                                        {user.image ? (
-                                            <img
-                                                src={user.image}
-                                                alt="User avatar"
-                                                className="rounded-full object-cover w-full h-full"
-                                                onError={(e) => {
-                                                    e.currentTarget.onerror = null;
-                                                    e.currentTarget.src = "";
-                                                }}
-                                            />
-                                        ) : (
-                                            user.name?.charAt(0)?.toUpperCase() || "?"
-                                        )}
-                                    </div>
+                                    <ButtonSkeleton w={!isOpen ? "w-7" : "w-48"} />
                                 </button>
-                                <div className={`block w-full px-4 py-4 ${textStyles[variant]} text-left ${isOpen ? "block" : "hidden"}`}>{user.name}</div>
-                                <div className={`mr-2 ${isOpen ? "block" : "hidden"}`}>
-                                    <CiMenuKebab size={20} color={border2Styles[variant]} />
-                                </div>
                             </div>
-                            {isMenuOpen && (
-                                <div
-                                    ref={menuRef}
-                                    className={`absolute right-0 ${isOpen ? "left-56" : "left-14"} bottom-8 mt-2 w-48 ${variantStyles[variant]} ${borderStyles[variant]} rounded-md shadow-lg ring-4 ring-black ring-opacity-5`}
-                                    role="menu"
-                                >
-                                    {listMenu.map((item, index) => (
+                        ))
+                        :
+                        (user) && (
+                            <div className="relative ml-3">
+                                <div id="user-menu-button" style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={handleMenuToggle}>
+                                    <button
+                                        type="button"
+                                        className={`flex rounded-full bg-gray-800 text-sm transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 mb-4 ml-3 mt-3`}
+                                        aria-haspopup="true"
+                                    >
                                         <div
-                                            key={index}
-                                            className={clsx(
-                                                'block px-4 py-2 text-sm cursor-pointer',
-                                                hoverStyles[variant] && `${hoverStyles[variant]}`,
-                                                activeRoute === item.link ? activeRouterBgStyles[variant] : "",
-                                                activeRoute === item.link
-                                                    ? activeColorByVariant[variant] ?? "text-custom-blue"
-                                                    : inactiveColorByVariant[variant] ?? "text-custom-blue",
-                                                activeRoute === item.link ? 'font-semibold' : 'font-normal'
-                                            )}
-                                            onClick={item.label === 'Cerrar sesion' ? handleLogout : () => { handleListMenuNavigation(item) }}
+                                            className="flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold"
+                                            style={{ width: '28px', height: '28px' }}
                                         >
-                                            {item.label}
+                                            {user.image ? (
+                                                <img
+                                                    src={user.image}
+                                                    alt="User avatar"
+                                                    className="rounded-full object-cover w-full h-full"
+                                                    onError={(e) => {
+                                                        e.currentTarget.onerror = null;
+                                                        e.currentTarget.src = "";
+                                                    }}
+                                                />
+                                            ) : (
+                                                user.name?.charAt(0)?.toUpperCase() || "?"
+                                            )}
                                         </div>
-                                    ))}
-                                </div>
-                            )}
-                            {sucursal &&
-                                <div style={{ marginLeft: '10px', display: 'flex', alignItems: 'center', cursor: 'pointer', marginTop: "0px", paddingBottom: "10px" }} onClick={handleSucursal}>
-                                    <div>
-                                        <HiOutlineBuildingStorefront size={25} color={border2Styles[variant]} />
+                                    </button>
+                                    <div className={`block w-full px-4 py-4 ${textStyles[variant]} text-left ${isOpen ? "block" : "hidden"}`}>{user.name}</div>
+                                    <div className={`mr-2 ${isOpen ? "block" : "hidden"}`}>
+                                        <CiMenuKebab size={20} color={border2Styles[variant]} />
                                     </div>
-                                    <div className={`block w-full px-2 py-2 ${textStyles[variant]}  ${isOpen ? "block" : "hidden"}`}>Sucursal</div>
-                                </div>}
-                            <div style={{ display: 'flex', gap: '12px', padding: "0px 20px 0px 10px", flexDirection: isOpen ? "row" : 'column', alignItems: 'center', }}>
-                                {InstallApp && <InstallAppButton variant={variant} onClick={toggeInstallApp} />}
-                                {theme && <ThemeSwitch variant={variant} toggleTheme={toggleTheme} />}
+                                </div>
+                                {isMenuOpen && (
+                                    <div
+                                        ref={menuRef}
+                                        className={`absolute right-0 ${isOpen ? "left-56" : "left-14"} bottom-8 mt-2 w-48 ${variantStyles[variant]} ${borderStyles[variant]} rounded-md shadow-lg ring-4 ring-black ring-opacity-5`}
+                                        role="menu"
+                                    >
+                                        {listMenu.map((item, index) => (
+                                            <div
+                                                key={index}
+                                                className={clsx(
+                                                    'block px-4 py-2 text-sm cursor-pointer',
+                                                    hoverStyles[variant] && `${hoverStyles[variant]}`,
+                                                    activeRoute === item.link ? activeRouterBgStyles[variant] : "",
+                                                    activeRoute === item.link
+                                                        ? activeColorByVariant[variant] ?? "text-custom-blue"
+                                                        : inactiveColorByVariant[variant] ?? "text-custom-blue",
+                                                    activeRoute === item.link ? 'font-semibold' : 'font-normal'
+                                                )}
+                                                onClick={item.label === 'Cerrar sesion' ? handleLogout : () => { handleListMenuNavigation(item) }}
+                                            >
+                                                {item.label}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                                {sucursal &&
+                                    <div style={{ marginLeft: '10px', display: 'flex', alignItems: 'center', cursor: 'pointer', marginTop: "0px", paddingBottom: "10px" }} onClick={handleSucursal}>
+                                        <div>
+                                            <HiOutlineBuildingStorefront size={25} color={border2Styles[variant]} />
+                                        </div>
+                                        <div className={`block w-full px-2 py-2 ${textStyles[variant]}  ${isOpen ? "block" : "hidden"}`}>Sucursal</div>
+                                    </div>}
+                                <div style={{ display: 'flex', gap: '12px', padding: "0px 20px 0px 10px", flexDirection: isOpen ? "row" : 'column', alignItems: 'center', }}>
+                                    {InstallApp && <InstallAppButton variant={variant} onClick={toggeInstallApp} />}
+                                    {theme && <ThemeSwitch variant={variant} toggleTheme={toggleTheme} />}
+                                </div>
+                                {version &&
+                                    <div className={`${variant === "pikaros" ? "text-orange-300" : variant === "secondary" ? "text-custom-blue" : "text-white"}`} style={{ display: 'flex', gap: '12px', padding: "0px 20px 0px 10px", flexDirection: isOpen ? "row" : 'column', alignItems: 'center', marginTop: "20px", marginBottom: "20px" }}>
+                                        {isOpen && <div className="text-xs">Versión</div>}
+                                        <div className="text-xs">{version}</div>
+                                    </div>}
                             </div>
-                            {version &&
-                                <div className={`${variant === "pikaros" ? "text-orange-300" : variant === "secondary" ? "text-custom-blue" : "text-white"}`} style={{ display: 'flex', gap: '12px', padding: "0px 20px 0px 10px", flexDirection: isOpen ? "row" : 'column', alignItems: 'center', marginTop: "20px", marginBottom: "20px" }}>
-                                    {isOpen && <div className="text-xs">Versión</div>}
-                                    <div className="text-xs">{version}</div>
-                                </div>}
-                        </div>
-                    )}
+                        )}
                 </div>
                 {indicator &&
                     <LoadingIndicator

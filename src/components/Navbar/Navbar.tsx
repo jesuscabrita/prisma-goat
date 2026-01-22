@@ -16,6 +16,7 @@ export type NavbarProps = HTMLAttributes<HTMLElement> & {
     list?: Array<{ label: string, description: string, link: string, image: string, subItems: { label: string, link: string }[] }>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     router: any;
+    isLoading?: boolean
     logo?: string;
     heightLogo?: string;
     widthLogo?: string;
@@ -52,6 +53,7 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
             widthLogo,
             activeRoute,
             router,
+            isLoading = false,
             toggleTheme,
             toggeInstallApp,
             handleLogout,
@@ -79,6 +81,10 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
         const toggle = () => setIsOpen(!isOpen);
         const handleMenuToggle = () => setIsMenuOpen(!isMenuOpen);
         const handleMenuClose = () => setIsMenuOpen(false);
+
+        const ButtonSkeleton = ({ w }: { w: string }) => (
+            <div className={`h-7 ${w} bg-gray-300/70 rounded animate-pulse `} />
+        );
 
         useEffect(() => {
             if (typeof window !== "undefined" && router?.events) {
@@ -194,72 +200,94 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                             </div>
                             <div style={{ display: mobile ? "none" : "block", flexGrow: 1, marginLeft: "1.5rem" }}>
                                 <div className={`flex space-x-4 ${logo && logo.trim() !== '' ? 'mt-0' : 'mt-2'}`}>
-                                    {list.map((nav, index) => (
-                                        <div key={index} className="relative group">
-                                            <button
-                                                type="button"
-                                                className={clsx(
-                                                    `flex items-center justify-center px-4 py-2 text-sm cursor-pointer rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2`,
-                                                    (activeRoute === nav.link || nav.subItems?.some((subItem) => subItem.link === activeRoute))
-                                                        ? activeRouterBgStyles[variant]
-                                                        : "",
-                                                    hoverStyles[variant],
-                                                    focusStyles[variant],
-                                                    activeRoute === nav.link
-                                                        ? activeColorByVariant[variant] ?? "text-custom-blue"
-                                                        : inactiveColorByVariant[variant] ?? "text-custom-blue",
-                                                    activeRoute === nav.link ? "font-semibold" : "font-normal"
+                                    {isLoading
+                                        ? Array.from({ length: 5 }).map((_, index) => (
+                                            <div key={`skeleton-${index}`} className="relative">
+                                                <button
+                                                    type="button"
+                                                    disabled
+                                                    className={clsx(
+                                                        "flex items-center justify-center px-1 py-2 text-sm rounded-md",
+                                                        "cursor-default"
+                                                    )}
+                                                >
+                                                    <ButtonSkeleton w="w-20" />
+                                                </button>
+                                            </div>
+                                        ))
+                                        : list.map((nav, index) => (
+                                            <div key={index} className="relative group">
+                                                <button
+                                                    type="button"
+                                                    className={clsx(
+                                                        "flex items-center justify-center px-4 py-2 text-sm cursor-pointer rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2",
+                                                        (activeRoute === nav.link ||
+                                                            nav.subItems?.some(
+                                                                (subItem) => subItem.link === activeRoute
+                                                            )) && activeRouterBgStyles[variant],
+                                                        hoverStyles[variant],
+                                                        focusStyles[variant],
+                                                        activeRoute === nav.link
+                                                            ? activeColorByVariant[variant] ?? "text-custom-blue"
+                                                            : inactiveColorByVariant[variant] ?? "text-custom-blue",
+                                                        activeRoute === nav.link
+                                                            ? "font-semibold"
+                                                            : "font-normal"
+                                                    )}
+                                                    onClick={
+                                                        nav.label === "Ligas"
+                                                            ? handleLigas
+                                                            : () => handleNavigation(nav, index)
+                                                    }
+                                                    onMouseEnter={() => setHovered(index)}
+                                                    onMouseLeave={() => setHovered(null)}
+                                                >
+                                                    {nav.label}
+                                                </button>
+                                                {(hovered === index && nav.description && nav.description.trim() !== "") && (
+                                                    <div
+                                                        style={{ border: `1px ${border2Styles[variant]} solid`, maxWidth: '260px' }}
+                                                        className={`absolute top-full left-1/2 transform -translate-x-1/2 translate-y-2 opacity-0 mt-2 w-max px-4 py-4 text-xs ${textStyles[variant]} ${variantStyles[variant]} rounded-md transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-4`}
+                                                    >
+                                                        {nav.image && nav.image.trim() !== "" &&
+                                                            <div className="relative w-full h-24 mb-2">
+                                                                <img
+                                                                    src={nav.image}
+                                                                    alt="Tooltip Image"
+                                                                    className="object-cover w-full h-full rounded-t-md opacity-75 hover:opacity-100 transition-opacity duration-300"
+                                                                />
+                                                                <div className="absolute bottom-0 w-full h-8 bg-gradient-to-t from-white/80 to-transparent"></div>
+                                                            </div>}
+                                                        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -mt-2 w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-gray-800"></div>
+                                                        {nav.description}
+                                                    </div>
                                                 )}
-                                                onClick={nav.label === "Ligas" ? handleLigas : () => handleNavigation(nav, index)}
-                                                onMouseEnter={() => setHovered(index)}
-                                                onMouseLeave={() => setHovered(null)}
-                                            >
-                                                {nav.label}
-                                            </button>
-                                            {(hovered === index && nav.description && nav.description.trim() !== "") && (
-                                                <div
-                                                    style={{ border: `1px ${border2Styles[variant]} solid`, maxWidth: '260px' }}
-                                                    className={`absolute top-full left-1/2 transform -translate-x-1/2 translate-y-2 opacity-0 mt-2 w-max px-4 py-4 text-xs ${textStyles[variant]} ${variantStyles[variant]} rounded-md transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-4`}
-                                                >
-                                                    {nav.image && nav.image.trim() !== "" &&
-                                                        <div className="relative w-full h-24 mb-2">
-                                                            <img
-                                                                src={nav.image}
-                                                                alt="Tooltip Image"
-                                                                className="object-cover w-full h-full rounded-t-md opacity-75 hover:opacity-100 transition-opacity duration-300"
-                                                            />
-                                                            <div className="absolute bottom-0 w-full h-8 bg-gradient-to-t from-white/80 to-transparent"></div>
-                                                        </div>}
-                                                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -mt-2 w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-gray-800"></div>
-                                                    {nav.description}
-                                                </div>
-                                            )}
-                                            {nav.subItems && nav.subItems.length > 0 && openMenu === index && (
-                                                <div
-                                                    className={`absolute left-0 mt-2 w-48 ${variantStyles[variant]} ${borderStyles[variant]} rounded-md shadow-lg ring-4 ring-black ring-opacity-5`}
-                                                    role="menu"
-                                                >
-                                                    {nav.subItems.map((subItem, subIndex) => (
-                                                        <div
-                                                            key={subIndex}
-                                                            className={clsx(
-                                                                `block px-4 py-2 text-sm cursor-pointer ${variantStyles[variant]}e`,
-                                                                hoverStyles[variant] && `${hoverStyles[variant]}`,
-                                                                activeRoute === subItem.link ? activeRouterBgStyles[variant] : "",
-                                                                activeRoute === subItem.link
-                                                                    ? activeColorByVariant[variant] ?? "text-custom-blue"
-                                                                    : inactiveColorByVariant[variant] ?? "text-custom-blue",
-                                                                activeRoute === subItem.link ? "font-semibold" : "font-normal"
-                                                            )}
-                                                            onClick={() => handleSubNavigation(subItem, index)}
-                                                        >
-                                                            {subItem.label}
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
-                                    ))}
+                                                {nav.subItems && nav.subItems.length > 0 && openMenu === index && (
+                                                    <div
+                                                        className={`absolute left-0 mt-2 w-48 ${variantStyles[variant]} ${borderStyles[variant]} rounded-md shadow-lg ring-4 ring-black ring-opacity-5`}
+                                                        role="menu"
+                                                    >
+                                                        {nav.subItems.map((subItem, subIndex) => (
+                                                            <div
+                                                                key={subIndex}
+                                                                className={clsx(
+                                                                    `block px-4 py-2 text-sm cursor-pointer ${variantStyles[variant]}e`,
+                                                                    hoverStyles[variant] && `${hoverStyles[variant]}`,
+                                                                    activeRoute === subItem.link ? activeRouterBgStyles[variant] : "",
+                                                                    activeRoute === subItem.link
+                                                                        ? activeColorByVariant[variant] ?? "text-custom-blue"
+                                                                        : inactiveColorByVariant[variant] ?? "text-custom-blue",
+                                                                    activeRoute === subItem.link ? "font-semibold" : "font-normal"
+                                                                )}
+                                                                onClick={() => handleSubNavigation(subItem, index)}
+                                                            >
+                                                                {subItem.label}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
                                 </div>
                                 {children && (
                                     <div className="mt-2 text-sm text-gray-500">
@@ -339,10 +367,8 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                                             rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2`,
                                             activeRoute === "/login" ? activeRouterBgStyles[variant] : "",
                                             activeRoute === "/login"
-                                                ? variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
-                                                    ? "text-custom-red"
-                                                    : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue")
-                                                : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success' || variant === "pikaros") ? 'text-white' : 'text-custom-blue'),
+                                                ? activeColorByVariant[variant] ?? "text-custom-blue"
+                                                : inactiveColorByVariant[variant] ?? "text-custom-blue",
                                             activeRoute === "/login" ? 'font-semibold' : 'font-normal'
                                         )}
                                         onClick={() => { router.push("/login"); handleMenuClose(); }}
@@ -354,130 +380,180 @@ export const Navbar = forwardRef<HTMLElement, PropsWithChildren<NavbarProps>>(
                         </div>
                     </div>
                 </div>
-                {isOpen && (
-                    <div style={{ display: mobile ? "" : "none" }} className="px-2 pt-2 pb-3 space-y-1">
-                        {list.map((item, index) => (
-                            <div key={index}>
-                                <button
-                                    className={clsx(
-                                        `block w-full px-4 py-2 text-base ${hoverStyles[variant]}
-                                        rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
-                                        (activeRoute === item.link || item.subItems?.some((subItem) => subItem.link === activeRoute))
-                                            ? activeRouterBgStyles[variant]
-                                            : "",
-                                        activeRoute === item.link
-                                            ? variant === 'secondary' || variant === 'primary' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'success'
-                                                ? "text-custom-red"
-                                                : (variant === "pikaros" ? "text-orange-300" : "text-custom-blue")
-                                            : ((variant === 'primary' || variant === 'vividPink' || variant === 'darkMagenta' || variant === 'veryDarkViolet' || variant === 'danger' || variant === 'warning' || variant === 'success' || variant === "pikaros") ? 'text-white' : 'text-custom-blue'),
-                                        activeRoute === item.link ? 'font-semibold' : 'font-normal'
-                                    )}
-                                    onClick={item.label === "Ligas" ? handleLigas : () => { handleNavigationMobile(item, index) }}
-                                >
-                                    {item.label}
-                                </button>
-                                {item.subItems && item.subItems.length > 0 && openMenu === index && (
-                                    <div className="pl-4 py-4">
-                                        {item.subItems.map((subItem, subIndex) => (
-                                            <button
-                                                key={subIndex}
-                                                className={clsx(`block w-full px-4 py-1 text-sm ${hoverStyles[variant]} 
-                                                    rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
-                                                    activeRoute === subItem.link ? activeRouterBgStyles[variant] : "",
-                                                    activeRoute === subItem.link
-                                                        ? activeColorByVariant[variant] ?? "text-custom-blue"
-                                                        : inactiveColorByVariant[variant] ?? "text-custom-blue",
-                                                    activeRoute === subItem.link ? 'font-semibold' : 'font-normal'
-                                                )}
-                                                onClick={() => {
-                                                    handleSubNavigation(subItem, index); setIsOpen(false);
-                                                }}
-                                            >
-                                                {subItem.label}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-                        {user ? (
-                            <div className="relative mt-3">
-                                <div className={`ml-3 mt-4`} style={{ borderBottom: `1px ${border2Styles[variant]} solid` }} />
-                                <div style={{ display: 'flex' }}>
-                                    <button
-                                        type="button"
-                                        className={`flex rounded-full bg-gray-800 text-sm transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 mb-4 ml-3 mt-3`}
-                                        id="user-menu-button"
-                                        aria-haspopup="true"
-                                        onClick={handleMenuToggle}
-                                    >
-                                        <div
-                                            className="flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold"
-                                            style={{ width: '30px', height: '30px' }}
-                                        >
-                                            {user.image ? (
-                                                <img
-                                                    src={user.image}
-                                                    alt="User avatar"
-                                                    className="rounded-full object-cover w-full h-full"
-                                                    onError={(e) => {
-                                                        e.currentTarget.onerror = null;
-                                                        e.currentTarget.src = "";
-                                                    }}
-                                                />
-                                            ) : (
-                                                user.name?.charAt(0)?.toUpperCase() || "?"
+                {
+                    isOpen && (
+                        <div style={{ display: mobile ? "" : "none" }} className="px-2 pt-2 pb-3 space-y-1">
+                            {isLoading
+                                ? Array.from({ length: 5 }).map((_, index) => (
+                                    <div key={`skeleton-${index}`} className="relative">
+                                        <button
+                                            type="button"
+                                            disabled
+                                            className={clsx(
+                                                "flex items-center justify-center px-1 py-2 text-sm rounded-md",
+                                                "cursor-default"
                                             )}
-                                        </div>
-                                    </button>
-                                    <div className={`block w-full px-4 py-4 ${textStyles[variant]} text-left`}>{user.name}</div>
-                                </div>
-                                {listMenu.map((item, index) => (
-                                    <button
-                                        key={index}
-                                        className={clsx(`block w-full px-4 py-2 text-base ${hoverStyles[variant]} 
+                                        >
+                                            <ButtonSkeleton w="w-80" />
+                                        </button>
+                                    </div>
+                                ))
+                                :
+                                list.map((item, index) => (
+                                    <div key={index}>
+                                        <button
+                                            className={clsx(
+                                                `block w-full px-4 py-2 text-base ${hoverStyles[variant]}
+                                        rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
+                                                (activeRoute === item.link || item.subItems?.some((subItem) => subItem.link === activeRoute))
+                                                    ? activeRouterBgStyles[variant]
+                                                    : "",
+                                                activeRoute === item.link
+                                                    ? activeColorByVariant[variant] ?? "text-custom-blue"
+                                                    : inactiveColorByVariant[variant] ?? "text-custom-blue",
+                                                activeRoute === item.link ? 'font-semibold' : 'font-normal'
+                                            )}
+                                            onClick={item.label === "Ligas" ? handleLigas : () => { handleNavigationMobile(item, index) }}
+                                        >
+                                            {item.label}
+                                        </button>
+                                        {item.subItems && item.subItems.length > 0 && openMenu === index && (
+                                            <div className="pl-4 py-4">
+                                                {item.subItems.map((subItem, subIndex) => (
+                                                    <button
+                                                        key={subIndex}
+                                                        className={clsx(`block w-full px-4 py-1 text-sm ${hoverStyles[variant]} 
                                                     rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
-                                            activeRoute === item.link ? activeRouterBgStyles[variant] : "",
-                                            activeRoute === item.link
-                                                ? activeColorByVariant[variant] ?? "text-custom-blue"
-                                                : inactiveColorByVariant[variant] ?? "text-custom-blue",
-                                            activeRoute === item.link ? 'font-semibold' : 'font-normal'
+                                                            activeRoute === subItem.link ? activeRouterBgStyles[variant] : "",
+                                                            activeRoute === subItem.link
+                                                                ? activeColorByVariant[variant] ?? "text-custom-blue"
+                                                                : inactiveColorByVariant[variant] ?? "text-custom-blue",
+                                                            activeRoute === subItem.link ? 'font-semibold' : 'font-normal'
+                                                        )}
+                                                        onClick={() => {
+                                                            handleSubNavigation(subItem, index); setIsOpen(false);
+                                                        }}
+                                                    >
+                                                        {subItem.label}
+                                                    </button>
+                                                ))}
+                                            </div>
                                         )}
-                                        onClick={item.label === 'Cerrar sesion' ? handleLogout : () => handleListMenuNavigationMobile(item)}
-                                    >
-                                        {item.label}
-                                    </button>
+                                    </div>
                                 ))}
-                            </div>
-                        ) : (
-                            login ?
-                                <button
-                                    type="button"
-                                    className={clsx(`block w-full px-4 py-2 text-base ${hoverStyles[variant]} 
+                            {isLoading
+                                ? Array.from({ length: 5 }).map((_, index) => (
+                                    <div key={`skeleton-${index}`} className="relative">
+                                        <button
+                                            type="button"
+                                            disabled
+                                            className={clsx(
+                                                "flex items-center justify-center px-1 py-2 text-sm rounded-md",
+                                                "cursor-default"
+                                            )}
+                                        >
+                                            <ButtonSkeleton w="w-80" />
+                                        </button>
+                                    </div>
+                                ))
+                                :
+                                user ? (
+                                    <div className="relative mt-3">
+                                        <div className={`ml-3 mt-4`} style={{ borderBottom: `1px ${border2Styles[variant]} solid` }} />
+                                        <div style={{ display: 'flex' }}>
+                                            <button
+                                                type="button"
+                                                className={`flex rounded-full bg-gray-800 text-sm transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 mb-4 ml-3 mt-3`}
+                                                id="user-menu-button"
+                                                aria-haspopup="true"
+                                                onClick={handleMenuToggle}
+                                            >
+                                                <div
+                                                    className="flex items-center justify-center rounded-full bg-gray-300 text-gray-700 font-bold"
+                                                    style={{ width: '30px', height: '30px' }}
+                                                >
+                                                    {user.image ? (
+                                                        <img
+                                                            src={user.image}
+                                                            alt="User avatar"
+                                                            className="rounded-full object-cover w-full h-full"
+                                                            onError={(e) => {
+                                                                e.currentTarget.onerror = null;
+                                                                e.currentTarget.src = "";
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        user.name?.charAt(0)?.toUpperCase() || "?"
+                                                    )}
+                                                </div>
+                                            </button>
+                                            <div className={`block w-full px-4 py-4 ${textStyles[variant]} text-left`}>{user.name}</div>
+                                        </div>
+                                        {isLoading
+                                            ? Array.from({ length: 5 }).map((_, index) => (
+                                                <div key={`skeleton-${index}`} className="relative">
+                                                    <button
+                                                        type="button"
+                                                        disabled
+                                                        className={clsx(
+                                                            "flex items-center justify-center px-1 py-2 text-sm rounded-md",
+                                                            "cursor-default"
+                                                        )}
+                                                    >
+                                                        <ButtonSkeleton w="w-80" />
+                                                    </button>
+                                                </div>
+                                            ))
+                                            :
+                                            listMenu.map((item, index) => (
+                                                <button
+                                                    key={index}
+                                                    className={clsx(`block w-full px-4 py-2 text-base ${hoverStyles[variant]} 
+                                                    rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
+                                                        activeRoute === item.link ? activeRouterBgStyles[variant] : "",
+                                                        activeRoute === item.link
+                                                            ? activeColorByVariant[variant] ?? "text-custom-blue"
+                                                            : inactiveColorByVariant[variant] ?? "text-custom-blue",
+                                                        activeRoute === item.link ? 'font-semibold' : 'font-normal'
+                                                    )}
+                                                    onClick={item.label === 'Cerrar sesion' ? handleLogout : () => handleListMenuNavigationMobile(item)}
+                                                >
+                                                    {item.label}
+                                                </button>
+                                            ))}
+                                    </div>
+                                ) : (
+                                    login ?
+                                        <button
+                                            type="button"
+                                            className={clsx(`block w-full px-4 py-2 text-base ${hoverStyles[variant]} 
                                     rounded-md transition duration-300 focus:outline-none focus:ring-2 ${focusStyles[variant]} focus:ring-offset-2 text-left`,
-                                        activeRoute === "/login" ? activeRouterBgStyles[variant] : "",
-                                        activeRoute === "/login"
-                                            ? activeColorByVariant[variant] ?? "text-custom-blue"
-                                            : inactiveColorByVariant[variant] ?? "text-custom-blue",
-                                        activeRoute === "/login" ? 'font-semibold' : 'font-normal'
-                                    )}
-                                    onClick={() => { router.push("/login"); setIsOpen(false) }}
-                                >
-                                    Login
-                                </button> :
-                                <></>
-                        )}
-                    </div>
-                )}
-                {indicator &&
+                                                activeRoute === "/login" ? activeRouterBgStyles[variant] : "",
+                                                activeRoute === "/login"
+                                                    ? activeColorByVariant[variant] ?? "text-custom-blue"
+                                                    : inactiveColorByVariant[variant] ?? "text-custom-blue",
+                                                activeRoute === "/login" ? 'font-semibold' : 'font-normal'
+                                            )}
+                                            onClick={() => { router.push("/login"); setIsOpen(false) }}
+                                        >
+                                            Login
+                                        </button> :
+                                        <></>
+                                )}
+                        </div>
+                    )
+                }
+                {
+                    indicator &&
                     <LoadingIndicator
                         variant={variantIndicator}
                         background={backgroundIndicator}
                         logoGoatData={logoGoatDataIndicator}
                         imgLoading={imgLoadingIndicator}
                         strokeWidth={strokeWidthIndicator}
-                    />}
-            </nav>
+                    />
+                }
+            </nav >
         );
     }
 );
